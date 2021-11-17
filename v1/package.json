@@ -1,0 +1,71 @@
+{
+  "name": "knochen",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build --mode production",
+    "buildWatch": "vue-cli-service build --mode production --watch",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "-": "0.0.1",
+    "@riophae/vue-treeselect": "^0.4.0",
+    "axios": "^0.19.2",
+    "g": "^2.0.1",
+    "papaparse": "^5.3.1",
+    "s": "^1.0.0",
+    "sticky-events": "^3.4.8",
+    "v-show-slide": "^1.8.3",
+    "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
+    "vue-drag-drop": "^1.1.4",
+    "vue-i18n": "^8.18.2",
+    "vue-jquery": "^1.0.6",
+    "vue-lodash": "^2.1.2",
+    "vue-mq": "^1.0.1",
+    "vue-resize-directive": "^1.2.0",
+    "vue-router": "^3.3.4",
+    "vue-spinner": "^1.0.4",
+    "vuedraggable": "^2.24.0",
+    "vuex": "^3.5.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.4.6",
+    "@vue/cli-plugin-eslint": "^4.4.6",
+    "@vue/cli-service": "^4.4.6",
+    "babel-eslint": "^8.2.6",
+    "eslint": "^4.19.1",
+    "eslint-plugin-vue": "^6.2.2",
+    "jquery": "^3.5.1",
+    "less": "^3.12.0",
+    "less-loader": "^6.2.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {
+      "no-console": 0,
+      "no-unused-vars": 0,
+      "no-useless-escape": 0,
+      "no-mixed-spaces-and-tabs": 0,
+      "vue/no-unused-components": 0
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {}
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

@@ -1,0 +1,51 @@
+.hideScrollbars() {
+	-webkit-overflow-scrolling: touch;				// ansonsten ist das ux absolut steif. wieder was gelernt :)
+			-ms-overflow-style: none !important;	// IE 10+
+			   scrollbar-width: none !important; 	// Firefox
+	
+	&::-webkit-scrollbar {
+		width: 0px !important;
+	}
+}
+.outline( @color: red ){
+	
+	&:before {
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+		background-color: fade( @color, 25 );
+		outline: 1px solid fade( @color, 65 );
+		pointer-events: none;
+		content: "";
+	}
+}
+.label( @name, @bgColor : inherit, @fgColor : currentColor ){
+	position: relative;
+	
+	&::after {
+		position: absolute;
+		top: 0; right: 0;
+		font-size: 11px;
+		line-height: 13px;
+		font-weight: 400;
+		border: 1px solid @bgColor;
+		padding: 0.2em 0.3em;
+		background-color: @bgColor;
+		color : @fgColor;
+		pointer-events: none;
+		content: @name;
+		z-index: 3;
+	}
+}
+.outlineVSpace( @top: 0, @bottom: 0, @color: green ){
+	[showBorders3] & {
+		position: relative;
+		
+		&::before {
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			border-top: @top solid mix( @color, white, 30 );
+			border-bottom: @bottom solid mix( @color, white, 30 );
+			content: "";
+		}
+	}
+}

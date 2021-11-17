@@ -1,0 +1,302 @@
+
+	/**
+	 *  Grid-System
+	 *
+	 *  @changelog:
+	 *  	2019-06-05	rename .textAlign to .text
+	 *  	2019-06-05	rename .flexAlign to .flex 
+	 *  	2018-04-13	refactor to generate classes with loops, use media-queries
+	 *  	2018-03-27	added textAlign
+	 *  	2017-11-07	removed useless code
+	 *  	2017-10-04	added 12 col grid
+	 *  	2017-09-26	added flexAlign vor vert and hori aligning
+	 *  	2017-09-26	added row: nowrap
+	 *  	2017-09-26	added col--fixedWidth
+	 *  	2017-06-17	added md breakpoint 
+	 *  	2017-03-01	init
+	 */
+
+	@import "./../vars.less";
+
+	@grid__colGap     : 0.75rem;			// the gap, percantage values will use the parent as 100%
+	@grid__systems    : 4, 8, 9, 12;	// less-array with integers to build cols for	
+	
+	/*
+	@screen__xs-width : 500px;
+	@screen__sm-width : 715px;
+	@screen__md-width : 1130px;
+	@screen__lg-width : 1365px;
+	@screen__xl-width : 1950px;		
+	@mediaQuery__xs   : ~"(max-width:" @screen__xs-width ~")";
+	@mediaQuery__sm   : ~"(max-width:" @screen__sm-width ~")";
+	@mediaQuery__md   : ~"(max-width:" @screen__md-width ~")";
+	@mediaQuery__lg   : ~"(min-width:" @screen__lg-width ~")";
+	@mediaQuery__xl   : ~"(min-width:" @screen__xl-width ~")";
+	*/
+
+	.hideFor {
+		&--xs { @media (max-width: @screen__xs-width) { 
+			display: none !important; 
+		}}
+		&--sm { @media (max-width: @screen__sm-width) { 
+			display: none !important; 
+		}}
+		&--md { @media (min-width: @screen__sm-width) and (max-width: @screen__md-width) { 
+			display: none !important; 
+		}}
+		&--lg { @media (min-width: @screen__lg-width) and (max-width: @screen__xl-width) { 
+			display: none !important; 
+		}}		
+		&--lg { @media (min-width: @screen__lg-width) { 
+			display: none !important; 
+		}}
+	}
+	.showOnlyFor {
+		display: none;
+		
+		[data-showBorders-3="true"] & { 
+			background-color: fade(yellow, 20); 
+		}
+		
+		&--xs { @media (max-width: @screen__xs-width) { 
+			display: block; 
+		}}
+		&--sm { @media (max-width: @screen__sm-width) { 
+			display: block; 
+		}}
+		&--md { @media (min-width: @screen__sm-width) and (max-width: @screen__md-width) { 
+			display: block; 
+		}}
+		&--lg { @media (min-width: @screen__lg-width) and (max-width: @screen__xl-width) { 
+			display: block; 
+		}}		
+		&--lg { @media (min-width: @screen__lg-width) { 
+			display: block; 
+		}}
+	}
+	.text {		
+		&--left {
+			text-align: left;			
+		}
+		&--center {
+			text-align: center;
+		}
+		&--right {
+			text-align: right;
+		}
+	}
+	.flex {  
+ 		display: flex;
+ 		
+ 		&--row {
+ 			flex-direction: row;
+ 		}
+ 		&--column {
+ 			flex-direction: column;
+ 		}
+ 		&--left {
+ 			justify-content: flex-start;
+ 		}
+ 		&--center {
+ 			justify-content: center;
+ 		}
+ 		&--right {
+ 			justify-content: flex-end;
+ 		}
+ 		
+ 		&--top {
+ 			align-items: flex-start;
+ 		}
+ 		&--middle {
+ 			align-items: center;
+ 		}
+ 		&--bottom {
+ 			align-items: flex-end;
+ 		}
+ 	}	
+	.textColumns {	
+		column-fill: auto;
+		column-gap: @grid__colGap;
+	}
+	.textColumns--1 { 
+		column-count: 1;
+	}
+	.textColumns--2 { 
+		column-count: 2;
+	}
+	.textColumns--3 { 
+		column-count: 3;
+	}
+	.textColumns--4 { 
+		column-count: 4;
+	}
+	.row {
+		position: relative;
+		width: 100%;
+		
+		display: flex; 
+		flex-flow: row wrap;
+		//flex-wrap: nowrap; // das ist besser um auch mit col--fixedWidth umgehen zu können
+		//flex-shrink: 0; // 2017-10-10 gut damit mehrere rows automatisch floaten
+
+		&--noOverflow {
+			overflow: hidden;
+		}
+		&--noWrap {
+			flex-wrap: nowrap;
+		}		
+	}	
+	.col {
+		//background-color: fade(green, 15) !important;
+		position: relative;		
+		//width: 100%;
+		flex-grow: 1;
+
+		&--gutter {
+			padding-left: @grid__colGap/2;
+			padding-right: @grid__colGap/2;
+			//padding-top: @grid__colGap/2;
+			//padding-bottom: @grid__colGap/2;
+		}
+		&--gutterLeft {
+			padding-left: @grid__colGap/2;
+		}
+		&--gutterRight {
+			padding-right: @grid__colGap/2;
+		}
+		&--gutterTop {
+			padding-top: @grid__colGap/2;
+		}
+		&--gutterBottom {
+			padding-bottom: @grid__colGap/2;
+		}
+
+		&--noGrow {
+			flex-grow: 0;
+		}
+		&--noShrink {
+			flex-shrink: 0;
+		}
+
+		/*
+		&--0of3 {	width: 100%/3 * 0; padding-left: 0; padding-right: 0; overflow: hidden; }
+		&--1of3 {	width: 100%/3 * 1;	}
+		&--2of3 {	width: 100%/3 * 2;	}
+		&--3of3 {	width: 100%/3 * 3;	}
+
+		&--0of4 {	width: 100%/4 * 0; padding-left: 0; padding-right: 0; overflow: hidden; }
+		&--1of4 {	width: 100%/4 * 1;	}
+		&--2of4 {	width: 100%/4 * 2;	}
+		&--3of4 {	width: 100%/4 * 3;	}
+		&--4of4 {	width: 100%/4 * 4;	}
+
+		&--0of2 {	width: 100%/2 * 0; padding-left: 0; padding-right: 0; overflow: hidden; }
+		&--1of2 {	width: 100%/2 * 1;	}
+		&--2of2 {	width: 100%/2 * 2;	}
+
+		&--0of6 {	width: 100%/6 * 0; padding-left: 0; padding-right: 0; overflow: hidden; }
+		&--1of6 {	width: 100%/6 * 1;	}
+		&--2of6 {	width: 100%/6 * 2;	}
+		&--3of6 {	width: 100%/6 * 3;	}
+		&--4of6 {	width: 100%/6 * 4;	}
+		&--5of6 {	width: 100%/6 * 5;	}
+		&--6of6 {	width: 100%/6 * 6;	}
+
+		&--0of8 {	width: 100%/8 * 0; padding-left: 0; padding-right: 0; overflow: hidden; }
+		&--1of8 {	width: 100%/8 * 1;	}
+		&--2of8 {	width: 100%/8 * 2;	}
+		&--3of8 {	width: 100%/8 * 3;	}
+		&--4of8 {	width: 100%/8 * 4;	}
+		&--5of8 {	width: 100%/8 * 5;	}
+		&--6of8 {	width: 100%/8 * 6;	}
+		&--7of8 {	width: 100%/8 * 7;	}
+		&--8of8 {	width: 100%/8 * 8;	}
+		
+		&--0of12 {	width: 100%/12 * 0; padding-left: 0; padding-right: 0; overflow: hidden; }
+		&--1of12 {	width: 100%/12 * 1;	}
+		&--2of12 {	width: 100%/12 * 2;	}
+		&--3of12 {	width: 100%/12 * 3;	}
+		&--4of12 {	width: 100%/12 * 4;	}
+		&--5of12 {	width: 100%/12 * 5;	}
+		&--6of12 {	width: 100%/12 * 6;	}
+		&--7of12 {	width: 100%/12 * 7;	}
+		&--8of12 {	width: 100%/12 * 8;	}
+		&--9of12 {	width: 100%/12 * 9;	}
+		&--10of12 {	width: 100%/12 * 10;}
+		&--11of12 {	width: 100%/12 * 11;}
+		&--12of12 {	width: 100%/12 * 12;}
+		*/
+	}
+
+	.debugLabel--mediaQuery (@text : "123"){
+		body[showborders1]::before {
+			position: fixed;
+			top: 0; left: 0;
+			content: ~'"@media: '@text~'"';
+			z-index: 2000;
+			font-size: 12px;
+			line-height: 1em;
+			padding: 0.25em;
+			background-color: cyan;
+		}
+	}
+	.loopMixin--cols (@i:1, @width: ~"-", @total: @i) {
+	    .loopMixin--col (@i:1, @width: ~"-", @total: @i) when (@i = 0) {
+	        .col-@{width}@{i}of@{total}{
+	            width: 0;
+	            padding-left: 0;
+	            padding-right: 0;
+	            overflow: hidden;
+				flex-grow: 0;
+	        }
+	        .loopMixin--col(@i - 1, @width, @total);
+	    }
+	    .loopMixin--col (@i:1, @width: ~"-", @total: @i) when (@i > 0) {
+	        .col-@{width}@{i}of@{total}{
+	            @width: @i/@total * 100%;
+	            width: @width;
+	        }
+	        .loopMixin--col(@i - 1, @width, @total);
+	    }
+	    .loopMixin--col (@i, @width);
+	}    
+	.createMixin--cols(@gridSystem: ~"-", @i:1) when(@i <= length(@grid__systems)) {
+	    @columns: extract(@grid__systems, @i);
+
+	    .loopMixin--cols( @columns, @gridSystem );
+	    .createMixin--cols(@gridSystem, (@i + 1));
+	}
+	
+	// create default col-classes without any size key
+	.createMixin--cols();
+	
+	// create col-classes for md
+	@media @mediaQuery__md {
+		.createMixin--cols( -md- );
+		.debugLabel--mediaQuery( md );
+		body { content: "md"; }
+	}
+	// create col-classes for sm
+	@media @mediaQuery__sm {
+		.createMixin--cols( -sm- );
+		.debugLabel--mediaQuery( sm );
+		body { content: "sm"; }
+	}	
+	// create col-classes for xs
+	@media @mediaQuery__xs {
+		.createMixin--cols( -xs- );
+		.debugLabel--mediaQuery( xs );
+		body { content: "xs"; }
+	}	
+	// create col-classes for lg
+	@media @mediaQuery__lg {
+		.createMixin--cols( -lg- );
+		.debugLabel--mediaQuery( lg );
+		body { content: "lg"; }
+	}
+	// create col-classes for xl
+	@media @mediaQuery__xl {
+		.createMixin--cols( -xl- );
+		.debugLabel--mediaQuery( xl );
+		body { content: "xl"; }
+	}

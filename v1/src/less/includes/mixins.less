@@ -1,0 +1,26 @@
+	
+	.unstyle() {
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+
+		appearance: none;
+		background-color: transparent;
+		outline: none;
+		border: none;
+
+		margin: none;
+		padding: 0;
+	}
+	.placeholderColor(@color: inherit) {
+		&:-moz-placeholder {
+			color: @color;
+		}
+		&:-ms-input-placeholder {
+			color: @color;
+		}
+		&::-webkit-input-placeholder {
+			color: @color;
+		}
+	}
+	
