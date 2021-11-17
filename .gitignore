@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 v1/node_modules
+git-help-sheet.txt
 
 # local env files
 .env.local
