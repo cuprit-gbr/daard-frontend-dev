@@ -47,7 +47,7 @@
 				</BaseButton>
 			</div>
 			<!-- debug infos + test fetch -->
-			<div class="KnAppSidebar__box" v-if="'live' !== currentEnv">
+			<div class="KnAppSidebar__box" v-if="currentEnv.showDevOutput">
 				<pre name="requestToken">{{requestToken}}</pre>
 				<pre name="accessToken">{{accessToken}}</pre>
 				<a @click="doDevFetch">Dev Fetch</a>
@@ -79,13 +79,7 @@
 			BaseButton,
 		},
 		mixins: [],
-		props: {
-			myProp: {
-				type     : [String, Boolean],
-				default  : false,
-				required : false,
-			},
-		},
+		props: {},
 		data(){
 			return {}
 		},

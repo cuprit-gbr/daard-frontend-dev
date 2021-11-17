@@ -160,18 +160,17 @@
 
 				//let res = fetch("https://dai-gn-test.csgis.de/o/token/", {
 				let res = fetch( this.currentEnv.tokenUrl, {
-						body: new URLSearchParams({
-							grant_type: 'authorization_code',
-							code: requestToken,
-							redirect_uri: redirectUri,
-							client_id: this.currentEnv.clientId,
-						}),
-						headers: {
-							"Content-Type": "application/x-www-form-urlencoded"
-						},
-						method: "POST"
-					}
-				)
+					body: new URLSearchParams({
+						grant_type: 'authorization_code',
+						code: requestToken,
+						redirect_uri: redirectUri,
+						client_id: this.currentEnv.tokenClientId,
+					}),
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded"
+					},
+					method: "POST"
+				})
 				.then( response => response.json() )
 				.then( data => {
 					const accessToken = this._.get( data, 'access_token')

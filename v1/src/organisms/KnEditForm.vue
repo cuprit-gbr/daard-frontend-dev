@@ -2324,7 +2324,7 @@
 			<hr/>
 
 			<!-- debug infos -->
-			<div class="background--white15 vhSpace vhSpace--default" v-if="'live' !== currentEnv">
+			<div class="background--white15 vhSpace vhSpace--default" v-if="currentEnv.showDevOutput">
 				<pre name="hasFetchedBoneChangesFields">{{hasFetchedBoneChangesFields}}</pre>
 				<pre name="currentBoneChangesFormTabIndex">{{currentBoneChangesFormTabIndex}}</pre>
 				<pre name="availableBoneIds">{{availableBoneIds}}</pre>
@@ -2337,7 +2337,7 @@
 				<button @click="fetchBoneChangesFields( true )">fetchBoneChangesFields sample</button>
 				<br/><br/>
 			</div>
-			<div class="background--white15 flex" v-if="'live' !== currentEnv">
+			<div class="background--white15 flex" v-if="currentEnv.showDevOutput">
 				<div class="background--white15 vhSpace vhSpace--default">
 					<strong>Steps isValid state</strong>
 					<div v-for="(step, index) in $store.getters.steps" :key="'s'+index">
@@ -2360,7 +2360,7 @@
 			<hr/>
 
 			<!-- debug infos -->
-			<div class="background--white15 vhSpace vhSpace--default" v-if="'live' !== currentEnv">
+			<div class="background--white15 vhSpace vhSpace--default" v-if="currentEnv.showDevOutput">
 				<pre name="$store.getters.finalSubmitObject">{{$store.getters.finalSubmitObject}}</pre>
 				<pre name="$store.getters.steps" maxheight>{{$store.getters.steps}}</pre>
 				<pre name="$store.getters.fields" maxheight>{{$store.getters.fields}}</pre>
