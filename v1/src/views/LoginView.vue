@@ -130,7 +130,8 @@
     		]),
 			locationHrefWithoutQuery(){
 				const location = window.location
-				return location.protocol + '//' + location.host + location.pathname
+
+				return location.protocol + '//' + location.host + location.pathname + location.hash
 			},
 			registerUrl(){
 				const redirectUri = this.locationHrefWithoutQuery
@@ -138,6 +139,7 @@
 				return uri
 			},
 			loginUrl(){
+				//const redirectUri = encodeURI( this.locationHrefWithoutQuery )
 				const redirectUri = this.locationHrefWithoutQuery
 				const uri = this._.get( this.currentEnv, 'loginUrl', '' ).replace('%redirect_uri%', redirectUri)
 				return uri
@@ -149,11 +151,19 @@
 			},
 		},
 		methods: {
-			fetchAuthToken(){ // nachdem der requestToken erhalten wurde, wird hier nach dem Auth-Token gefragt
+			fetchAuthToken( doLog = true ){ // nachdem der requestToken erhalten wurde, wird hier nach dem Auth-Token gefragt
 				const redirectUri = this.locationHrefWithoutQuery
 				const queryString = window.location.search
 				const urlParams = new URLSearchParams(queryString)
 				const requestToken = urlParams.get('code')
+
+				if( doLog ){
+					console.group( this.$options.name, '• fetchAuthToken()')
+					console.log('redirectUri:', redirectUri)
+					console.log('queryString:', queryString)
+					console.log('requestToken:', requestToken)
+					console.groupEnd()
+				}
 
 				this.$router.replace('/login/')
 				this.$store.commit('setRequestToken', requestToken)
@@ -161,14 +171,14 @@
 				//let res = fetch("https://dai-gn-test.csgis.de/o/token/", {
 				let res = fetch( this.currentEnv.tokenUrl, {
 					body: new URLSearchParams({
-						grant_type: 'authorization_code',
-						code: requestToken,
-						redirect_uri: redirectUri,
-						client_id: this.currentEnv.tokenClientId,
-					}),
-					headers: {
-						"Content-Type": "application/x-www-form-urlencoded"
-					},
+					grant_type: 'authorization_code',
+					code: requestToken,
+					redirect_uri: redirectUri,
+					client_id: this.currentEnv.tokenClientId,
+				}),
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				},
 					method: "POST"
 				})
 				.then( response => response.json() )
@@ -182,6 +192,8 @@
 
 					}
 				});
+				/*
+				*/
 			},
 		},
 		mounted() {

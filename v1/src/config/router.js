@@ -6,6 +6,7 @@ Vue.use(Router)
 
 export default new Router({
 	base: '/',
+	//mode: 'hash',
 	mode: 'history',
 	linkActiveClass: 'routerLink--active',
 	linkExactActiveClass: 'routerLink--exactActive',

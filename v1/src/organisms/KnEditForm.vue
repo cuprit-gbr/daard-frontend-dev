@@ -1667,7 +1667,11 @@
 								</div>
 								<!-- show the results -->
 								<div class="KnEditForm__searchResult"
-									:class="item === getFieldProp( 'archaeological_site', '_value' ) ? 'KnEditForm__searchResult--isActive' : 'KnEditForm__searchResult--isInactive'"
+									:class="
+										_.get( item, 'prefName.title') === getFieldProp( 'archaeological_site', '_value' ) ?
+										'KnEditForm__searchResult--isActive' :
+										'KnEditForm__searchResult--isInactive'
+									"
 									v-for="(item, index) in getFieldProp( 'archaeological_site', '_options' )"
 									:key="index"
 									@click="
