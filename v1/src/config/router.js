@@ -6,8 +6,8 @@ Vue.use(Router)
 
 export default new Router({
 	base: '/',
-	//mode: 'hash',
-	mode: 'history',
+	//mode: 'history',
+	mode: 'hash',
 	linkActiveClass: 'routerLink--active',
 	linkExactActiveClass: 'routerLink--exactActive',
 	routes: [
@@ -19,6 +19,7 @@ export default new Router({
 		*/
 		{
 			path: '/edit/',
+			name: 'EditViewStart',
 			redirect: '/edit/disease/',
 		},
 		{

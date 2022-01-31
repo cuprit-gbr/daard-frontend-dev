@@ -24,7 +24,11 @@
 			:doLog="false"
 		></MhDelegateLinks>
 		<MhDevInfos
-			:showOnHosts="['localhost', 'knochen.in-kombination.de']"
+			:showOnHosts="[
+				'localhost',
+				'knochen.in-kombination.de',
+				'daard-atlas-staging.csgis.de',
+			]"
 		></MhDevInfos>
 
 	</div>
@@ -91,6 +95,53 @@
 				}
 
 				return theReturn
+			},
+			fetchAccessToken( requestToken, doLog = true ){
+				const redirectUri = location.protocol + '//' + location.host
+
+				if( doLog ){
+					console.group( this.$options.name, '• fetchAccessToken()')
+					console.log('redirectUri:', redirectUri)
+					//console.log('queryString:', queryString)
+					console.log('requestToken:', requestToken)
+					console.groupEnd()
+				}
+
+				//this.$router.replace('/login/')
+				this.$store.commit('setRequestToken', requestToken)
+
+				let res = fetch( this.currentEnv.tokenUrl, {
+					body: new URLSearchParams({
+						grant_type: 'authorization_code',
+						code: requestToken,
+						redirect_uri: redirectUri,
+						client_id: this.currentEnv.tokenClientId,
+					}),
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded"
+					},
+						method: "POST"
+					}
+				)
+				.then( response => response.json() )
+				.then( data => {
+					const accessToken = this._.get( data, 'access_token')
+					console.log('fetchAuthToken:', data )
+
+					if( accessToken ){
+						this.$store.commit('setAccessToken', accessToken )
+						this.$router.replace('/edit/')
+						/*
+						this.$router.replace({
+							name : 'EditViewStart',
+							query : null,
+						})
+						*/
+
+					}
+				});
+				/*
+				*/
 			},
 			fetchAll( finalCallback, doLog = false ){
 				let thingsToLoad = 4
@@ -254,6 +305,24 @@
 				//console.log( this.$options.name, '• fetchAll() • finalCallback()')
 				this.isReady = true
 			})
+
+			// wenn die url nach dem login das notwendige code-param als requestToken in der url hat,
+			// wird hier der requestToken als sessionStorage zwischengespeichert und die seite wird ohne
+			// query params neu geladen
+			const urlSearchParams = new URLSearchParams( window.location.search )
+			const requestTokenQueryParam = urlSearchParams.get('code')
+			const requestTokenSessionStorage = sessionStorage.getItem('kn__requestToken')
+			if( requestTokenQueryParam ){
+				console.log( this.$options.name, '• has requestToken as code in url' )
+				sessionStorage.setItem('kn__requestToken', requestTokenQueryParam)
+				window.location.href = '/'
+			}
+			// wenn das requestToken im sessionStorage gefunden wurde,
+			// wird hier das accessToken geholt und danach zum EditView gewechselt
+			else if( requestTokenSessionStorage ) {
+				this.fetchAccessToken( requestTokenSessionStorage )
+			}
+
 		}
 	}
 </script>

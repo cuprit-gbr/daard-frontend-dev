@@ -57,11 +57,11 @@
 				</div>
 				<div style="grid-column: span 3;">
 					<BaseSelect
-						:value="'Heiko'"
+						:value="'Heiko richtig voll langer Nachname'"
 						:label="'Choose ...'"
 						:options="[
 							'Mario',
-							'Heiko',
+							'Heiko richtig voll langer Nachname',
 							'Silvio'
 						]"
 						@input="()=>{}"
@@ -101,7 +101,7 @@
 				</div>
 				<div style="grid-column: span 3;">
 					<BaseSelect
-						:value="'Heiko'"
+						:value="'Heiko langer Nachname'"
 						:label="'Choose ...'"
 						:options="[
 							'Mario',
@@ -187,12 +187,6 @@
 			<hr />
 
 			<div>
-				<OutlinedLabel>Default</OutlinedLabel> &nbsp;
-				<OutlinedLabel type="error">Fehler</OutlinedLabel> &nbsp;
-				<OutlinedLabel type="ok">OK</OutlinedLabel> &nbsp;
-
-				<hr />
-
 				<MhIcon></MhIcon> &nbsp;
 				<MhIcon type="arrow-left"></MhIcon> &nbsp;
 				<MhIcon type="arrow-right"></MhIcon> &nbsp;

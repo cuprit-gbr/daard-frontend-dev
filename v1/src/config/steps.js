@@ -3,8 +3,7 @@ export default [
 		title: 'Disease',
 		slug: 'disease',
 		desc: `
-			This form expects general information about the disease. <br/>
-			Once all mandatory fields have been specified, you can click on “Next step”
+			Please provide general information about the individual and disease.
 		`,
 		isEnabled: true,
 	},
@@ -12,26 +11,23 @@ export default [
 		title: 'Inventory',
 		slug: 'inventory',
 		desc: `
-			This form expects the number of bone material present. <br/>
-			Each tab shows a different body region. <br/>
-			Bones that are indicated as "Absent" will be ignored during submission.
+			Please, define which bones are present.
 		`,
 		isEnabled: false,
 		tabs: [
 			{ label: 'Cranial District', },
-			{ label: 'Axial sceleton', },
+			{ label: 'Axial skeleton', },
+			{ label: 'Left upper limb', },
 			{ label: 'Right upper limb', },
 			{ label: 'Left lower limb', },
 			{ label: 'Right lower limb', },
-			{ label: 'Left upper limb', },
 		]
 	},
 	{
 		title: 'Bone&nbsp;changes',
 		slug: 'bone-changes',
 		desc: `
-			This form expects the examination method per bone. <br/>
-			Furthermore, which technique was used for the examination.
+			 Please define the bone changes, by diagnostic methods, for each bone.
 		`,
 		isEnabled: false,
 	},
@@ -39,16 +35,15 @@ export default [
 		title: 'Site',
 		slug: 'site',
 		desc: `
-			This form expects general information like place of discovery or further links.
+			Please provide additional information on archaeological context and storage place.
 		`,
 		isEnabled: false,
 	},
 	{
-		title: 'Publication',
+		title: 'Genetic analyses and publication',
 		slug: 'publication',
 		desc: `
-			This form expects general information about the publication of the present case. <br/>
-			After agreeing to the "Privacy consent" the case can be submitted.
+			Submit the case after agreeing to the privacy consent.
 		`,
 		isEnabled: false,
 	},

@@ -42,7 +42,38 @@
 
 			<template v-if="'disease' === _.get( activeStep, 'slug' )">
 
+				<!-- ageGroup:  subadults and adults -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 2;">
+						Age group *
+					</div>
+					<div style="grid-column: span 6;">
+						<div class="KnEditForm__radioGroup">
+							<label
+								class="KnEditForm__radioGroupInner"
+								v-for="(option, index) in ['Subadult', 'Adult']"
+								:key="'rbo' + index">
+								<BaseRadio
+									class="KnEditForm__radioGroupRadio"
+									:name="'ageGroup'"
+									:checkedValue="option"
+									@change="()=>{}"
+									@input="setAgeGroup"
+								></BaseRadio>
+								<span class="KnEditForm__radioGroupLabel">{{option}}</span>
+							</label>
+						</div>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('subadults')}}</pre>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('adults')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;"
+						v-html="getFieldProp( 'subadults', 'help_text' ) + '<br/>' + getFieldProp( 'adults', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
 				<!-- subadults -->
+				<!--
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 2;">
@@ -63,7 +94,9 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'subadults', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+				-->
 				<!-- adults -->
+				<!--
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 2;">
@@ -84,6 +117,7 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'adults', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+				-->
 				<!-- age_class -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -96,6 +130,7 @@
 							:value="getFieldProp( 'age_class', '_value' )"
 							:label="'Select ...'"
 							:options="getFieldProp( 'age_class', '_options' )"
+							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
 								fieldName : 'age_class',
 								key       : '_value',
@@ -106,30 +141,6 @@
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
 						style="grid-column: span 4;" v-html="getFieldProp( 'age_class', 'help_text' )"
-					></div>
-				</KnFormFieldRow>
-				<!-- disease -->
-				<KnFormFieldRow>
-					<div class="KnEditForm__labelCell font font--medium color color--primary50"
-						style="grid-column: span 2;">
-						{{getFieldProp( 'disease', '_label' )}}
-						<template v-if="getFieldProp( 'disease', 'mandatory' )">*</template>
-					</div>
-					<div style="grid-column: span 6;">
-						<BaseSelect
-							:value="getFieldProp( 'disease', '_value' )"
-							:label="'Select ...'"
-							:options="getFieldProp( 'disease', '_options' )"
-							@input="$store.commit('setFieldProp', {
-								fieldName : 'disease',
-								key       : '_value',
-								value     : $event
-							})"
-						></BaseSelect>
-						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('disease')}}</pre>
-					</div>
-					<div class="font font--sizeSmall color color--primary50"
-						style="grid-column: span 4;" v-html="getFieldProp( 'disease', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
 				<!-- age -->
@@ -144,6 +155,7 @@
 							:value="getFieldProp( 'age', '_value' )"
 							:label="'Select ...'"
 							:options="getFieldProp( 'age', '_options' )"
+							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
 								fieldName : 'age',
 								key       : '_value',
@@ -154,6 +166,32 @@
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
 						style="grid-column: span 4;" v-html="getFieldProp( 'age', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+				<!-- disease -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 2;">
+						{{getFieldProp( 'disease', '_label' )}}
+						<template v-if="getFieldProp( 'disease', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 6;">
+						<BaseSelect
+							:value="getFieldProp( 'disease', '_value' )"
+							:label="'Select ...'"
+							:options="getFieldProp( 'disease', '_options' )"
+							:hasClearButton="true"
+							:debug="false"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'disease',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseSelect>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('disease')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'disease', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
 				<!-- age_freetext_checkbox -->
@@ -214,6 +252,7 @@
 							:value="getFieldProp( 'sex', '_value' )"
 							:label="'Select ...'"
 							:options="getFieldProp( 'sex', '_options' )"
+							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
 								fieldName : 'sex',
 								key       : '_value',
@@ -269,10 +308,73 @@
 						class="font font--sizeSmall color color--primary50"
 						:items="[
 							{ label : 'Bone', span : 8 },
-							{ label : 'Investigatable material', span : 3, },
+							{ label : 'Preservation', span : 3, },
 						]"
 					></KnColumnLabelsRow>
 
+					<!-- neurocranium -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__neurocranium', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__neurocranium_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'cranial_district__neurocranium_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__neurocranium_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__neurocranium_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- splanchnocranium -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__splanchnocranium', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__splanchnocranium_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'cranial_district__splanchnocranium_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__splanchnocranium_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__splanchnocranium_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- mandible -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__mandible', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__mandible_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'cranial_district__mandible_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__mandible_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__mandible_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
 					<!-- deciduous-teeth • with treeselect -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -289,8 +391,6 @@
 								:multiple="true"
 								:placeholder="'Select teeth ...'"
 								:valueConsistsOf="'LEAF_PRIORITY'"
-								XXXnormalizer="treeselectNormalizer"
-								XXXoptions="getFieldProp( 'cranial_district__deciduous-teeth', '_options' )"
 								:options="deciduousTeethTreeselectOptions"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'cranial_district__deciduous-teeth',
@@ -309,6 +409,7 @@
 								:value="getFieldProp( 'cranial_district__deciduous-teeth_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'cranial_district__deciduous-teeth_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'cranial_district__deciduous-teeth_amount',
 									key       : '_value',
@@ -316,46 +417,6 @@
 								})"
 							></BaseSelect>
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__deciduous-teeth_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- mandible -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 8;">
-							{{getFieldProp( 'cranial_district__mandible', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'cranial_district__mandible_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'cranial_district__mandible_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'cranial_district__mandible_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__mandible_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- neurocranium -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 8;">
-							{{getFieldProp( 'cranial_district__neurocranium', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'cranial_district__neurocranium_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'cranial_district__neurocranium_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'cranial_district__neurocranium_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__neurocranium_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- permanent-teeth • with treeselect -->
@@ -391,6 +452,7 @@
 								:value="getFieldProp( 'cranial_district__permanent-teeth_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'cranial_district__permanent-teeth_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'cranial_district__permanent-teeth_amount',
 									key       : '_value',
@@ -398,26 +460,6 @@
 								})"
 							></BaseSelect>
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__permanent-teeth_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- splanchnocranium -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 8;">
-							{{getFieldProp( 'cranial_district__splanchnocranium', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'cranial_district__splanchnocranium_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'cranial_district__splanchnocranium_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'cranial_district__splanchnocranium_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__splanchnocranium_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 				</template>
@@ -442,6 +484,7 @@
 								:value="getFieldProp( 'axial_skeleton__cervical-vertebrae_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__cervical-vertebrae_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'axial_skeleton__cervical-vertebrae_amount',
 									key       : '_value',
@@ -451,24 +494,25 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__cervical-vertebrae_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
-					<!-- left-ribs -->
+					<!-- thoracic-vertebrae -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'axial_skeleton__left-ribs', '_label' )}}
+							{{getFieldProp( 'axial_skeleton__thoracic-vertebrae', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'axial_skeleton__left-ribs_amount', '_value' )"
+								:value="getFieldProp( 'axial_skeleton__thoracic-vertebrae_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'axial_skeleton__left-ribs_amount', '_options' )"
+								:options="getFieldProp( 'axial_skeleton__thoracic-vertebrae_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'axial_skeleton__left-ribs_amount',
+									fieldName : 'axial_skeleton__thoracic-vertebrae_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__left-ribs_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__thoracic-vertebrae_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- lumbar-vertebrae -->
@@ -482,6 +526,7 @@
 								:value="getFieldProp( 'axial_skeleton__lumbar-vertebrae_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__lumbar-vertebrae_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'axial_skeleton__lumbar-vertebrae_amount',
 									key       : '_value',
@@ -489,26 +534,6 @@
 								})"
 							></BaseSelect>
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__lumbar-vertebrae_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- right-ribs -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'axial_skeleton__right-ribs', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'axial_skeleton__right-ribs_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'axial_skeleton__right-ribs_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'axial_skeleton__right-ribs_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__right-ribs_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- sacral-vertebrae -->
@@ -522,6 +547,7 @@
 								:value="getFieldProp( 'axial_skeleton__sacral-vertebrae_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__sacral-vertebrae_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'axial_skeleton__sacral-vertebrae_amount',
 									key       : '_value',
@@ -542,6 +568,7 @@
 								:value="getFieldProp( 'axial_skeleton__sternum_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__sternum_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'axial_skeleton__sternum_amount',
 									key       : '_value',
@@ -551,29 +578,51 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__sternum_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
-					<!-- thoracic-vertebrae -->
+					<!-- right-ribs -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'axial_skeleton__thoracic-vertebrae', '_label' )}}
+							{{getFieldProp( 'axial_skeleton__right-ribs', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'axial_skeleton__thoracic-vertebrae_amount', '_value' )"
+								:value="getFieldProp( 'axial_skeleton__right-ribs_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'axial_skeleton__thoracic-vertebrae_amount', '_options' )"
+								:options="getFieldProp( 'axial_skeleton__right-ribs_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'axial_skeleton__thoracic-vertebrae_amount',
+									fieldName : 'axial_skeleton__right-ribs_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__thoracic-vertebrae_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__right-ribs_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- left-ribs -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'axial_skeleton__left-ribs', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'axial_skeleton__left-ribs_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'axial_skeleton__left-ribs_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'axial_skeleton__left-ribs_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__left-ribs_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 				</template>
 				<!-- right_upper_limb -->
-				<template v-if="2 === currentInventoryTabIndex">
+				<template v-if="3 === currentInventoryTabIndex">
 					<KnColumnLabelsRow
 						class="font font--sizeSmall color color--primary50"
 						:items="[
@@ -582,44 +631,46 @@
 						]"
 					></KnColumnLabelsRow>
 
-					<!-- carpals -->
+					<!-- clavicle -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'right_upper_limb__carpals', '_label' )}}
+							{{getFieldProp( 'right_upper_limb__clavicle', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'right_upper_limb__carpals_amount', '_value' )"
+								:value="getFieldProp( 'right_upper_limb__clavicle_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'right_upper_limb__carpals_amount', '_options' )"
+								:options="getFieldProp( 'right_upper_limb__clavicle_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_upper_limb__carpals_amount',
+									fieldName : 'right_upper_limb__clavicle_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__carpals_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__clavicle_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
-					<!-- distal-phalanges-hand -->
+					<!-- scapula -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'right_upper_limb__distal-phalanges-hand', '_label' )}}
+							{{getFieldProp( 'right_upper_limb__scapula', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'right_upper_limb__distal-phalanges-hand_amount', '_value' )"
+								:value="getFieldProp( 'right_upper_limb__scapula_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'right_upper_limb__distal-phalanges-hand_amount', '_options' )"
+								:options="getFieldProp( 'right_upper_limb__scapula_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_upper_limb__distal-phalanges-hand_amount',
+									fieldName : 'right_upper_limb__scapula_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__distal-phalanges-hand_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__scapula_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- humerus -->
@@ -633,6 +684,7 @@
 								:value="getFieldProp( 'right_upper_limb__humerus_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__humerus_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'right_upper_limb__humerus_amount',
 									key       : '_value',
@@ -640,66 +692,6 @@
 								})"
 							></BaseSelect>
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__humerus_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- intermediate-phalanges-hand -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'right_upper_limb__intermediate-phalanges-hand', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'right_upper_limb__intermediate-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'right_upper_limb__intermediate-phalanges-hand_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_upper_limb__intermediate-phalanges-hand_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__intermediate-phalanges-hand_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- metacarpals -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'right_upper_limb__metacarpals', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'right_upper_limb__metacarpals_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'right_upper_limb__metacarpals_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_upper_limb__metacarpals_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__metacarpals_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- proximal-phalanges-hand -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'right_upper_limb__proximal-phalanges-hand', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'right_upper_limb__proximal-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'right_upper_limb__proximal-phalanges-hand_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_upper_limb__proximal-phalanges-hand_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__proximal-phalanges-hand_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- radius -->
@@ -713,6 +705,7 @@
 								:value="getFieldProp( 'right_upper_limb__radius_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__radius_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'right_upper_limb__radius_amount',
 									key       : '_value',
@@ -733,6 +726,7 @@
 								:value="getFieldProp( 'right_upper_limb__ulna_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__ulna_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'right_upper_limb__ulna_amount',
 									key       : '_value',
@@ -742,9 +736,114 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__ulna_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
+					<!-- carpals -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_upper_limb__carpals', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_upper_limb__carpals_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_upper_limb__carpals_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_upper_limb__carpals_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__carpals_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- metacarpals -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_upper_limb__metacarpals', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_upper_limb__metacarpals_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_upper_limb__metacarpals_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_upper_limb__metacarpals_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__metacarpals_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- proximal-phalanges-hand -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_upper_limb__proximal-phalanges-hand', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_upper_limb__proximal-phalanges-hand_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_upper_limb__proximal-phalanges-hand_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_upper_limb__proximal-phalanges-hand_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__proximal-phalanges-hand_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- intermediate-phalanges-hand -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_upper_limb__intermediate-phalanges-hand', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_upper_limb__intermediate-phalanges-hand_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_upper_limb__intermediate-phalanges-hand_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_upper_limb__intermediate-phalanges-hand_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__intermediate-phalanges-hand_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- distal-phalanges-hand -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_upper_limb__distal-phalanges-hand', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_upper_limb__distal-phalanges-hand_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_upper_limb__distal-phalanges-hand_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_upper_limb__distal-phalanges-hand_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_upper_limb__distal-phalanges-hand_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
 				</template>
 				<!-- left_upper_limb -->
-				<template v-if="3 === currentInventoryTabIndex">
+				<template v-if="2 === currentInventoryTabIndex">
 					<KnColumnLabelsRow
 						class="font font--sizeSmall color color--primary50"
 						:items="[
@@ -753,44 +852,46 @@
 						]"
 					></KnColumnLabelsRow>
 
-					<!-- carpals -->
+					<!-- clavicle -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'left_upper_limb__carpals', '_label' )}}
+							{{getFieldProp( 'left_upper_limb__clavicle', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'left_upper_limb__carpals_amount', '_value' )"
+								:value="getFieldProp( 'left_upper_limb__clavicle_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'left_upper_limb__carpals_amount', '_options' )"
+								:options="getFieldProp( 'left_upper_limb__clavicle_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_upper_limb__carpals_amount',
+									fieldName : 'left_upper_limb__clavicle_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__carpals_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__clavicle_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
-					<!-- distal-phalanges-hand -->
+					<!-- scapula -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'left_upper_limb__distal-phalanges-hand', '_label' )}}
+							{{getFieldProp( 'left_upper_limb__scapula', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'left_upper_limb__distal-phalanges-hand_amount', '_value' )"
+								:value="getFieldProp( 'left_upper_limb__scapula_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'left_upper_limb__distal-phalanges-hand_amount', '_options' )"
+								:options="getFieldProp( 'left_upper_limb__scapula_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_upper_limb__distal-phalanges-hand_amount',
+									fieldName : 'left_upper_limb__scapula_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__distal-phalanges-hand_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__scapula_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- humerus -->
@@ -804,6 +905,7 @@
 								:value="getFieldProp( 'left_upper_limb__humerus_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__humerus_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'left_upper_limb__humerus_amount',
 									key       : '_value',
@@ -811,66 +913,6 @@
 								})"
 							></BaseSelect>
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__humerus_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- intermediate-phalanges-hand -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'left_upper_limb__intermediate-phalanges-hand', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'left_upper_limb__intermediate-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'left_upper_limb__intermediate-phalanges-hand_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_upper_limb__intermediate-phalanges-hand_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__intermediate-phalanges-hand_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- metacarpals -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'left_upper_limb__metacarpals', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'left_upper_limb__metacarpals_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'left_upper_limb__metacarpals_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_upper_limb__metacarpals_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__metacarpals_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- proximal-phalanges-hand -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'left_upper_limb__proximal-phalanges-hand', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'left_upper_limb__proximal-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'left_upper_limb__proximal-phalanges-hand_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_upper_limb__proximal-phalanges-hand_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__proximal-phalanges-hand_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- radius -->
@@ -884,6 +926,7 @@
 								:value="getFieldProp( 'left_upper_limb__radius_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__radius_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'left_upper_limb__radius_amount',
 									key       : '_value',
@@ -904,6 +947,7 @@
 								:value="getFieldProp( 'left_upper_limb__ulna_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__ulna_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'left_upper_limb__ulna_amount',
 									key       : '_value',
@@ -913,9 +957,114 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__ulna_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
+					<!-- carpals -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_upper_limb__carpals', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_upper_limb__carpals_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_upper_limb__carpals_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_upper_limb__carpals_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__carpals_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- metacarpals -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_upper_limb__metacarpals', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_upper_limb__metacarpals_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_upper_limb__metacarpals_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_upper_limb__metacarpals_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__metacarpals_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- proximal-phalanges-hand -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_upper_limb__proximal-phalanges-hand', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_upper_limb__proximal-phalanges-hand_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_upper_limb__proximal-phalanges-hand_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_upper_limb__proximal-phalanges-hand_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__proximal-phalanges-hand_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- intermediate-phalanges-hand -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_upper_limb__intermediate-phalanges-hand', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_upper_limb__intermediate-phalanges-hand_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_upper_limb__intermediate-phalanges-hand_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_upper_limb__intermediate-phalanges-hand_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__intermediate-phalanges-hand_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- distal-phalanges-hand -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_upper_limb__distal-phalanges-hand', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_upper_limb__distal-phalanges-hand_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_upper_limb__distal-phalanges-hand_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_upper_limb__distal-phalanges-hand_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_upper_limb__distal-phalanges-hand_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
 				</template>
 				<!-- right_lower_limb -->
-				<template v-if="4 === currentInventoryTabIndex">
+				<template v-if="5 === currentInventoryTabIndex">
 					<KnColumnLabelsRow
 						class="font font--sizeSmall color color--primary50"
 						:items="[
@@ -924,44 +1073,25 @@
 						]"
 					></KnColumnLabelsRow>
 
-					<!-- calcaneus -->
+					<!-- hip-bone -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'right_lower_limb__calcaneus', '_label' )}}
+							{{getFieldProp( 'right_lower_limb__hip-bone', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'right_lower_limb__calcaneus_amount', '_value' )"
+								:value="getFieldProp( 'right_lower_limb__hip-bone_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'right_lower_limb__calcaneus_amount', '_options' )"
+								:options="getFieldProp( 'right_lower_limb__hip-bone_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_lower_limb__calcaneus_amount',
+									fieldName : 'right_lower_limb__hip-bone_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__calcaneus_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- distal-phalanges-foot -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'right_lower_limb__distal-phalanges-foot', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'right_lower_limb__distal-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'right_lower_limb__distal-phalanges-foot_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_lower_limb__distal-phalanges-foot_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__distal-phalanges-foot_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__hip-bone_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- femur -->
@@ -975,6 +1105,7 @@
 								:value="getFieldProp( 'right_lower_limb__femur_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__femur_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'right_lower_limb__femur_amount',
 									key       : '_value',
@@ -982,86 +1113,6 @@
 								})"
 							></BaseSelect>
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__femur_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- fibula -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'right_lower_limb__fibula', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'right_lower_limb__fibula_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'right_lower_limb__fibula_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_lower_limb__fibula_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__fibula_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- hip-bone -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'right_lower_limb__hip-bone', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'right_lower_limb__hip-bone_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'right_lower_limb__hip-bone_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_lower_limb__hip-bone_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__hip-bone_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- intermediate-phalanges-foot -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'right_lower_limb__intermediate-phalanges-foot', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'right_lower_limb__intermediate-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'right_lower_limb__intermediate-phalanges-foot_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_lower_limb__intermediate-phalanges-foot_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__intermediate-phalanges-foot_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- metatarsals -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'right_lower_limb__metatarsals', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'right_lower_limb__metatarsals_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'right_lower_limb__metatarsals_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_lower_limb__metatarsals_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__metatarsals_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- patella -->
@@ -1075,6 +1126,7 @@
 								:value="getFieldProp( 'right_lower_limb__patella_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__patella_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'right_lower_limb__patella_amount',
 									key       : '_value',
@@ -1084,24 +1136,67 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__patella_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
-					<!-- proximal-phalanges-foot -->
+					<!-- tibia -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'right_lower_limb__proximal-phalanges-foot', '_label' )}}
+							{{getFieldProp( 'right_lower_limb__tibia', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'right_lower_limb__proximal-phalanges-foot_amount', '_value' )"
+								:value="getFieldProp( 'right_lower_limb__tibia_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'right_lower_limb__proximal-phalanges-foot_amount', '_options' )"
+								:options="getFieldProp( 'right_lower_limb__tibia_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_lower_limb__proximal-phalanges-foot_amount',
+									fieldName : 'right_lower_limb__tibia_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__proximal-phalanges-foot_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__tibia_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- fibula -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_lower_limb__fibula', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_lower_limb__fibula_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_lower_limb__fibula_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_lower_limb__fibula_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__fibula_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- calcaneus -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_lower_limb__calcaneus', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_lower_limb__calcaneus_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_lower_limb__calcaneus_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_lower_limb__calcaneus_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__calcaneus_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- talus -->
@@ -1115,6 +1210,7 @@
 								:value="getFieldProp( 'right_lower_limb__talus_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__talus_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'right_lower_limb__talus_amount',
 									key       : '_value',
@@ -1135,6 +1231,7 @@
 								:value="getFieldProp( 'right_lower_limb__tarsals_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__tarsals_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'right_lower_limb__tarsals_amount',
 									key       : '_value',
@@ -1144,29 +1241,93 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__tarsals_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
-					<!-- tibia -->
+					<!-- metatarsals -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'right_lower_limb__tibia', '_label' )}}
+							{{getFieldProp( 'right_lower_limb__metatarsals', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'right_lower_limb__tibia_amount', '_value' )"
+								:value="getFieldProp( 'right_lower_limb__metatarsals_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'right_lower_limb__tibia_amount', '_options' )"
+								:options="getFieldProp( 'right_lower_limb__metatarsals_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'right_lower_limb__tibia_amount',
+									fieldName : 'right_lower_limb__metatarsals_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__tibia_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__metatarsals_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- proximal-phalanges-foot -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_lower_limb__proximal-phalanges-foot', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_lower_limb__proximal-phalanges-foot_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_lower_limb__proximal-phalanges-foot_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_lower_limb__proximal-phalanges-foot_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__proximal-phalanges-foot_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- intermediate-phalanges-foot -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_lower_limb__intermediate-phalanges-foot', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_lower_limb__intermediate-phalanges-foot_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_lower_limb__intermediate-phalanges-foot_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_lower_limb__intermediate-phalanges-foot_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__intermediate-phalanges-foot_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- distal-phalanges-foot -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'right_lower_limb__distal-phalanges-foot', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'right_lower_limb__distal-phalanges-foot_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'right_lower_limb__distal-phalanges-foot_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'right_lower_limb__distal-phalanges-foot_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('right_lower_limb__distal-phalanges-foot_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 				</template>
 				<!-- left_lower_limb -->
-				<template v-if="5 === currentInventoryTabIndex">
+				<template v-if="4 === currentInventoryTabIndex">
 					<KnColumnLabelsRow
 						class="font font--sizeSmall color color--primary50"
 						:items="[
@@ -1175,44 +1336,25 @@
 						]"
 					></KnColumnLabelsRow>
 
-					<!-- calcaneus -->
+					<!-- hip-bone -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'left_lower_limb__calcaneus', '_label' )}}
+							{{getFieldProp( 'left_lower_limb__hip-bone', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'left_lower_limb__calcaneus_amount', '_value' )"
+								:value="getFieldProp( 'left_lower_limb__hip-bone_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'left_lower_limb__calcaneus_amount', '_options' )"
+								:options="getFieldProp( 'left_lower_limb__hip-bone_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_lower_limb__calcaneus_amount',
+									fieldName : 'left_lower_limb__hip-bone_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__calcaneus_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- distal-phalanges-foot -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'left_lower_limb__distal-phalanges-foot', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'left_lower_limb__distal-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'left_lower_limb__distal-phalanges-foot_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_lower_limb__distal-phalanges-foot_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__distal-phalanges-foot_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__hip-bone_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- femur -->
@@ -1226,6 +1368,7 @@
 								:value="getFieldProp( 'left_lower_limb__femur_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__femur_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'left_lower_limb__femur_amount',
 									key       : '_value',
@@ -1233,86 +1376,6 @@
 								})"
 							></BaseSelect>
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__femur_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- fibula -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'left_lower_limb__fibula', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'left_lower_limb__fibula_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'left_lower_limb__fibula_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_lower_limb__fibula_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__fibula_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- hip-bone -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'left_lower_limb__hip-bone', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'left_lower_limb__hip-bone_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'left_lower_limb__hip-bone_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_lower_limb__hip-bone_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__hip-bone_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- intermediate-phalanges-foot -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'left_lower_limb__intermediate-phalanges-foot', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'left_lower_limb__intermediate-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'left_lower_limb__intermediate-phalanges-foot_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_lower_limb__intermediate-phalanges-foot_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__intermediate-phalanges-foot_amount')}}</pre>
-						</div>
-					</KnFormFieldRow>
-					<!-- metatarsals -->
-					<KnFormFieldRow>
-						<div class="KnEditForm__labelCell font font--medium color color--primary50"
-							style="grid-column: span 4;">
-							{{getFieldProp( 'left_lower_limb__metatarsals', '_label' )}}
-						</div>
-						<div style="grid-column: span 4;">
-							<BaseSelect
-								:value="getFieldProp( 'left_lower_limb__metatarsals_amount', '_value' )"
-								:label="'Select ...'"
-								:options="getFieldProp( 'left_lower_limb__metatarsals_amount', '_options' )"
-								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_lower_limb__metatarsals_amount',
-									key       : '_value',
-									value     : $event
-								})"
-							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__metatarsals_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- patella -->
@@ -1326,6 +1389,7 @@
 								:value="getFieldProp( 'left_lower_limb__patella_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__patella_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'left_lower_limb__patella_amount',
 									key       : '_value',
@@ -1335,24 +1399,67 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__patella_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
-					<!-- proximal-phalanges-foot -->
+					<!-- tibia -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'left_lower_limb__proximal-phalanges-foot', '_label' )}}
+							{{getFieldProp( 'left_lower_limb__tibia', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'left_lower_limb__proximal-phalanges-foot_amount', '_value' )"
+								:value="getFieldProp( 'left_lower_limb__tibia_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'left_lower_limb__proximal-phalanges-foot_amount', '_options' )"
+								:options="getFieldProp( 'left_lower_limb__tibia_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_lower_limb__proximal-phalanges-foot_amount',
+									fieldName : 'left_lower_limb__tibia_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__proximal-phalanges-foot_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__tibia_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- fibula -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_lower_limb__fibula', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_lower_limb__fibula_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_lower_limb__fibula_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_lower_limb__fibula_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__fibula_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- calcaneus -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_lower_limb__calcaneus', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_lower_limb__calcaneus_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_lower_limb__calcaneus_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_lower_limb__calcaneus_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__calcaneus_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 					<!-- talus -->
@@ -1366,6 +1473,7 @@
 								:value="getFieldProp( 'left_lower_limb__talus_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__talus_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'left_lower_limb__talus_amount',
 									key       : '_value',
@@ -1386,6 +1494,7 @@
 								:value="getFieldProp( 'left_lower_limb__tarsals_amount', '_value' )"
 								:label="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__tarsals_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
 									fieldName : 'left_lower_limb__tarsals_amount',
 									key       : '_value',
@@ -1395,24 +1504,88 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__tarsals_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
-					<!-- tibia -->
+					<!-- metatarsals -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 4;">
-							{{getFieldProp( 'left_lower_limb__tibia', '_label' )}}
+							{{getFieldProp( 'left_lower_limb__metatarsals', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'left_lower_limb__tibia_amount', '_value' )"
+								:value="getFieldProp( 'left_lower_limb__metatarsals_amount', '_value' )"
 								:label="'Select ...'"
-								:options="getFieldProp( 'left_lower_limb__tibia_amount', '_options' )"
+								:options="getFieldProp( 'left_lower_limb__metatarsals_amount', '_options' )"
+								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'left_lower_limb__tibia_amount',
+									fieldName : 'left_lower_limb__metatarsals_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__tibia_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__metatarsals_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- proximal-phalanges-foot -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_lower_limb__proximal-phalanges-foot', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_lower_limb__proximal-phalanges-foot_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_lower_limb__proximal-phalanges-foot_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_lower_limb__proximal-phalanges-foot_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__proximal-phalanges-foot_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- intermediate-phalanges-foot -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_lower_limb__intermediate-phalanges-foot', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_lower_limb__intermediate-phalanges-foot_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_lower_limb__intermediate-phalanges-foot_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_lower_limb__intermediate-phalanges-foot_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__intermediate-phalanges-foot_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+					<!-- distal-phalanges-foot -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'left_lower_limb__distal-phalanges-foot', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'left_lower_limb__distal-phalanges-foot_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'left_lower_limb__distal-phalanges-foot_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'left_lower_limb__distal-phalanges-foot_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('left_lower_limb__distal-phalanges-foot_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
 				</template>
@@ -1852,6 +2025,7 @@
 							:value="getFieldProp( 'archaeological_funery_context', '_value' )"
 							:label="'Select ...'"
 							:options="getFieldProp( 'archaeological_funery_context', '_options' )"
+							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
 								fieldName : 'archaeological_funery_context',
 								key       : '_value',
@@ -1876,6 +2050,7 @@
 							:value="getFieldProp( 'archaeological_burial_type', '_value' )"
 							:label="'Select ...'"
 							:options="getFieldProp( 'archaeological_burial_type', '_options' )"
+							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
 								fieldName : 'archaeological_burial_type',
 								key       : '_value',
@@ -1896,16 +2071,35 @@
 						<template v-if="getFieldProp( 'storage_place', 'mandatory' )">*</template>
 					</div>
 					<div style="grid-column: span 5;">
+						<!--
 						<BaseSelect
 							:value="getFieldProp( 'storage_place', '_value' )"
 							:label="'Select ...'"
 							:options="getFieldProp( 'storage_place', '_options' )"
+							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
 								fieldName : 'storage_place',
 								key       : '_value',
 								value     : $event
 							})"
 						></BaseSelect>
+						-->
+						<Treeselect
+							class=""
+							:value="
+								_.isEmpty( getFieldProp( 'storage_place', '_value' ) ) ? null :
+								getFieldProp( 'storage_place', '_value', null )
+							"
+							:multiple="true"
+							:placeholder="'Select ...'"
+							:valueConsistsOf="'LEAF_PRIORITY'"
+							:options="storagePlaceOptions"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'storage_place',
+								key       : '_value',
+								value     : $event
+							})"
+						/>
 						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('storage_place')}}</pre>
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
@@ -1962,6 +2156,7 @@
 					></div>
 				</KnFormFieldRow>
 				<!-- storage_condition -->
+				<!--
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 3;">
@@ -1973,6 +2168,7 @@
 							:value="getFieldProp( 'storage_condition', '_value' )"
 							:label="'Select ...'"
 							:options="getFieldProp( 'storage_condition', '_options' )"
+							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
 								fieldName : 'storage_condition',
 								key       : '_value',
@@ -1985,6 +2181,7 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'storage_condition', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+				-->
 				<!-- chronology -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -2109,6 +2306,49 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'chronology_freetext', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+				<!-- dating_method -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 3;">
+						{{getFieldProp( 'dating_method', '_label' )}}
+						<template v-if="getFieldProp( 'dating_method', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 5;">
+						<!--
+						<BaseSelect
+							:value="getFieldProp( 'dating_method', '_value' )"
+							:label="'Select ...'"
+							:options="getFieldProp( 'dating_method', '_options' )"
+							:hasClearButton="true"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'dating_method',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseSelect>
+						-->
+						<Treeselect
+							class=""
+							:value="
+								_.isEmpty( getFieldProp( 'dating_method', '_value' ) ) ? null :
+								getFieldProp( 'dating_method', '_value', null )
+							"
+							:multiple="true"
+							:placeholder="'Select ...'"
+							:valueConsistsOf="'LEAF_PRIORITY'"
+							:options="datingMethodOptions"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'dating_method',
+								key       : '_value',
+								value     : $event
+							})"
+						/>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('dating_method')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'dating_method', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
 
 				<!-- next -->
 				<KnFormFieldRow>
@@ -2137,30 +2377,6 @@
 			</template>
 			<template v-if="'publication' === _.get($store.getters.activeStep, 'slug')">
 
-				<!-- dating_method -->
-				<KnFormFieldRow>
-					<div class="KnEditForm__labelCell font font--medium color color--primary50"
-						style="grid-column: span 3;">
-						{{getFieldProp( 'dating_method', '_label' )}}
-						<template v-if="getFieldProp( 'dating_method', 'mandatory' )">*</template>
-					</div>
-					<div style="grid-column: span 5;">
-						<BaseSelect
-							:value="getFieldProp( 'dating_method', '_value' )"
-							:label="'Select ...'"
-							:options="getFieldProp( 'dating_method', '_options' )"
-							@input="$store.commit('setFieldProp', {
-								fieldName : 'dating_method',
-								key       : '_value',
-								value     : $event
-							})"
-						></BaseSelect>
-						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('dating_method')}}</pre>
-					</div>
-					<div class="font font--sizeSmall color color--primary50"
-						style="grid-column: span 4;" v-html="getFieldProp( 'dating_method', 'help_text' )"
-					></div>
-				</KnFormFieldRow>
 				<!-- dna_analyses -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -2173,6 +2389,7 @@
 							:value="getFieldProp( 'dna_analyses', '_value' )"
 							:label="'Select ...'"
 							:options="getFieldProp( 'dna_analyses', '_options' )"
+							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
 								fieldName : 'dna_analyses',
 								key       : '_value',
@@ -2231,31 +2448,57 @@
 						<span class="KnEditForm__labelInline" v-html="getFieldProp( 'published', 'help_text' )"></span>
 					</div>
 				</KnFormFieldRow>
-				<!-- publication_link -->
+				<!-- doi -->
 				<KnFormFieldRow v-if="getFieldProp( 'published', '_value' )">
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 3;">
-						{{getFieldProp( 'publication_link', '_label' )}}
-						<template v-if="getFieldProp( 'publication_link', 'mandatory' )">*</template>
+						{{getFieldProp( 'doi', '_label' )}}
+						<template v-if="getFieldProp( 'doi', 'mandatory' )">*</template>
 					</div>
 					<div style="grid-column: span 5;">
 						<BaseText
-							:value="getFieldProp( 'publication_link', '_value' )"
-							:placeholder="'Enter URL ...'"
+							:value="getFieldProp( 'doi', '_value' )"
+							:placeholder="''"
 							:required="false"
-							:disabled="getFieldProp( 'publication_link', '_disabled' )"
+							:disabled="getFieldProp( 'doi', '_disabled' )"
 							:hasClearButton="true"
 							@change="(e)=>{}"
 							@input="$store.commit('setFieldProp', {
-								fieldName : 'publication_link',
+								fieldName : 'doi',
 								key       : '_value',
 								value     : $event
 							})"
 						></BaseText>
-						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('publication_link')}}</pre>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('doi')}}</pre>
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
-						style="grid-column: span 4;" v-html="getFieldProp( 'publication_link', 'help_text' )"
+						style="grid-column: span 4;" v-html="getFieldProp( 'doi', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+				<!-- references -->
+				<KnFormFieldRow v-if="getFieldProp( 'published', '_value' )">
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 3;">
+						{{getFieldProp( 'references', '_label' )}}
+						<template v-if="getFieldProp( 'references', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 5;">
+						<BaseTextarea
+							:value="getFieldProp( 'references', '_value' )"
+							:placeholder="''"
+							:required="false"
+							:disabled="getFieldProp( 'references', '_disabled' )"
+							@change="(e)=>{}"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'references',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseTextarea>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('references')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'references', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
 
@@ -2361,7 +2604,7 @@
 				</div>
 			</div>
 
-			<hr/>
+			<hr v-if="currentEnv.showDevOutput" />
 
 			<!-- debug infos -->
 			<div class="background--white15 vhSpace vhSpace--default" v-if="currentEnv.showDevOutput">
@@ -2466,13 +2709,6 @@
 				//immediate : true,
 				//deep: true,
 			},
-			'XXXfields.archaeological_site._value': {
-				handler: function( to, from ){
-					if( !this._.isEqual(to, from) ) this.fetchSiteDetail()
-				},
-				//immediate : true,
-				//deep: true,
-			},
 			'fields.chronology._search': {
 				handler: function( to, from ){
 					if( !this._.isEqual(to, from) ) this.fetchChronologyTerms()
@@ -2551,6 +2787,46 @@
 
 				return values
 			},
+			storagePlaceOptions(){
+				const options = this.getFieldProp( 'storage_place', '_options' )
+				const children = []
+
+				options.forEach( item=>{
+					children.push({
+						id    : item.value,
+						label : item.label,
+					})
+				})
+
+				/*
+				const values = [
+					{ id : 'all', label: 'All', children : children }
+				]
+				*/
+				const values = children
+
+				return values
+			},
+			datingMethodOptions(){
+				const options = this.getFieldProp( 'dating_method', '_options' )
+				const children = []
+
+				options.forEach( item=>{
+					children.push({
+						id    : item.value,
+						label : item.label,
+					})
+				})
+
+				/*
+				const values = [
+					{ id : 'all', label: 'All', children : children }
+				]
+				*/
+				const values = children
+
+				return values
+			},
 			...mapGetters([
 				'currentEnv',
 				'requestToken',
@@ -2608,6 +2884,32 @@
 				}
 
 				this.currentInventoryTabIndex = tabIndex
+			},
+			setAgeGroup( value ){
+				if( 'Subadult' === value ){
+					this.$store.commit('setFieldProp', {
+						fieldName : 'subadults',
+						key       : '_value',
+						value     : true
+					})
+					this.$store.commit('setFieldProp', {
+						fieldName : 'adults',
+						key       : '_value',
+						value     : false
+					})
+				}
+				if( 'Adult' === value ){
+					this.$store.commit('setFieldProp', {
+						fieldName : 'adults',
+						key       : '_value',
+						value     : true
+					})
+					this.$store.commit('setFieldProp', {
+						fieldName : 'subadults',
+						key       : '_value',
+						value     : false
+					})
+				}
 			},
 			gotoBoneChangesFormTabIndex( tabIndex, doLog = false ){
 				// groupCollapsed group

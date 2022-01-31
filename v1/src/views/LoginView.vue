@@ -104,9 +104,9 @@
 			}
 		},
 		watch: {
-			isReturnRequestTokenUri: {
+			someVar : {
 				handler: function( to, from ) {
-					if( to ) this.fetchAuthToken()
+					//if( to ) this.fetchAuthToken()
 				},
 				immediate : true,
 				deep: true,
@@ -130,24 +130,23 @@
     		]),
 			locationHrefWithoutQuery(){
 				const location = window.location
-
-				return location.protocol + '//' + location.host + location.pathname + location.hash
+				const href = location.protocol + '//' + location.host + location.pathname + location.hash
+				return href
 			},
 			registerUrl(){
-				const redirectUri = this.locationHrefWithoutQuery
+				const redirectUri = this.locationHrefWithoutQuery.replace('#', '%23')
+
+				console.log('redirectUri:', redirectUri)
+
 				const uri = this._.get( this.currentEnv, 'registerUrl', '' ).replace('%redirect_uri%', redirectUri)
 				return uri
 			},
 			loginUrl(){
 				//const redirectUri = encodeURI( this.locationHrefWithoutQuery )
-				const redirectUri = this.locationHrefWithoutQuery
+				//const redirectUri = this.locationHrefWithoutQuery.replace('#', '%23')
+				const redirectUri = location.protocol + '//' + location.host
 				const uri = this._.get( this.currentEnv, 'loginUrl', '' ).replace('%redirect_uri%', redirectUri)
 				return uri
-			},
-			isReturnRequestTokenUri(){ // wenn der request-token vom server nach dem login zurückkommt
-				const hasCodeQuery = this._.has( this.$route.query, 'code', false )
-
-				return hasCodeQuery
 			},
 		},
 		methods: {
@@ -171,16 +170,17 @@
 				//let res = fetch("https://dai-gn-test.csgis.de/o/token/", {
 				let res = fetch( this.currentEnv.tokenUrl, {
 					body: new URLSearchParams({
-					grant_type: 'authorization_code',
-					code: requestToken,
-					redirect_uri: redirectUri,
-					client_id: this.currentEnv.tokenClientId,
-				}),
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded"
-				},
-					method: "POST"
-				})
+						grant_type: 'authorization_code',
+						code: requestToken,
+						redirect_uri: redirectUri,
+						client_id: this.currentEnv.tokenClientId,
+					}),
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded"
+					},
+						method: "POST"
+					}
+				)
 				.then( response => response.json() )
 				.then( data => {
 					const accessToken = this._.get( data, 'access_token')

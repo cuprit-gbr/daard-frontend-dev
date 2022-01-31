@@ -45,6 +45,14 @@
 					@click.native="$router.push('/edit/')">
 					Create Record
 				</BaseButton>
+				<BaseButton
+					:isOutlined="true"
+					:isDisabled="false"
+					:tag="'a'"
+					:target="'_blank'"
+					:href="'/uploaded/pdfs/daard_help.pdf'">
+					Help
+				</BaseButton>
 			</div>
 			<!-- debug infos + test fetch -->
 			<div class="KnAppSidebar__box" v-if="currentEnv.showDevOutput">

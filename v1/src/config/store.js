@@ -66,16 +66,18 @@ export default new Vuex.Store({
 			if ('site' === stepSlug) {
 				if (!getters.getFieldProp('origin', '_value')) isValid = false
 				if (!getters.getFieldProp('position', '_value')) isValid = false
-				if (!getters.getFieldProp('storage_condition', '_value')) isValid = false
+				//if (!getters.getFieldProp('storage_condition', '_value')) isValid = false
 				if (!getters.getFieldProp('storage_place', '_value')) isValid = false
+				if (!getters.getFieldProp('chronology', '_value')) isValid = false
 
 				if ('archaeological' == getters.getFieldProp('origin', '_value')) {
 					if (!getters.getFieldProp('archaeological_funery_context', '_value')) isValid = false
 					if (!getters.getFieldProp('archaeological_burial_type', '_value')) isValid = false
 				}
+
+				if (!getters.getFieldProp('dating_method', '_value')) isValid = false
 			}
 			if ('publication' === stepSlug) {
-				if (!getters.getFieldProp('dating_method', '_value')) isValid = false
 				if (!getters.getFieldProp('dna_analyses', '_value')) isValid = false
 				if (!getters.getFieldProp('privacyConsent', '_value')) isValid = false
 			}
@@ -368,7 +370,7 @@ export default new Vuex.Store({
 
 			state.currentEnv = payload
 		},
-		setAccessToken(state, payload, doLog = false) {
+		setAccessToken(state, payload, doLog = true) {
 			if (doLog) {
 				console.groupCollapsed('store.js', '• setAccessToken()')
 				console.log('payload:', payload)
@@ -377,7 +379,7 @@ export default new Vuex.Store({
 
 			state.accessToken = payload
 		},
-		setRequestToken(state, payload, doLog = false) {
+		setRequestToken(state, payload, doLog = true) {
 			if (doLog) {
 				console.groupCollapsed('store.js', '• setRequestToken()')
 				console.log('payload:', payload)
