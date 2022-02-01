@@ -264,9 +264,9 @@
 	import Treeselect from '@riophae/vue-treeselect'
 	import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-	import EventBus from '@/helper/EventBus.js' // TODO: remove this
+	import EventBus from '@/helper/EventBus.js'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
-	import MhRouterView from './../components/MhRouterView/v2/MhRouterView.vue'
+	import MhRouterView from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhRouterView/v3/MhRouterView.vue'
 
 	import BaseDebugOverview from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseDebugOverview.vue'
 	import MhIcon from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhIcon/v2/MhIcon.vue'

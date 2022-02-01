@@ -5,9 +5,33 @@
 
 		<MhRouterViewWrapper v-if="isReady" class="App__body hSpace hSpace--appBody"></MhRouterViewWrapper>
 
+		<MhModal class="color color--primary" :show="showContactModal" @close="showContactModal = false">
+			<template slot="header">
+				<div class="font font--medium font--sizeBig">
+					Contact<br/>
+					<br/>
+				</div>
+			</template>
+			<template slot="closeButton">
+				<a class="circleIcon color color--primary" role="button">
+					<MhIcon type="cross"></MhIcon>
+				</a>
+			</template>
+			<template slot="body">
+				<div class="richText">
+					In case of questions please contact:<br/>
+					• Dr. Julia Gresky <a href="mailto:Julia.Gresky@dainst.de">Julia.Gresky@dainst.de</a><br/>
+					• Dr. Emmanuele Petiti <a href="mailto:emmanuele.petiti@dainst.de">emmanuele.petiti@dainst.de</a><br/>
+					<br />
+				</div>
+			</template>
+			<template slot="footer"></template>
+		</MhModal>
+
 		<MhDelegateLinks
 			:doLog="false"
 		></MhDelegateLinks>
+
 		<MhDevInfos
 			:showOnHosts="[
 				'localhost',
@@ -29,8 +53,9 @@
 
 	import MhDevInfos from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhDevInfos/v2/MhDevInfos.vue'
 	import MhDelegateLinks from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhDelegateLinks/v5/MhDelegateLinks.vue'
-	import MhRouterViewWrapper from './components/MhRouterView/v2/MhRouterViewWrapper.vue'
-	import MhModal from './components/MhModal/v2/MhModal.vue'
+	import MhRouterViewWrapper from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhRouterView/v3/MhRouterViewWrapper.vue'
+	import MhModal from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhModal/v2/MhModal.vue'
+	import MhIcon from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhIcon/v2/MhIcon.vue'
 	import KnAppSidebar from '@/molecules/KnAppSidebar.vue'
 
 	import steps from '@/config/steps.js'
@@ -43,6 +68,7 @@
 			MhDelegateLinks,
 			MhModal,
 			KnAppSidebar,
+			MhIcon,
 		},
 		directives: {
 			resize,
@@ -51,6 +77,7 @@
 		data() {
 			return {
 				isReady : false,
+				showContactModal : false,
 			}
 		},
 		computed: {
@@ -84,16 +111,14 @@
 			fetchAccessToken( requestToken, doLog = true ){
 				const redirectUri = location.protocol + '//' + location.host
 
+				this.$store.commit('setRequestToken', requestToken)
+
 				if( doLog ){
-					console.group( this.$options.name, '• fetchAccessToken()')
+					console.groupCollapsed( this.$options.name, '• fetchAccessToken()')
 					console.log('redirectUri:', redirectUri)
-					//console.log('queryString:', queryString)
 					console.log('requestToken:', requestToken)
 					console.groupEnd()
 				}
-
-				//this.$router.replace('/login/')
-				this.$store.commit('setRequestToken', requestToken)
 
 				let res = fetch( this.currentEnv.tokenUrl, {
 					body: new URLSearchParams({
@@ -111,7 +136,7 @@
 				.then( response => response.json() )
 				.then( data => {
 					const accessToken = this._.get( data, 'access_token')
-					console.log('fetchAuthToken:', data )
+					//console.log('fetchAuthToken:', data )
 
 					if( accessToken ){
 						this.$store.commit('setAccessToken', accessToken )

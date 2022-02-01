@@ -50,23 +50,23 @@
 					:isDisabled="false"
 					:tag="'a'"
 					:target="'_blank'"
-					:href="currentEnv.restBase + '/uploaded/pdfs/daard_help.pdf'">
+					:href="currentEnv.baseUrl + '/uploaded/pdfs/daard_help.pdf'">
 					Help
 				</BaseButton>
 			</div>
-			<!-- debug infos + test fetch -->
-			<div class="KnAppSidebar__box" v-if="currentEnv.showDevOutput">
+
+			<!-- debug infos -->
+			<div class="KnAppSidebar__box KnAppSidebar__box--debug">
 				<pre name="requestToken">{{requestToken}}</pre>
 				<pre name="accessToken">{{accessToken}}</pre>
+				<pre name="currentEnv.restBase">{{currentEnv.restBase}}</pre>
 			</div>
-			<!--
-			-->
 
 			<!-- footer -->
 			<div class="KnAppSidebar__expander"></div>
 			<div class="KnAppSidebar__box KnAppSidebar__box--footer color color--primary75">
-				<a class="link" @click="app.showImprintModal = true">Imprint</a>
-				<a class="link" @click="app.showImprintModal = true">Contact</a>
+				<a class="link" href="https://www.dainst.org/impressum" target="_blank">Imprint</a>
+				<a class="link" @click="app.showContactModal = true">Contact</a>
 			</div>
 		</div>
 	</div>
@@ -232,7 +232,7 @@
 		//
 	}
 	.KnAppSidebar { // debug
-		[showBorders2] & {}
+		[showBorders1] &__box--debug { display: block; }
 	}
 	.KnAppSidebar { // layout
 		&__inner {
@@ -248,6 +248,9 @@
 		&__box--footer {
 			display: flex;
 			justify-content: center;
+		}
+		&__box--debug {
+			display: none;
 		}
 	}
 	.KnAppSidebar { // styling

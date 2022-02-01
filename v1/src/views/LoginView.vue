@@ -79,7 +79,7 @@
 	import EventBus from '@/helper/EventBus.js'
 	import { mapGetters } from 'vuex'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
-	import MhRouterView from '@/components/MhRouterView/v2/MhRouterView.vue'
+	import MhRouterView from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhRouterView/v3/MhRouterView.vue'
 	import KnFormHeaderRow from '@/molecules/KnFormHeaderRow.vue'
 	import KnFormFieldRow from '@/molecules/KnFormFieldRow.vue'
 	import BaseButton from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseButton.vue'
@@ -103,15 +103,7 @@
                 posts: undefined,
 			}
 		},
-		watch: {
-			someVar : {
-				handler: function( to, from ) {
-					//if( to ) this.fetchAuthToken()
-				},
-				immediate : true,
-				deep: true,
-			},
-		},
+		watch: {},
 		computed: {
 			app(){
 				return this.$root.$children[0]
@@ -136,7 +128,7 @@
 			registerUrl(){
 				const redirectUri = this.locationHrefWithoutQuery.replace('#', '%23')
 
-				console.log('redirectUri:', redirectUri)
+				//console.log('redirectUri:', redirectUri)
 
 				const uri = this._.get( this.currentEnv, 'registerUrl', '' ).replace('%redirect_uri%', redirectUri)
 				return uri

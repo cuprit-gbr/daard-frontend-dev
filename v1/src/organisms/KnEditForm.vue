@@ -2568,25 +2568,9 @@
 
 			</template>
 
-			<hr/>
-
 			<!-- debug infos -->
-			<!--
-			<div class="background--white15 vhSpace vhSpace--default" v-if="currentEnv.showDevOutput">
-				<pre name="hasFetchedBoneChangesFields">{{hasFetchedBoneChangesFields}}</pre>
-				<pre name="currentBoneChangesFormTabIndex">{{currentBoneChangesFormTabIndex}}</pre>
-				<pre name="availableBoneIds">{{availableBoneIds}}</pre>
-				<pre name="boneChangesForm" maxheight>{{boneChangesForm}}</pre>
-				<pre name="fields.length" maxheight>{{_.size(fields)}}</pre>
-				<pre name="getFieldProp( 'disease', '_value' )">{{getFieldProp( 'disease', '_value' )}}</pre>
-				<pre name="getStepBySlug( 'bone-changes' )">{{$store.getters.getStepBySlug( 'bone-changes' )}}</pre>
-				<br/>
-				<button @click="fetchBoneChangesFields()">fetchBoneChangesFields</button>
-				<button @click="fetchBoneChangesFields( true )">fetchBoneChangesFields sample</button>
-				<br/><br/>
-			</div>
-			-->
-			<div class="background--white15 flex" v-if="currentEnv.showDevOutput">
+			<hr class="KnEditForm__debug" />
+			<div class="KnEditForm__debug background--white15 flex">
 				<div class="background--white15 vhSpace vhSpace--default">
 					<strong>Step • isValid</strong>
 					<div v-for="(step, index) in $store.getters.steps" :key="'s'+index">
@@ -2605,15 +2589,14 @@
 					</div>
 				</div>
 			</div>
-
-			<hr v-if="currentEnv.showDevOutput" />
-
-			<!-- debug infos -->
-			<div class="background--white15 vhSpace vhSpace--default" v-if="currentEnv.showDevOutput">
+			<hr class="KnEditForm__debug" />
+			<div class="KnEditForm__debug background--white15 vhSpace vhSpace--default">
 				<pre name="$store.getters.finalSubmitObject">{{$store.getters.finalSubmitObject}}</pre>
 				<pre name="$store.getters.steps" maxheight>{{$store.getters.steps}}</pre>
 				<pre name="$store.getters.fields" maxheight>{{$store.getters.fields}}</pre>
 			</div>
+
+			<br /><br />
 
 		</div>
 	</div>
@@ -2708,8 +2691,6 @@
 				handler: function( to, from ){
 					if( !this._.isEqual(to, from) ) this.fetchSiteSuggestions()
 				},
-				//immediate : true,
-				//deep: true,
 			},
 			'fields.chronology._search': {
 				handler: function( to, from ){
@@ -3174,10 +3155,11 @@
 			},
 			fetchSiteSuggestions( doLog = true ){
 				const field       = this.getFieldBySlug('archaeological_site')
+				const search      = field._search
 				let   doFetch     = false
 				let   fetchParams = {}
 
-				if( !this._.isEmpty( field._search ) ){
+				if( !this._.isEmpty( search ) ){
 					//fetchParams.q    = field._search
 					//fetchParams.task = 'suggestion'
 					doFetch          = true
@@ -3185,7 +3167,7 @@
 
 				// groupCollapsed group
 				if( doLog ){
-					console.groupCollapsed( this.$options.name, '• fetchSiteSuggestions()' )
+					console.groupCollapsed( this.$options.name, '• fetchSiteSuggestions()', search )
 					console.log('field:', field)
 					console.log('fetchParams:', fetchParams)
 					console.log('doFetch:', doFetch)
@@ -3193,14 +3175,12 @@
 				}
 
 				if( doFetch ){
-
 					this.$store.commit('setFieldProp', {
 						fieldName : 'archaeological_site',
 						key       : '_isLoading',
 						value     : true,
 					})
 
-					const search = field._search
 					const url = "https://gazetteer.dainst.org/search.json?q="
 					const query = encodeURIComponent(`{"bool":{"must":[{"bool":{"should":[{"nested":{"path":"names","query":{"match":{"names.title":{"query":"${search}","operator":"and"}}}}},{"match":{"prefName.title":{"query":"${search}","operator":"and"}}}]}}]}}`);
 					const options = "&fq=_exists_:prefLocation.coordinates&limit=1000&type=extended&pretty=true"
@@ -3208,27 +3188,43 @@
 					fetch(`${url}${query}${options}`)
 						.then( response => response.json() )
 						.then( data => {
-							console.log( data )
+							const latestSearchQuery = this.getFieldBySlug('archaeological_site')._search
+							const isLatestFetch = latestSearchQuery === search
 
-							const suggestion = this._.get( data, 'result', [] )
-							const options = []
-							suggestion.forEach((item)=>{
-								options.push( item )
-							})
+							// groupCollapsed group
+							if( doLog ){
+								console.groupCollapsed( this.$options.name, '• fetchSiteSuggestions() return', search, isLatestFetch )
+								console.log('isLatestFetch:', isLatestFetch)
+								console.log('latestSearchQuery:', latestSearchQuery)
+								console.log('data:', data)
+								console.groupEnd()
+							}
 
-							this.$store.commit('setFieldProp', {
-								fieldName : 'archaeological_site',
-								key       : '_options',
-								value     : options
-							})
+							// um eine rase condition bei dem fetchen der results
+							// zu verhindern, werden die results nur verarbeitet,
+							// wenn sie vom letzten fetch stammen.
+							// dies wird geprüft anhand des search queries
+							if( isLatestFetch ){
+								const suggestion = this._.get( data, 'result', [] )
+								const options = []
+								suggestion.forEach((item)=>{
+									options.push( item )
+								})
 
-							setTimeout(()=>{
 								this.$store.commit('setFieldProp', {
 									fieldName : 'archaeological_site',
-									key       : '_isLoading',
-									value     : false,
+									key       : '_options',
+									value     : options
 								})
-							}, this.loadingValueDisappearDelay)
+
+								setTimeout(()=>{
+									this.$store.commit('setFieldProp', {
+										fieldName : 'archaeological_site',
+										key       : '_isLoading',
+										value     : false,
+									})
+								}, this.loadingValueDisappearDelay)
+							}
 						})
 				}
 				else{
@@ -3401,6 +3397,7 @@
 	.KnEditForm { // debug
 		&__pre { display: none; }
 
+		[showBorders1] &__debug { display: block; }
 		[showBorders5] &__pre { display: block; }
 	}
 	.KnEditForm { // layout
@@ -3426,7 +3423,9 @@
 				opacity: 0.15;
 			}
 		}
-
+		&__debug {
+			display: none;
+		}
 	}
 	.KnEditForm { // styling
 		&__labelCell {

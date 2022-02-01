@@ -12,8 +12,9 @@ export default [
 	{
 		name: 'local',
 		hostname: 'localhost',
-		appTitle: 'Knochen • vue dev',
+		appTitle: 'DAARD • dev local',
 		showDevOutput: true,
+		baseUrl: 'https://dai-gn-test.csgis.de/',
 		restBase: 'https://dai-gn-test.csgis.de/daard',
 		loginUrl: 'https://dai-gn-test.csgis.de/o/authorize/?response_type=code&client_id=jqAODkFHbb54YDouEx7JAT16kJxelPSIeDkU2n5U&redirect_uri=%redirect_uri%&state=abc=scope=daard-api',
 		tokenUrl: 'https://dai-gn-test.csgis.de/o/token/',
@@ -23,8 +24,9 @@ export default [
 	{
 		name: 'stage',
 		hostname: 'daard-atlas-staging.csgis.de',
-		appTitle: 'Knochen • vue stage',
+		appTitle: 'DAARD • dev stage',
 		showDevOutput: false,
+		baseUrl: 'https://dai-gn-test.csgis.de/',
 		restBase: 'https://dai-gn-test.csgis.de/daard',
 		loginUrl: 'https://dai-gn-test.csgis.de/o/authorize/?response_type=code&client_id=jqAODkFHbb54YDouEx7JAT16kJxelPSIeDkU2n5U&redirect_uri=%redirect_uri%&state=abc=scope=daard-api',
 		tokenUrl: 'https://dai-gn-test.csgis.de/o/token/',
@@ -34,8 +36,9 @@ export default [
 	{
 		name: 'live',
 		hostname: 'daard-atlas.cuprit.net',
-		appTitle: 'Knochen • vue live',
+		appTitle: 'Digital Atlas Of Ancient Rare Diseases',
 		showDevOutput: false,
+		baseUrl: 'https://dai-gn-test.csgis.de/',
 		restBase: 'https://dai-gn-test.csgis.de/daard',
 		loginUrl: 'https://dai-gn-test.csgis.de/o/authorize/?response_type=code&client_id=jqAODkFHbb54YDouEx7JAT16kJxelPSIeDkU2n5U&redirect_uri=%redirect_uri%&state=abc=scope=daard-api',
 		tokenUrl: 'https://dai-gn-test.csgis.de/o/token/',

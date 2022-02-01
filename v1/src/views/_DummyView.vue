@@ -16,7 +16,7 @@
 	// @ is an alias to /src
 	import EventBus from '@/helper/EventBus.js'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
-	import MhRouterView from '@/components/MhRouterView/v2/MhRouterView.vue'
+	import MhRouterView from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhRouterView/v3/MhRouterView.vue'
 
 	export default {
 		name: 'DummyView',
