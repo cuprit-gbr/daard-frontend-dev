@@ -221,7 +221,6 @@ export default new Vuex.Store({
 				sex: getters.getFieldProp('sex', '_value'),
 
 				inventory: {},
-
 				bone_relations: {},
 
 				reference_images: getters.getFieldProp('reference_images', '_value'),
@@ -236,7 +235,7 @@ export default new Vuex.Store({
 				archaeological_burial_type: getters.getFieldProp('archaeological_burial_type', '_value'),
 				storage_place: getters.getFieldProp('storage_place', '_value'),
 				storage_place_freetext: getters.getFieldProp('storage_place_freetext', '_value'),
-				storage_condition: getters.getFieldProp('storage_condition', '_value'),
+				//storage_condition: getters.getFieldProp('storage_condition', '_value'),
 				chronology: getters.getFieldProp('chronology', '_value'),
 				chronology_freetext: getters.getFieldProp('chronology_freetext', '_value'),
 
@@ -244,7 +243,8 @@ export default new Vuex.Store({
 				dna_analyses: getters.getFieldProp('dna_analyses', '_value'),
 				dna_analyses_link: getters.getFieldProp('dna_analyses_link', '_value'),
 				published: getters.getFieldProp('published', '_value'),
-				publication_link: getters.getFieldProp('publication_link', '_value'),
+				doi: getters.getFieldProp('doi', '_value'),
+				references: getters.getFieldProp('references', '_value'),
 			}
 
 			// fill data.inventory
@@ -440,6 +440,13 @@ export default new Vuex.Store({
 				Vue.set(field, '_label', field.label)
 			}
 			if ('textfield' == type) {
+				Vue.set(field, '_type', type)
+				Vue.set(field, '_disabled', false)
+				Vue.set(field, '_isLoading', false)
+				Vue.set(field, '_value', '')
+				Vue.set(field, '_label', field.label)
+			}
+			if ('textarea' == type) {
 				Vue.set(field, '_type', type)
 				Vue.set(field, '_disabled', false)
 				Vue.set(field, '_isLoading', false)

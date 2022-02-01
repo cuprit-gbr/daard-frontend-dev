@@ -2571,6 +2571,7 @@
 			<hr/>
 
 			<!-- debug infos -->
+			<!--
 			<div class="background--white15 vhSpace vhSpace--default" v-if="currentEnv.showDevOutput">
 				<pre name="hasFetchedBoneChangesFields">{{hasFetchedBoneChangesFields}}</pre>
 				<pre name="currentBoneChangesFormTabIndex">{{currentBoneChangesFormTabIndex}}</pre>
@@ -2584,9 +2585,10 @@
 				<button @click="fetchBoneChangesFields( true )">fetchBoneChangesFields sample</button>
 				<br/><br/>
 			</div>
+			-->
 			<div class="background--white15 flex" v-if="currentEnv.showDevOutput">
 				<div class="background--white15 vhSpace vhSpace--default">
-					<strong>Steps isValid state</strong>
+					<strong>Step • isValid</strong>
 					<div v-for="(step, index) in $store.getters.steps" :key="'s'+index">
 						{{step.title}} • {{step.slug}}  •
 						<template v-if="isStepValid( step.slug )">true</template>
@@ -2594,7 +2596,7 @@
 					</div>
 				</div>
 				<div class="vhSpace vhSpace--default">
-					<strong>Steps isEnabled state</strong>
+					<strong>Step • isEnabled</strong>
 					<div v-for="(step, index) in $store.getters.steps" :key="'s'+index">
 						<label>
 							{{step.title}}

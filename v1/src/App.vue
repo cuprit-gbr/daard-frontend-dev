@@ -3,21 +3,6 @@
 
 		<KnAppSidebar class="App__sidebar"></KnAppSidebar>
 
-		<div class="knDebug">
-			<strong>Steps isValid state</strong>
-			<div class="flex flex--spaceBetween" v-for="(step, index) in $store.getters.steps" :key="'s'+index">
-				<span v-html="step.title + ' • ' + step.slug"></span>
-				<template v-if="isStepValid( step.slug )"> • true</template>
-				<template v-else> • false</template>
-			</div>
-			<div class="flex flex--spaceBetween">
-				<span>all</span>
-				<template v-if="isStepValid( 'all' )"> • true</template>
-				<template v-else> • false</template>
-			</div>
-			<pre name="availableBoneIds">{{availableBoneIds}}</pre>
-		</div>
-
 		<MhRouterViewWrapper v-if="isReady" class="App__body hSpace hSpace--appBody"></MhRouterViewWrapper>
 
 		<MhDelegateLinks
@@ -306,6 +291,9 @@
 				this.isReady = true
 			})
 
+			// set app title
+			document.title = this._.get( currentEnv, 'appTitle' )
+
 			// wenn die url nach dem login das notwendige code-param als requestToken in der url hat,
 			// wird hier der requestToken als sessionStorage zwischengespeichert und die seite wird ohne
 			// query params neu geladen
@@ -542,20 +530,6 @@
 	}
 	.pointer {
 		cursor: pointer;
-	}
-	.knDebug {
-		[showBorders1] & { display: block; }
-
-		position: fixed;
-		left: 1em;
-		bottom: 2em;
-		background-color: lighten(red, 30);
-		padding: 1em;
-		z-index: 10;
-		max-height: 250px;
-		overflow-y: auto;
-		overflow-x: hidden;
-		display: none;
 	}
 
 	.App { // vars

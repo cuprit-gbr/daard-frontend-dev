@@ -50,7 +50,7 @@
 					:isDisabled="false"
 					:tag="'a'"
 					:target="'_blank'"
-					:href="'/uploaded/pdfs/daard_help.pdf'">
+					:href="currentEnv.restBase + '/uploaded/pdfs/daard_help.pdf'">
 					Help
 				</BaseButton>
 			</div>
@@ -58,7 +58,6 @@
 			<div class="KnAppSidebar__box" v-if="currentEnv.showDevOutput">
 				<pre name="requestToken">{{requestToken}}</pre>
 				<pre name="accessToken">{{accessToken}}</pre>
-				<a @click="doDevFetch">Dev Fetch</a>
 			</div>
 			<!--
 			-->
@@ -77,13 +76,12 @@
 	// @ is an alias to /src
 	import EventBus from '@/helper/EventBus.js'
 	import { mapGetters } from 'vuex'
+	import currentEnv from '@/helper/getCurrentEnv.js'
 	import BaseButton from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseButton.vue'
 
 	export default {
 		name: 'KnAppSidebar',
 		components: {
-			//BaseProgressBar,
-			//BaseFileInput,
 			BaseButton,
 		},
 		mixins: [],
@@ -110,7 +108,7 @@
     		]),
 		},
 		methods: {
-			doDevFetch( doLog = true ){
+			XXXdoDevFetch( doLog = true ){
 				console.group( this.$options.name, '• doDevFetch()')
 				console.groupEnd()
 
