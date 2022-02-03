@@ -225,7 +225,7 @@ export default new Vuex.Store({
 
 				reference_images: getters.getFieldProp('reference_images', '_value'),
 				origin: getters.getFieldProp('origin', '_value'),
-				site: getters.getFieldProp('site', '_value'),
+				site: getters.getFieldProp('archaeological_site', '_value'),
 				position: getters.getFieldProp('position', '_value'),
 				gazId: getters.getFieldProp('gazId', '_value'),
 				gaz_link: getters.getFieldProp('gaz_link', '_value'),
