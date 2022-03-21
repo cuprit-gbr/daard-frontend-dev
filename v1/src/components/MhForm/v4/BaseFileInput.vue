@@ -5,8 +5,8 @@
 	Welche props gibt es?
 		isDisabled			Boolean		false
 		isOutlined			Boolean		false
-		fileSelectedText	String		'{filename} selected ({size} MB)'
-		filesSelectedText	String		'{count} files selected ({size} MB)'
+		fileSelectedText	String		'{filename} selected ({size} MB)'
+		filesSelectedText	String		'{count} files selected ({size} MB)'
 		accept				String		''
 		multiple			Boolean		false
 
