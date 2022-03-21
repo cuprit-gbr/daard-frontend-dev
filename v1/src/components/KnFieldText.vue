@@ -34,7 +34,7 @@
 	//import DevInfos from '@/components/DevInfos.vue'
 	import EventBus from '@/helper/EventBus.js'
 
-	import BaseText from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseText.vue'
+	import BaseText from '@/components/MhForm/v4/BaseText.vue'
 
 	export default {
 		name: 'KnFieldText',

@@ -51,11 +51,12 @@
 	import resize from 'vue-resize-directive'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
 
-	import MhDevInfos from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhDevInfos/v2/MhDevInfos.vue'
-	import MhDelegateLinks from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhDelegateLinks/v5/MhDelegateLinks.vue'
-	import MhRouterViewWrapper from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhRouterView/v3/MhRouterViewWrapper.vue'
-	import MhModal from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhModal/v2/MhModal.vue'
-	import MhIcon from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhIcon/v2/MhIcon.vue'
+	import MhDevInfos from '@/components/MhDevInfos/v2/MhDevInfos.vue'
+	import MhDelegateLinks from '@/components/MhDelegateLinks/v5/MhDelegateLinks.vue'
+	import MhRouterViewWrapper from '@/components/MhRouterView/v4/MhRouterViewWrapper.vue'
+	import MhModal from '@/components/MhModal/v2/MhModal.vue'
+	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
+
 	import KnAppSidebar from '@/molecules/KnAppSidebar.vue'
 
 	import steps from '@/config/steps.js'

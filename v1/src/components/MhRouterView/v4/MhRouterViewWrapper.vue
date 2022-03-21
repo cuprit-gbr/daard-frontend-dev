@@ -1,16 +1,20 @@
 <!--
 
 	MhRouterViewWrapper
-	======
-	Wrapper for <router-view></router-view> handles:
+
+	Beispiel-Code:
+		<MhRouterViewWrapper
+			:viewKey="$route.path"
+		></MhRouterViewWrapper>
+
+	Wrapper for <router-view></router-view> thats handles:
 	✅ fade transitions on view change (for sync and async content)
 	✅ show loading spinner if needed
 	✅ restores scroll positions at browsers back/forward button navigation
 	✅ restores scroll position after reload
 	✅ restore scroll position only on popstate nav. and not just a clicked link.
-	❌ set <meta title="" />
-	❌ scroll to hash
 
+	2022-02-23	feature: router-view key is now a customizable prop. was $route.fullPath before
 	2021-06-24	bugfix: wasPopstateNav destroyed wasReloadNavigation
 	2021-06-23	improvement: restore scroll position only on popstate nav. and not just a clicked link.
 	2021-02-04	init
@@ -19,20 +23,6 @@
 
 <template>
 	<div class="MhRouterViewWrapper">
-		<!--
-			<transition
-			  v-on:before-enter="onTransitionEvent(beforeEnter)"
-			  v-on:enter="onTransitionEvent(enter)"
-			  v-on:after-enter="onTransitionEvent(afterEnter)"
-			  v-on:enter-cancelled="enterCancelled"
-
-			  v-on:before-leave="onTransitionEvent(beforeLeave)"
-			  v-on:leave="onTransitionEvent(leave)"
-			  v-on:after-leave="onTransitionEvent(afterLeave)"
-			  v-on:leave-cancelled="leaveCancelled"
-			>
-		-->
-
 		<transition
 			name="fade"
 			mode="out-in"
@@ -47,14 +37,8 @@
 			v-on:after-leave="onTransitionEvent($event, 'afterLeave')"
 
 			appear>
-			<router-view
-				class="MhRouterViewWrapper__body"
-				:key="$route.name"
-			/>
+			<router-view class="MhRouterViewWrapper__body" :key="viewKey" />
 		</transition>
-
-		<!--
-		-->
 
 		<div class="MhRouterViewWrapper__debug">
 			spinner.isVisible: {{spinner.isVisible}} <br/>
@@ -79,29 +63,29 @@
 			return {
 				viewContent : {
 					isVisible : undefined,
-					//reloadScrollY : undefined,
 				},
 				spinner : {
 					isVisible : undefined
 				},
 			}
 		},
-		watch: {},
+		props: {
+			viewKey: {
+				type     : [String],
+				default  : '',
+				required : false,
+			},
+		},
+		watch: {
+			viewKey: {
+				handler: function( to, from, doLog = true ) {
+					if( doLog ) console.log( this.$options.name + ' • watch.viewKey:', to)
+				},
+				immediate : true,
+				deep: true,
+			},
+		},
 		computed: {
-			bodyClasses(){
-				let classes = []
-
-				//if( this.isVisible.body ) classes.push('MhRouterViewWrapper__body--isVisible')
-
-				return classes
-			},
-			spinnerClasses(){
-				let classes = []
-
-				//if( this.isVisible.spinner ) classes.push('MhRouterViewWrapper__spinner--isVisible')
-
-				return classes
-			},
 			wasReloadNavigation(){
 				// Um einen Reload von einem normalen Aufruf zu unterscheiden,
 				// wird die performance API verwendet.
@@ -112,67 +96,18 @@
 						.getEntriesByType('navigation')
 						.map((nav) => nav.type)
 						.includes('reload')
-				);
-
-
+				)
 
 				return pageAccessedByReload
 			},
 		},
 		methods: {
-			/*
-			viewEventHandler( payload, doLog = false ){
-				const currentComponent = this.$options.name
-				const fromComponent = payload.fromComponent
-				const eventName = payload.eventName
-
-				if( doLog ){
-					console.groupCollapsed('%c' + currentComponent + ': $on("ViewEvent")', 'background-color: yellow', '•', fromComponent, eventName)
-					console.log('fromComponent:', fromComponent)
-					console.log('    eventName:', eventName)
-					console.groupEnd()
-				}
-
-				if( ['beforeDestroy', 'beforeMount'].includes( eventName ) ){
-					//this.isVisible.body    = false
-					//this.isVisible.spinner = true
-				}
-				if( ['ready'].includes( eventName ) ){
-					//this.isVisible.body    = true
-					//this.isVisible.spinner = false
-				}
-			},
-			*/
-
 			onTransitionEvent( elm, name, doLog = false ){
 				if( doLog ){
 					console.groupCollapsed('%c' + 'MhRouterViewWrapper • onTransitionEvent', 'background-color: yellow', name)
 					console.groupEnd()
 				}
 			},
-			/*
-			// Beim Reload einer Seite soll die scroll position wieder
-			// hergestellt werden. Um einen Reload von einem normalen
-			// Aufruf zu unterscheiden wird die performance.navigation
-			// API verwendet. Siehe: https://stackoverflow.com/a/36444134/7899788
-			restoreScrollPositionOnReload(){
-				const hasNavigationTimingAPISupport = window.performance ? true : false
-				const urlPath = window.location.pathname
-				const scrollY = sessionStorage.getItem( 'scrollY--' + urlPath ) ? parseInt( sessionStorage.getItem( 'scrollY--' + urlPath ) ) : 0
-
-				if( hasNavigationTimingAPISupport ){
-					if( performance.navigation.type == performance.navigation.TYPE_RELOAD ){
-						console.log("This page is reloaded.")
-						console.log("urlPath:", urlPath)
-						console.log("Saved scrollY:", scrollY )
-
-						this.viewContent.reloadScrollY = scrollY
-					}else{
-						console.log("This page is not reloaded")
-					}
-				}
-			},
-			*/
 			// Beim Initialisieren der App sollen alle eventuell gespeicherten
 			// scroll positions im sessionStorage entfernt werden,  damit nicht beim
 			// neuen Navigieren eine zuvor gesetzte scroll position restored wird.
@@ -211,7 +146,7 @@
 		beforeMount(){},
 		mounted(){
 			EventBus.$on('MhRouterView--viewContentIsReady', (state, doLog = false )=>{
-
+				// groupCollapsed group
 				if( doLog ){
 					console.groupCollapsed( this.$options.name, '• $on MhRouterView--viewContentIsReady', state)
 					console.groupEnd()
@@ -219,17 +154,8 @@
 
 				this.viewContent.isVisible = state
 				this.spinner.isVisible     = !state
-
-				/*
-				if( this.viewContent.reloadScrollY && state ){
-					window.scrollTo(0, this.viewContent.reloadScrollY)
-				}
-				*/
-
-				//console.groupEnd()
 			})
 
-			//this.restoreScrollPositionOnReload()
 			this.removeSavedScrollPositionsInSessionStorage()
 
 			if( this.wasReloadNavigation ) sessionStorage.setItem('wasReloadNavigation', 1)
@@ -244,9 +170,9 @@
 </script>
 
 <style lang="less">
-	@import (reference) "../../../less/vars.less";
-	@import (reference) "../../../less/mixins.less";
-	@import (reference) "../../../less/atoms.less";
+	@import (reference) "@/less/vars.less";
+	@import (reference) "@/less/mixins.less";
+	@import (reference) "@/less/atoms.less";
 
 	@MhRouterView : {
 		contentTransitionDuration : 150ms;
@@ -262,7 +188,6 @@
 
 		&.fade-enter-active,
 		&.fade-leave-active {
-			//transition-duration: @MhRouterView__transitionDuration;
 			transition-duration: @MhRouterView[contentTransitionDuration];
 			transition-property: opacity;
 			transition-timing-function: ease;
@@ -305,8 +230,6 @@
 		opacity: 0;
 
 		&--isVisible {
-			//background-color: fade(green, 50);
-
 			// die einblendung des spinners wird etwas verzögert,
 			// damit für fetches, die bereits im cache sind der
 			// spinner nicht unnötig für den bruchteil einer sekunde

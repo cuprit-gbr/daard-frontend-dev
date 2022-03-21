@@ -34,7 +34,7 @@
 	// @ is an alias to /src
 	//import DevInfos from '@/components/DevInfos.vue'
 	import EventBus from '@/helper/EventBus.js'
-	import MhIcon from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhIcon/v2/MhIcon.vue'
+	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
 
 	export default {
 		name: 'KnHeaderRow',

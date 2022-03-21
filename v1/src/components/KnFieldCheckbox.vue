@@ -33,7 +33,7 @@
 	// @ is an alias to /src
 	//import DevInfos from '@/components/DevInfos.vue'
 	import EventBus from '@/helper/EventBus.js'
-	import BaseCheckbox from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseCheckbox.vue'
+	import BaseCheckbox from '@/components/MhForm/v4/BaseCheckbox.vue'
 
 	export default {
 		name: 'KnFieldCheckbox',

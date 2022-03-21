@@ -20,7 +20,7 @@
 	import EventBus from '@/helper/EventBus.js'
 	import { mapGetters } from 'vuex'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
-	import MhRouterView from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhRouterView/v3/MhRouterView.vue'
+	import MhRouterView from '@/components/MhRouterView/v4/MhRouterView.vue'
 	import KnEditForm from '@/organisms/KnEditForm.vue'
 
 	export default {

@@ -168,32 +168,6 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'age', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
-				<!-- disease -->
-				<KnFormFieldRow>
-					<div class="KnEditForm__labelCell font font--medium color color--primary50"
-						style="grid-column: span 2;">
-						{{getFieldProp( 'disease', '_label' )}}
-						<template v-if="getFieldProp( 'disease', 'mandatory' )">*</template>
-					</div>
-					<div style="grid-column: span 6;">
-						<BaseSelect
-							:value="getFieldProp( 'disease', '_value' )"
-							:label="'Select ...'"
-							:options="getFieldProp( 'disease', '_options' )"
-							:hasClearButton="true"
-							:debug="false"
-							@input="$store.commit('setFieldProp', {
-								fieldName : 'disease',
-								key       : '_value',
-								value     : $event
-							})"
-						></BaseSelect>
-						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('disease')}}</pre>
-					</div>
-					<div class="font font--sizeSmall color color--primary50"
-						style="grid-column: span 4;" v-html="getFieldProp( 'disease', 'help_text' )"
-					></div>
-				</KnFormFieldRow>
 				<!-- age_freetext_checkbox -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -240,6 +214,32 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'age_freetext', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+				<!-- disease -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 2;">
+						{{getFieldProp( 'disease', '_label' )}}
+						<template v-if="getFieldProp( 'disease', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 6;">
+						<BaseSelect
+							:value="getFieldProp( 'disease', '_value' )"
+							:label="'Select ...'"
+							:options="getFieldProp( 'disease', '_options' )"
+							:hasClearButton="true"
+							:debug="false"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'disease',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseSelect>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('disease')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'disease', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
 				<!-- sex -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -265,7 +265,6 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'sex', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
-
 				<!-- next -->
 				<KnFormFieldRow>
 					<div style="grid-column: span 8; display: flex; justify-content: flex-end;">
@@ -2618,15 +2617,15 @@
 	import KnTextRow from '@/molecules/KnTextRow.vue'
 	import KnFormFieldRow from '@/molecules/KnFormFieldRow.vue'
 
-	import MhIcon from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhIcon/v2/MhIcon.vue'
+	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
 
-	import '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/FormField.less'
-	import BaseCheckbox from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseCheckbox.vue'
-	import BaseRadio from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseRadio.vue'
-	import BaseSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseSelect.vue'
-	import BaseText from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseText.vue'
-	import BaseTextarea from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseTextarea.vue'
-	import BaseButton from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseButton.vue'
+	import '@/components/MhForm/v4/FormField.less'
+	import BaseCheckbox from '@/components/MhForm/v4/BaseCheckbox.vue'
+	import BaseRadio from '@/components/MhForm/v4/BaseRadio.vue'
+	import BaseSelect from '@/components/MhForm/v4/BaseSelect.vue'
+	import BaseText from '@/components/MhForm/v4/BaseText.vue'
+	import BaseTextarea from '@/components/MhForm/v4/BaseTextarea.vue'
+	import BaseButton from '@/components/MhForm/v4/BaseButton.vue'
 
 	export default {
 		name: 'KnEditForm',

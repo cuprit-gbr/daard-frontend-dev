@@ -1,41 +1,71 @@
 <!--
 
-	Was macht diese Componente?
-	Wofür ist die Compoente da?
+	Die Componente ist ein Wrapper im input[type=file]
 
-	Welche $props gibt es?
-		tag				String		"button"
-		isDisabled		Boolean		false
-		isOutlined		Boolean		false
+	Welche props gibt es?
+		isDisabled			Boolean		false
+		isOutlined			Boolean		false
+		fileSelectedText	String		'{filename} selected ({size} MB)'
+		filesSelectedText	String		'{count} files selected ({size} MB)'
+		accept				String		''
+		multiple			Boolean		false
+
+	Welche events gibt es?
+		change				returns event
+		input 				returns value as FileList
 
 	Beispiel Code:
-		<BaseButton>
+		<BaseFileInput>
 			Hello World
-		</BaseButton>
+		</BaseFileInput>
 
-		<BaseButton>
+		<BaseFileInput>
 			<template slot="before">Hello</template>
 			<template slot="default">World</template>
 			<template slot="after">
 				<BaseIcon type="arrow-right"></BaseIcon>
 			</template>
-		</BaseButton>
+		</BaseFileInput>
 
-	Todo:
+	❌ Todo:
+		Naming Konsistenz: die props isDisabled und isOutlined sollten besser
+			disabled und outlined heißen. damit wäre ihr naming konsitent zu
+			den html-attributen multiple, disabled usw.
 		Handle overflow and wrapping behaviour
 			white-space: nowrap; overflow: hidden;
 			text-overflow: ellipsis;
 
-	2021-07-05	init
+	Changelog
+		2021-07-25	init
 
 -->
 
 <template>
-	<div class="BaseButton" name="BaseButton" :is="tag" :disabled="isDisabled" :class="elmClasses">
-		<span class="BaseButton__inner">
-			<span class="BaseButton__slot BaseButton__slot--before"><slot name="before"></slot></span>
-			<span class="BaseButton__slot BaseButton__slot--text"><slot></slot></span>
-			<span class="BaseButton__slot BaseButton__slot--after"><slot name="after"></slot></span>
+	<div class="BaseFileInput" name="BaseFileInput" :class="elmClasses">
+		<span class="BaseFileInput__inner">
+
+			<span  class="BaseFileInput__slot BaseFileInput__slot--before">
+				<slot name="before"></slot>
+			</span>
+			<span  class="BaseFileInput__slot BaseFileInput__slot--text">
+				<template v-if="files.length">
+					<span v-html="labelText"></span>
+				</template>
+				<template v-else>
+					<slot></slot>
+				</template>
+			</span>
+			<span  class="BaseFileInput__slot BaseFileInput__slot--after">
+				<slot name="after"></slot>
+			</span>
+
+			<input class="BaseFileInput__input"
+					type="file"
+					@change="change"
+					:accept="accept"
+					:multiple="multiple"
+					:disabled="isDisabled"
+			/>
 		</span>
 	</div>
 </template>
@@ -43,18 +73,13 @@
 <script>
 	// @ is an alias to /src
 	//import DevInfos from '@/components/DevInfos.vue'
-	//import EventBus from '../../event-bus.js'
+	//import { EventBus } from '../../event-bus.js'
 
 	export default {
-		name: 'BaseButton',
+		name: 'BaseFileInput',
 		components: {},
 		mixins: [],
 		props: {
-			tag: {
-				type	 : [String],
-				default  : 'button',
-				required : false,
-			},
 			isDisabled: {
 				type	 : [Boolean],
 				default  : false,
@@ -64,10 +89,28 @@
 				type	 : [Boolean],
 				default  : false,
 				required : false,
-			}
+			},
+			fileSelectedText: {
+				type: [String],
+				default: '{filename} selected ({size} MB)'
+			},
+			filesSelectedText: {
+				type: [String],
+				default: '{count} files selected ({size} MB)'
+			},
+			accept: {
+				type: [String],
+				default: ''
+			},
+			multiple: {
+				type: [Boolean],
+				default: false,
+			},
 		},
 		data(){
-			return {}
+			return {
+				files : [],
+			}
 		},
 		watch: {},
 		computed: {
@@ -84,8 +127,60 @@
 
 				return classes
 			},
+			labelText(){ // kann je nachdem ob und wieviele files selected wurden variieren
+				const countFiles = this.files.length
+				const filename   = countFiles ? this.files[0].name : ''
+				let   text       = ''
+				let   sizeMB     = 0
+
+				// addiere alle filesizes zu sizeMB
+				this._.forEach( this.files, file=>{
+					const kb = file.size/1000
+					const mb = kb/1024
+
+					sizeMB = this._.round( sizeMB + mb, 2 )
+				})
+
+				if( countFiles == 1 ){
+					text = this.fileSelectedText
+					text = text.replace('{size}', sizeMB)
+					text = text.replace('{filename}', filename)
+				}
+				if( countFiles > 1 ){
+					text = this.filesSelectedText
+					text = text.replace('{size}', sizeMB)
+					text = text.replace('{count}', countFiles)
+				}
+
+				return text
+			},
 		},
-		methods: {},
+		methods: {
+			change( event, doLog = false ) {
+				const elm   = event.target
+				const files = elm.files
+
+				if( doLog ){
+					console.group(this.$options.name + ' • change()')
+					console.log('event:', event )
+					console.log('  elm:', elm )
+					console.log('files:', files )
+					console.groupEnd()
+				}
+
+				this.files = elm.files
+
+				this.emit( event )
+			},
+			emit( event, doLog = false ) {
+				if( doLog ){
+					console.log(this.$options.name + ' • emit()', event )
+				}
+
+				this.$emit('input', this.files)
+				this.$emit('change', event)
+			},
+		},
 		created(){},
 		mounted(){},
 		destroyed(){},
@@ -97,7 +192,7 @@
 	//@import (reference) "../../less/mixins.less";
 	//@import (reference) "../../less/atoms.less";
 
-	.BaseButton { // vars
+	.BaseFileInput { // vars
 		--transition : all 0.15s ease;
 
 		--height	   : 30px;
@@ -123,7 +218,7 @@
 		--active-outlined-bgColor : fade( blue, 30 );
 		--active-transform : translateY(2px);
 	}
-	.BaseButton { // debug
+	.BaseFileInput { // debug
 		[showBorders2] & {}
 
 		&__inner > * {
@@ -131,18 +226,21 @@
 			//background-color: fade( red, 25 );
 		}
 	}
-	.BaseButton { // layout
+	.BaseFileInput { // layout
 		height: var(--height);
 		display: inline-block;
 		overflow: hidden;
 
 		&__inner {
+			position: relative;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			height: 100%;
+			//overflow: hidden; // musste raus, da in firefox ansonsten das input[type=file] nicht klickbar war
 		}
 		&__slot {
+			//display: none !important;
 			display: flex;
 			max-height: 100%;
 		}
@@ -153,8 +251,22 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+
+		&__input {
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			opacity: 0;
+			z-index: 1;
+			cursor: pointer;
+			overflow: hidden;
+
+			&::-webkit-file-upload-button {
+				cursor: pointer;
+			}
+		}
+
 	}
-	.BaseButton { // styling
+	.BaseFileInput { // styling
 		outline: none;
 		border: none;
 		background-color: transparent;
@@ -194,10 +306,10 @@
 		&:active&--isOutlined &__inner { background-color: var(--active-outlined-bgColor); }
 	}
 
-	//@media @mq[xs] {}
-	//@media @mq[sm] {}
-	//@media @mq[md] {}
-	//@media @mq[dt] {}
-	//@media @mq[lg] {}
-	//@media @mq[xl] {}
+	//@media @mediaQueries[xs] {}
+	//@media @mediaQueries[sm] {}
+	//@media @mediaQueries[md] {}
+	//@media @mediaQueries[dt] {}
+	//@media @mediaQueries[lg] {}
+	//@media @mediaQueries[xl] {}
 </style>

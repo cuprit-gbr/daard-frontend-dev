@@ -266,12 +266,12 @@
 
 	import EventBus from '@/helper/EventBus.js'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
-	import MhRouterView from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhRouterView/v3/MhRouterView.vue'
+	import MhRouterView from '@/components/MhRouterView/v4/MhRouterView.vue'
 
-	import BaseDebugOverview from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseDebugOverview.vue'
-	import MhIcon from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhIcon/v2/MhIcon.vue'
-	import BaseButton from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseButton.vue'
-	import BaseSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseSelect.vue'
+	import BaseDebugOverview from '@/components/MhForm/v4/BaseDebugOverview.vue'
+	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
+	import BaseButton from '@/components/MhForm/v4/BaseButton.vue'
+	import BaseSelect from '@/components/MhForm/v4/BaseSelect.vue'
 
 	import KnFormHeaderRow from '@/molecules/KnFormHeaderRow.vue'
 	import KnTabsRow from '@/molecules/KnTabsRow.vue'

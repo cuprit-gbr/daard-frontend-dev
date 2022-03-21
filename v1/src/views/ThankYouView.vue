@@ -43,11 +43,11 @@
 	import EventBus from '@/helper/EventBus.js'
 	import { mapGetters } from 'vuex'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
-	import MhRouterView from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhRouterView/v3/MhRouterView.vue'
+	import MhRouterView from '@/components/MhRouterView/v4/MhRouterView.vue'
 	import KnFormHeaderRow from '@/molecules/KnFormHeaderRow.vue'
 	import KnFormFieldRow from '@/molecules/KnFormFieldRow.vue'
-	import BaseButton from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseButton.vue'
-	import MhIcon from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/components/MhIcon/v2/MhIcon.vue'
+	import BaseButton from '@/components/MhForm/v4/BaseButton.vue'
+	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
 
 	export default {
 		name: 'ThankYouView',

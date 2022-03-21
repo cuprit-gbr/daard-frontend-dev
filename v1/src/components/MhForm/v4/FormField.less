@@ -1,0 +1,211 @@
+/**
+ *	2022-01-31	feature: added &__clearBtn for BaseSelect
+ *
+ */
+
+.FormField { // css vars
+	--height             : 2em;
+	--width              : 100%;
+	--padding            : 0.5em;
+	--placeholderOpacity : 0.4;
+	--fontFamily         : inherit;
+	--fontWeight         : inherit;
+	--transition         : all 0.15s ease;
+
+	--color                 : currentColor;
+	--colorOpacity          : 1;
+	--colorOpacity-hover    : 1;
+	--colorOpacity-focus    : 1;
+	--colorOpacity-disabled : 0.5;
+
+	--bgColor            : currentColor;
+	--bgOpacity          : 0.1;
+	--bgOpacity-hover    : 0.2;
+	--bgOpacity-focus    : 0.2;
+	--bgOpacity-disabled : 0.05;
+
+	--borderRadius           : 0.25em;
+	--borderWidth            : 1px;
+	--borderStyle            : solid;
+	--borderColor            : currentColor;
+	--borderOpacity          : 0.25;
+	--borderOpacity-hover    : 0.5;
+	--borderOpacity-focus    : 1;
+	--borderOpacity-disabled : 0.25;
+}
+
+.FormField { // layout
+	position: relative;
+	width: var(--width);
+
+	&__inner {
+		position: relative;
+		width: 100%;
+		display: flex;
+	}
+	&__inner:not(&--BaseTextarea &__inner) {
+		height: var(--height);
+	}
+	&--BaseTextarea &__inner { // needed for resizeable textareas
+		min-height: var(--height);
+	}
+
+	&__bg {
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+	}
+	&__border {
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+		pointer-events: none;
+	}
+
+	&__input,
+	&__textarea,
+	&__select {
+		position: relative;
+		padding: 0;
+		margin: 0;
+		width: 100%; height: inherit;
+		max-width: 100%;
+		flex-grow: 1;
+		appearance: none;
+	}
+	&__textarea { // height is minimum height, needed for resizeable textareas
+		min-height: var(--height) !important;
+	}
+	&__inputCheckbox,
+	&__inputRadio {
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+		height: 100%; width: 100%;
+
+		svg {
+			position: absolute;
+			top: 1; left: 1; right: 1; bottom: 1;
+			//opacity: 0;
+		}
+	}
+
+	&__clearBtn, &__openIcon {
+		top: 50%;
+		height: calc( var(--height) * 0.5 );
+		width: calc( var(--height) * 0.5 );
+		transform: translateY(-50%);
+	}
+	&__clearBtn {
+		position: relative;
+		margin: 0 calc( var(--height) * 0.25 );
+	}
+	&__openIcon {
+		//position: absolute;
+		//right: calc( var(--height) * 0.25 );
+		position: relative;
+		margin: 0 calc( var(--height) * 0.25 );
+		pointer-events: none;
+	}
+	&__clearBtn + &__openIcon { margin-left: 0em; } // gilt für selects, damit die gap zwischen den buttons nicht zu groß ist
+}
+.FormField { // styling
+	&__inner {
+		transition: var(--transition);
+		color: inherit;
+	}
+
+	&__bg {
+		transition: var(--transition);
+		background-color: var(--bgColor);
+		border-radius: var(--borderRadius);
+		opacity: var(--bgOpacity);
+	}
+	&__border {
+		transition: var(--transition);
+		border-radius: var(--borderRadius);
+		border-width: var(--borderWidth);
+		border-style: var(--borderStyle);
+		border-color: var(--borderColor);
+		opacity: var(--borderOpacity);
+	}
+
+	&__input,
+	&__textarea,
+	&__select {
+		//transition: var(--transition);
+		border: none;
+		background-color: transparent;
+		outline: none;
+		font-family: var(--fontFamily);
+		font-weight: var(--fontWeight);
+		color: var(--color);
+		opacity: var(--colorOpacity);
+	}
+	&__input { transition: var(--transition); text-indent: var(--padding); }
+	&__textarea { padding: var(--padding); }
+	&__select { transition: var(--transition); padding: var(--padding); padding-top: 0; padding-bottom: 0; cursor: pointer; }
+	//&__select { padding-right: 2em; } // prevent overflow from option-value with triangle-icon
+	&__select--isUnset { opacity: var(--placeholderOpacity); }
+	&__input::placeholder,
+	&__textarea::placeholder {
+		transition: var(--transition);
+		opacity: var(--placeholderOpacity);
+		color: currentColor;
+	}
+	&__inputCheckbox,
+	&__inputRadio {
+		opacity: 0;
+		cursor: pointer;
+	}
+	&--resizeable-both &__textarea { resize: both; }
+	&--resizeable-horizontal &__textarea { resize: horizontal; }
+	&--resizeable-vertical &__textarea { resize: vertical; }
+	&--resizeable-none &__textarea { resize: none; }
+
+	&__clearBtn {
+		transition: var(--transition);
+		cursor: pointer;
+		opacity: 0.25;
+
+		path { fill : currentColor; }
+	}
+	&__openIcon {
+		transition: var(--transition);
+		opacity: 0.5;
+
+		path { fill : currentColor; }
+	}
+}
+
+.FormField { // hover
+	&:hover &__bg { opacity: var(--bgOpacity-hover); }
+	&:hover &__border { opacity: var(--borderOpacity-hover); }
+
+	&:hover &__input,
+	&:hover &__textarea,
+	&:hover &__select { opacity: var(--colorOpacity-hover); }
+
+	&:hover &__clearBtn { opacity: 0.5; }
+	&:hover &__clearBtn:hover { opacity: 1; }
+	&:hover &__openIcon { opacity: 1; }
+}
+.FormField { // focus
+	&:focus-within &__bg { opacity: var(--bgOpacity-focus); }
+	&:focus-within &__border { opacity: var(--borderOpacity-focus); }
+
+	&:focus-within &__input,
+	&:focus-within &__textarea,
+	&:hover &__select { opacity: var(--colorOpacity-focus); }
+}
+.FormField { // disabled
+	&--isDisabled { pointer-events: none; }
+	&--isDisabled &__bg { opacity: var(--bgOpacity-disabled); }
+	&--isDisabled &__border { opacity: var(--borderOpacity-disabled); border-style: dashed; }
+
+	&--isDisabled &__input,
+	&--isDisabled &__textarea,
+	&--isDisabled &__select { opacity: var(--colorOpacity-disabled); }
+
+	&--isDisabled &__clearBtn { display: none; }
+	&--isDisabled &__openIcon { opacity: 0.25; }
+	&--isDisabled &__fakeCheckbox svg { opacity: 0.35; }
+	&--isDisabled &__fakeRadio svg { opacity: 0.25; }
+}

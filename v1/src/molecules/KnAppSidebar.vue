@@ -77,7 +77,7 @@
 	import EventBus from '@/helper/EventBus.js'
 	import { mapGetters } from 'vuex'
 	import currentEnv from '@/helper/getCurrentEnv.js'
-	import BaseButton from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v4/BaseButton.vue'
+	import BaseButton from '@/components/MhForm/v4/BaseButton.vue'
 
 	export default {
 		name: 'KnAppSidebar',
