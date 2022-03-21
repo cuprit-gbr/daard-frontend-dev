@@ -35,7 +35,6 @@
 		<MhDevInfos
 			:showOnHosts="[
 				'localhost',
-				'knochen.in-kombination.de',
 				'daard-atlas-staging.csgis.de',
 			]"
 		></MhDevInfos>

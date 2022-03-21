@@ -8,6 +8,7 @@ import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
 import VShowSlide from 'v-show-slide'
 import VueMq from 'vue-mq'
+import currentEnv from '@/helper/getCurrentEnv.js'
 import EventBus from '@/helper/EventBus.js'
 
 Vue.config.productionTip = false
@@ -15,7 +16,7 @@ Vue.config.productionTip = false
 // on error + warn: play beep sound and show errorBadge
 // see: https://vuejs.org/v2/api/#errorHandler
 // see: https://vuejs.org/v2/api/#warnHandler
-const warnAndErrorHandler = (err, vm, info) => {
+const warnAndErrorHandler = ( err, vm, info ) => {
 	// err: error trace
 	// vm: component in which error occured
 	// info: Vue specific error information such as lifecycle hooks, events etc.
@@ -65,13 +66,15 @@ const warnAndErrorHandler = (err, vm, info) => {
 
 	beep(10, 320, 150)
 }
-Vue.config.warnHandler = warnAndErrorHandler
-Vue.config.errorHandler = warnAndErrorHandler
+if( ['local', 'stage'].includes( currentEnv.name ) ){
+	Vue.config.warnHandler = warnAndErrorHandler
+	Vue.config.errorHandler = warnAndErrorHandler
+}
 
-Vue.use(VueAxios, axios)
-Vue.use(VueLodash, {lodash: lodash})
-Vue.use(VShowSlide)
-Vue.use(VueMq, {
+Vue.use( VueAxios, axios )
+Vue.use( VueLodash, { lodash: lodash } )
+Vue.use( VShowSlide )
+Vue.use( VueMq, {
 	breakpoints: {
 		xs: 500,
 		sm: 715,
