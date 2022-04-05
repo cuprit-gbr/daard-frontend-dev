@@ -556,6 +556,27 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__sacral-vertebrae_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
+					<!-- Coccyx -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 4;">
+							{{getFieldProp( 'axial_skeleton__coccyx', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'axial_skeleton__coccyx_amount', '_value' )"
+								:label="'Select ...'"
+								:options="getFieldProp( 'axial_skeleton__coccyx_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'axial_skeleton__coccyx_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__coccyx_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>					
 					<!-- sternum -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
