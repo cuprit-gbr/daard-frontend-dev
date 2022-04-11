@@ -28,13 +28,13 @@ export default new Vuex.Store({
 			const stepFields = _.get(step, 'fields', [])
 			let isValid = true
 
-			if ('disease' === stepSlug) {
+			if( 'disease' === stepSlug){
 				if (!getters.getFieldProp('disease', '_value')) isValid = false
 				if (!getters.getFieldProp('age_class', '_value')) isValid = false
 				if (!getters.getFieldProp('age', '_value')) isValid = false
 				if (!getters.getFieldProp('sex', '_value')) isValid = false
 			}
-			if ('inventory' === stepSlug) {
+			if( 'inventory' === stepSlug){
 				const amountFields = stepFields.filter((item) => {return _.endsWith(item, '_amount')})
 
 				let values = []
@@ -51,7 +51,7 @@ export default new Vuex.Store({
 				if (!_.size(values)) isValid = false // wenn gar kein feld ausgefüllt wurde
 				if (_.size(values) == 1 && values[ 0 ] == 'absent') isValid = false // wenn alle knochen "absent" sind
 			}
-			if ('bone-changes' === stepSlug) {
+			if( 'bone-changes' === stepSlug){
 				//console.log( 'stepFields:', stepFields )
 
 				// every field needs a value
@@ -63,23 +63,33 @@ export default new Vuex.Store({
 
 				//console.log( 'stepFields:', stepFields )
 			}
-			if ('site' === stepSlug) {
-				if (!getters.getFieldProp('origin', '_value')) isValid = false
-				if (!getters.getFieldProp('position', '_value')) isValid = false
+			if( 'site' === stepSlug){
+				if( !getters.getFieldProp('origin', '_value')) isValid = false
+				if( !getters.getFieldProp('position', '_value')) isValid = false
 				//if (!getters.getFieldProp('storage_condition', '_value')) isValid = false
-				if (!getters.getFieldProp('storage_place', '_value')) isValid = false
-				if (!getters.getFieldProp('chronology', '_value')) isValid = false
+				if( !getters.getFieldProp('storage_place', '_value')) isValid = false
+				//if( !getters.getFieldProp('chronology', '_value')) isValid = false
 
-				if ('archaeological' == getters.getFieldProp('origin', '_value')) {
-					if (!getters.getFieldProp('archaeological_funery_context', '_value')) isValid = false
-					if (!getters.getFieldProp('archaeological_burial_type', '_value')) isValid = false
+				// für chronology gibt es 2 eingabemöglichkeiten:
+				// einmal ein suchen-feld und einmal die direkte eingabe
+				const chronology = getters.getFieldProp('chronology', '_value')
+				const chronology_fromYear = getters.getFieldProp('chronology_fromYear', '_value')
+				const chronology_toYear = getters.getFieldProp('chronology_toYear', '_value')
+				let chronology_kind = 0
+				if( chronology ) chronology_kind = 1
+				else if( chronology_fromYear && chronology_toYear ) chronology_kind = 2
+				else isValid = false
+
+				if( 'archaeological' == getters.getFieldProp('origin', '_value')) {
+					if( !getters.getFieldProp('archaeological_funery_context', '_value')) isValid = false
+					if( !getters.getFieldProp('archaeological_burial_type', '_value')) isValid = false
 				}
 
-				if (!getters.getFieldProp('dating_method', '_value')) isValid = false
+				if( !getters.getFieldProp('dating_method', '_value')) isValid = false
 			}
-			if ('publication' === stepSlug) {
-				if (!getters.getFieldProp('dna_analyses', '_value')) isValid = false
-				if (!getters.getFieldProp('privacyConsent', '_value')) isValid = false
+			if( 'publication' === stepSlug ){
+				if( !getters.getFieldProp('dna_analyses', '_value')) isValid = false
+				if( !getters.getFieldProp('privacyConsent', '_value')) isValid = false
 			}
 			if ('all' === stepSlug) {
 				if (!getters.isStepValid('disease')) isValid = false
@@ -236,7 +246,7 @@ export default new Vuex.Store({
 				storage_place: getters.getFieldProp('storage_place', '_value'),
 				storage_place_freetext: getters.getFieldProp('storage_place_freetext', '_value'),
 				//storage_condition: getters.getFieldProp('storage_condition', '_value'),
-				chronology: getters.getFieldProp('chronology', '_value'),
+				chronology: '', // wird nachstehend gesetzt
 				chronology_freetext: getters.getFieldProp('chronology_freetext', '_value'),
 
 				dating_method: getters.getFieldProp('dating_method', '_value'),
@@ -246,6 +256,20 @@ export default new Vuex.Store({
 				doi: getters.getFieldProp('doi', '_value'),
 				references: getters.getFieldProp('references', '_value'),
 			}
+
+			// für chronology gibt es 2 eingabemöglichkeiten:
+			// einmal ein suchen-feld und einmal die direkte eingabe
+			const chronology = getters.getFieldProp('chronology', '_value')
+			const chronology_fromYear = getters.getFieldProp('chronology_fromYear', '_value')
+			const chronology_toYear = getters.getFieldProp('chronology_toYear', '_value')
+			const chronology_timePeriod = getters.getFieldProp('chronology_timePeriod', '_value')
+			const chronology_isApproximated = getters.getFieldProp('chronology_isApproximated', '_value')
+			let chronology_kind = 0
+			if( chronology ) chronology_kind = 1
+			else if( chronology_fromYear && chronology_toYear ) chronology_kind = 2
+			if( chronology_kind === 1 ) data.chronology = chronology
+			if( chronology_kind === 2 ) data.chronology = chronology_fromYear + ' – ' + chronology_toYear + ' ' + chronology_timePeriod
+			if( chronology_kind === 2 && chronology_isApproximated ) data.chronology = data.chronology + ' (approximated)'
 
 			// fill data.inventory
 			// merge field with its corresponding _amount field
@@ -485,7 +509,7 @@ export default new Vuex.Store({
 				Vue.set(field, '_options', _options)
 
 				Vue.set(field, '_isLoading', false)
-				Vue.set(field, '_value', '')
+				Vue.set(field, '_value', field._value ? field._value : '') // needed: es gibt den fall, dass ein startwert gesetzt sein soll
 				Vue.set(field, '_label', field.label)
 			}
 			if ('radiogroup' == type) { // becomes radiogroup, use childs as options

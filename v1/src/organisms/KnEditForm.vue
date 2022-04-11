@@ -576,7 +576,7 @@
 							></BaseSelect>
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('axial_skeleton__coccyx_amount')}}</pre>
 						</div>
-					</KnFormFieldRow>					
+					</KnFormFieldRow>
 					<!-- sternum -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -2278,8 +2278,9 @@
 								<hr class="chronologySubForm__hr" />
 							</div>
 							<div class="chronologySubForm__row">
+								<!-- chronology_fromYear -->
 								<BaseText class="chronologySubForm__text chronologySubForm__text--from"
-									:value="''"
+									:value="getFieldProp( 'chronology_fromYear', '_value' )"
 									:placeholder="'From'"
 									:required="false"
 									:disabled="false"
@@ -2287,10 +2288,15 @@
 									:debounce="false"
 									:debounceDelay="250"
 									@change="(e)=>{}"
-									@input="(value)=>{}"
+									@input="$store.commit('setFieldProp', {
+										fieldName : 'chronology_fromYear',
+										key       : '_value',
+										value     : $event
+									})"
 								></BaseText>
+								<!-- chronology_toYear -->
 								<BaseText class="chronologySubForm__text chronologySubForm__text--to"
-									:value="''"
+									:value="getFieldProp( 'chronology_toYear', '_value' )"
 									:placeholder="'To'"
 									:required="false"
 									:disabled="false"
@@ -2298,26 +2304,45 @@
 									:debounce="false"
 									:debounceDelay="250"
 									@change="(e)=>{}"
-									@input="(value)=>{}"
+									@input="$store.commit('setFieldProp', {
+										fieldName : 'chronology_toYear',
+										key       : '_value',
+										value     : $event
+									})"
 								></BaseText>
+								<!-- chronology_timePeriod -->
 								<BaseSelect class="chronologySubForm__cSelect"
-									:value="'BC'"
+									:value="getFieldProp( 'chronology_timePeriod', '_value' )"
 									:label="'Choose ...'"
-									:options="[
-										'BC',
-										'ACD',
-									]"
+									:options="getFieldProp( 'chronology_timePeriod', '_options' )"
 									:hasClearButton="false"
-									@input="()=>{}"
 									@change="()=>{}"
+									@input="$store.commit('setFieldProp', {
+										fieldName : 'chronology_timePeriod',
+										key       : '_value',
+										value     : $event
+									})"
 								></BaseSelect>
 							</div>
 							<div class="chronologySubForm__row">
+								<!-- chronology_isApproximated -->
 								<BaseCheckbox class="chronologySubForm__approximatedCheckbox"
-									:value="false"
-									@input="()=>{}"
+									:value="getFieldProp( 'chronology_isApproximated', '_value' )"
+									@input="$store.commit('setFieldProp', {
+										fieldName : 'chronology_isApproximated',
+										key       : '_value',
+										value     : $event
+									})"
 								></BaseCheckbox> Approximated value
 							</div>
+							<!--
+							<div class="chronologySubForm__row" style="flex-direction: column;">
+								<pre name="chronology_fromYear">{{getFieldProp( 'chronology_fromYear', '_value' )}}</pre>
+								<pre name="chronology_toYear">{{getFieldProp( 'chronology_toYear', '_value' )}}</pre>
+								<pre name="chronology_timePeriod">{{getFieldProp( 'chronology_timePeriod', '_value' )}}</pre>
+								<pre name="chronology_isApproximated">{{getFieldProp( 'chronology_isApproximated', '_value' )}}</pre>
+							</div>
+							-->
 						</div>
 					</div>
 					<div class="font font--sizeSmall color color--primary50"

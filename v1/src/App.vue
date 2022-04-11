@@ -196,7 +196,6 @@
 						if( doLog ) console.log( this.$options.name, '• fetchAll() • inventory', results)
 
 						const tabs = results
-						//const tabs = { cranial_district : results.cranial_district }
 
 						this._.forEach( tabs, (tab)=>{
 							this._.forEach( tab, (field)=>{
@@ -207,14 +206,6 @@
 								this.$store.commit('addStepField', payload)
 							})
 						})
-
-						/*
-						this.$store.commit('setStepProp', {
-							stepSlug : 'inventory',
-							key : 'tabs',
-							value : '1222'
-						})
-						*/
 
 						runCallback()
 					},
@@ -236,13 +227,15 @@
 							}
 							this.$store.commit('addStepField', payload)
 						})
-						/*
-						*/
 
 						// we need some more fields
 						const additionalFields = [
 							{ name : 'gazId', label : 'gazId', type : 'textfield' },
 							{ name : 'gaz_link', label : 'gaz_link', type : 'textfield' },
+							{ name : 'chronology_fromYear', label : '', type : 'textfield' },
+							{ name : 'chronology_toYear', label : '', type : 'textfield' },
+							{ name : 'chronology_timePeriod', label : '', type : 'selectfield', options : [{ name : 'BC', value : 'BC' }, { name : 'AD', value : 'AD' }], _value : 'BC' },
+							{ name : 'chronology_isApproximated', label : '', type : 'checkbox' },
 						]
 						this._.forEach( additionalFields, (field)=>{
 							const payload = {
@@ -272,8 +265,6 @@
 							}
 							this.$store.commit('addStepField', payload)
 						})
-						/*
-						*/
 
 						// we need some more fields
 						const additionalFields = [
