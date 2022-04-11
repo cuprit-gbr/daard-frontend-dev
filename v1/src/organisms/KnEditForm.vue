@@ -2233,8 +2233,7 @@
 									<MhIcon class="KnEditForm__searchNoResultsMsgIcon" type="info"></MhIcon>
 									<span class="KnEditForm__searchNoResultsMsgLabel">Nothing found. Try another search term.</span>
 								</div>
-								<div
-									class="KnEditForm__searchResult"
+								<div class="KnEditForm__searchResult"
 									:class="item === getFieldProp( 'chronology', '_value' ) ? 'KnEditForm__searchResult--isActive' : 'KnEditForm__searchResult--isInactive'"
 									v-for="(item, index) in getFieldProp( 'chronology', '_options' )"
 									:key="'ffff'+index"
@@ -2251,6 +2250,54 @@
 							</div>
 						</div>
 						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('chronology')}}</pre>
+						<div class="chronologySubForm">
+							<div class="chronologySubForm__row">
+								<hr class="chronologySubForm__hr" />
+								<span class="chronologySubForm__or font font--sizeSmall color color--primary50">or</span>
+								<hr class="chronologySubForm__hr" />
+							</div>
+							<div class="chronologySubForm__row">
+								<BaseText class="chronologySubForm__text chronologySubForm__text--from"
+									:value="''"
+									:placeholder="'From'"
+									:required="false"
+									:disabled="false"
+									:hasClearButton="false"
+									:debounce="false"
+									:debounceDelay="250"
+									@change="(e)=>{}"
+									@input="(value)=>{}"
+								></BaseText>
+								<BaseText class="chronologySubForm__text chronologySubForm__text--to"
+									:value="''"
+									:placeholder="'To'"
+									:required="false"
+									:disabled="false"
+									:hasClearButton="false"
+									:debounce="false"
+									:debounceDelay="250"
+									@change="(e)=>{}"
+									@input="(value)=>{}"
+								></BaseText>
+								<BaseSelect class="chronologySubForm__cSelect"
+									:value="'BC'"
+									:label="'Choose ...'"
+									:options="[
+										'BC',
+										'ACD',
+									]"
+									:hasClearButton="false"
+									@input="()=>{}"
+									@change="()=>{}"
+								></BaseSelect>
+							</div>
+							<div class="chronologySubForm__row">
+								<BaseCheckbox class="chronologySubForm__approximatedCheckbox"
+									:value="false"
+									@input="()=>{}"
+								></BaseCheckbox> Approximated value
+							</div>
+						</div>
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
 						style="grid-column: span 4;" v-html="getFieldProp( 'chronology', 'help_text' )"
@@ -3425,6 +3472,17 @@
 		&__debug {
 			display: none;
 		}
+
+		.chronologySubForm {
+			&__row { display: flex; outline: 0px solid red; align-items: center; }
+			&__row:not(:first-child) { padding-top: 0.5em; }
+
+			&__hr{ width: 100%; XXmargin-bottom: 0.85em; }
+			&__or{ margin: 0 2%; }
+			&__text{ width: 38%; margin-right: 2%; }
+			&__cSelect{ width: 20%; }
+			&__approximatedCheckbox{ margin-right: 1em; }
+		}
 	}
 	.KnEditForm { // styling
 		&__labelCell {
@@ -3567,10 +3625,6 @@
 		@keyframes spin {
 			from { transform:rotate(0deg); }
 			to { transform:rotate(360deg); }
-		}
-
-		.KnTextRow + .KnFormFieldRow {
-			//margin-top: 1px;
 		}
 	}
 
