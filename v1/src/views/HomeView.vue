@@ -3,7 +3,7 @@
 
 		<div class="HomeView__inner view__inner">
 
-			<iframe src="https://dai-gn-test.csgis.de/maps/5629/embed#/" allowtransparency="true"></iframe>
+			<iframe src="https://geoserver.dainst.org/maps/6007/embed#/" allowtransparency="true"></iframe>
 
 			<!--
 			<DocCreateForm></DocCreateForm>
