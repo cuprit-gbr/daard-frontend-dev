@@ -1,5 +1,5 @@
 /**
- *	In dieser Datei können für verschiedene Environments,
+ *  In dieser Datei können für verschiedene Environments,
  *  basierend auf dem jeweiligen hostname, angelegt werden.
  *  Für die verschiedeneen Environments können Key-Value-Pairs
  *  hinterlegt werden.
@@ -26,12 +26,12 @@ export default [
 		hostname: 'daard-atlas-staging.csgis.de',
 		appTitle: 'DAARD • dev stage',
 		showDevOutput: false,
-		baseUrl: 'https://geoserver.dainst.org/',
-		restBase: 'https://geoserver.dainst.org/daard',
-		loginUrl: 'https://geoserver.dainst.org/o/authorize/?response_type=code&client_id=jqAODkFHbb54YDouEx7JAT16kJxelPSIeDkU2n5U&redirect_uri=%redirect_uri%&state=abc=scope=daard-api',
-		tokenUrl: 'https://geoserver.dainst.org/o/token/',
+		baseUrl: 'https://dai-gn-test.csgis.de/',
+		restBase: 'https://dai-gn-test.csgis.de/daard',
+		loginUrl: 'https://dai-gn-test.csgis.de/o/authorize/?response_type=code&client_id=jqAODkFHbb54YDouEx7JAT16kJxelPSIeDkU2n5U&redirect_uri=%redirect_uri%&state=abc=scope=daard-api',
+		tokenUrl: 'https://dai-gn-test.csgis.de/o/token/',
 		tokenClientId: 'jqAODkFHbb54YDouEx7JAT16kJxelPSIeDkU2n5U',
-		registerUrl: 'https://geoserver.dainst.org/account/signup/',
+		registerUrl: 'https://dai-gn-test.csgis.de/account/signup/',
 	},
 	{
 		name: 'live',
