@@ -2579,33 +2579,7 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'doi', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
-				<!-- references -->
-				<KnFormFieldRow v-if="getFieldProp( 'published', '_value' )">
-					<div class="KnEditForm__labelCell font font--medium color color--primary50"
-						style="grid-column: span 3;">
-						{{getFieldProp( 'references', '_label' )}}
-						<template v-if="getFieldProp( 'references', 'mandatory' )">*</template>
-					</div>
-					<div style="grid-column: span 5;">
-						<BaseTextarea
-							:value="getFieldProp( 'references', '_value' )"
-							:placeholder="''"
-							:required="false"
-							:disabled="getFieldProp( 'references', '_disabled' )"
-							@change="(e)=>{}"
-							@input="$store.commit('setFieldProp', {
-								fieldName : 'references',
-								key       : '_value',
-								value     : $event
-							})"
-						></BaseTextarea>
-						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('references')}}</pre>
-					</div>
-					<div class="font font--sizeSmall color color--primary50"
-						style="grid-column: span 4;" v-html="getFieldProp( 'references', 'help_text' )"
-					></div>
-				</KnFormFieldRow>
-				<!-- TODO: references as repeater -->
+				<!-- references as repeater -->
 				<KnFormFieldRow v-if="getFieldProp( 'published', '_value' )">
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 3;">
