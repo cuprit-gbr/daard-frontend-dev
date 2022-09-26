@@ -276,7 +276,8 @@ export default new Vuex.Store({
 			// references: from array to html-list
 			const referencesArray = _.clone( getters.getFieldProp('referencesArray', '_value') )
 			let referencesString = referencesArray.map( item => {
-				item = item.trim()
+				item = item.trim() // trim whitespace
+				item = item.replace(/<\/?[^>]+(>|$)/g, "") // strip tags
 				if( item ) return '<li>' + item + '</li>'
 			}).join('')
 			data.references = !_.isEmpty( referencesString ) ? '<ul>' + referencesString + '</ul>' : ''
