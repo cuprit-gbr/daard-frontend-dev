@@ -228,14 +228,16 @@
 							this.$store.commit('addStepField', payload)
 						})
 
-						// we need some more fields
+						// we need some more fields for internal processing
 						const additionalFields = [
 							{ name : 'gazId', label : 'gazId', type : 'textfield' },
 							{ name : 'gaz_link', label : 'gaz_link', type : 'textfield' },
 							{ name : 'chronology_fromYear', label : '', type : 'textfield' },
+							{ name : 'chronology_timePeriodFrom', label : '', type : 'selectfield', options : [{ name : 'BCE', value : 'BCE' }, { name : 'CE', value : 'CE' }], _value : 'BCE' },
 							{ name : 'chronology_toYear', label : '', type : 'textfield' },
-							{ name : 'chronology_timePeriod', label : '', type : 'selectfield', options : [{ name : 'BCE', value : 'BCE' }, { name : 'CE', value : 'CE' }], _value : 'BCE' },
+							{ name : 'chronology_timePeriodTo', label : '', type : 'selectfield', options : [{ name : 'BCE', value : 'BCE' }, { name : 'CE', value : 'CE' }], _value : 'BCE' },
 							{ name : 'chronology_isApproximated', label : '', type : 'checkbox' },
+							{ name : 'referencesArray', label : '', _value : [] },
 						]
 						this._.forEach( additionalFields, (field)=>{
 							const payload = {

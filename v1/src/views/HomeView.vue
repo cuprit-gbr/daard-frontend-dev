@@ -3,11 +3,11 @@
 
 		<div class="HomeView__inner view__inner">
 
-			<iframe src="https://geoserver.dainst.org/maps/6007/embed#/" allowtransparency="true"></iframe>
-
 			<!--
-			<DocCreateForm></DocCreateForm>
+			<iframe src="https://geoserver.dainst.org/maps/6007/embed#/" allowtransparency="true"></iframe>
 			-->
+
+			<iframe :src="mapUrl" allowtransparency="true"></iframe>
 
 		</div>
 
@@ -17,6 +17,7 @@
 <script>
 	// @ is an alias to /src
 	import EventBus from '@/helper/EventBus.js'
+	import { mapGetters } from 'vuex'
 	import MhRouterView from '@/components/MhRouterView/v4/MhRouterView.vue'
 
 	export default {
@@ -43,6 +44,9 @@
 
 				return classes
 			},
+			...mapGetters([
+				'mapUrl',
+    		]),
 		},
 		methods: {},
 		mounted(){

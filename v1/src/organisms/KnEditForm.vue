@@ -1851,7 +1851,7 @@
 
 							<div class="KnEditForm__searchResults"
 								:countResults="_.size( getFieldProp( 'archaeological_site', '_options' ) )"
-								:style="{ height : getSearchResultsHeight('archaeological_site') + 'em' }"
+								:style="getSearchResultsStyles('archaeological_site')"
 							>
 								<!-- nothing found message -->
 								<div class="KnEditForm__searchNoResultsMsg" v-if="!_.size( getFieldProp( 'archaeological_site', '_options' ) ) && !getFieldProp( 'archaeological_site', '_isLoading' )">
@@ -2248,8 +2248,7 @@
 
 							<div class="KnEditForm__searchResults"
 								:countResults="_.size( getFieldProp( 'chronology', '_options' ) )"
-								:style="{ height : getSearchResultsHeight('chronology') + 'em' }"
-							>
+								:style="getSearchResultsStyles('chronology')">
 								<div class="KnEditForm__searchNoResultsMsg" v-if="!_.size( getFieldProp( 'chronology', '_options' ) ) && !getFieldProp( 'chronology', '_isLoading' )">
 									<MhIcon class="KnEditForm__searchNoResultsMsgIcon" type="info"></MhIcon>
 									<span class="KnEditForm__searchNoResultsMsgLabel">Nothing found. Try another search term.</span>
@@ -2294,6 +2293,19 @@
 										value     : $event
 									})"
 								></BaseText>
+								<!-- chronology_timePeriodFrom -->
+								<BaseSelect class="chronologySubForm__cSelect--from"
+									:value="getFieldProp( 'chronology_timePeriodFrom', '_value' )"
+									:label="'Choose ...'"
+									:options="getFieldProp( 'chronology_timePeriodFrom', '_options' )"
+									:hasClearButton="false"
+									@change="()=>{}"
+									@input="$store.commit('setFieldProp', {
+										fieldName : 'chronology_timePeriodFrom',
+										key       : '_value',
+										value     : $event
+									})"
+								></BaseSelect>
 								<!-- chronology_toYear -->
 								<BaseText class="chronologySubForm__text chronologySubForm__text--to"
 									:value="getFieldProp( 'chronology_toYear', '_value' )"
@@ -2310,15 +2322,15 @@
 										value     : $event
 									})"
 								></BaseText>
-								<!-- chronology_timePeriod -->
-								<BaseSelect class="chronologySubForm__cSelect"
-									:value="getFieldProp( 'chronology_timePeriod', '_value' )"
+								<!-- chronology_timePeriodTo -->
+								<BaseSelect class="chronologySubForm__cSelect--to"
+									:value="getFieldProp( 'chronology_timePeriodTo', '_value' )"
 									:label="'Choose ...'"
-									:options="getFieldProp( 'chronology_timePeriod', '_options' )"
+									:options="getFieldProp( 'chronology_timePeriodTo', '_options' )"
 									:hasClearButton="false"
 									@change="()=>{}"
 									@input="$store.commit('setFieldProp', {
-										fieldName : 'chronology_timePeriod',
+										fieldName : 'chronology_timePeriodTo',
 										key       : '_value',
 										value     : $event
 									})"
@@ -2588,6 +2600,66 @@
 							})"
 						></BaseTextarea>
 						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('references')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'references', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+				<!-- TODO: references as repeater -->
+				<KnFormFieldRow v-if="getFieldProp( 'published', '_value' )">
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 3;">
+						{{getFieldProp( 'references', '_label' )}}
+						<template v-if="getFieldProp( 'references', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 5;">
+						<!--
+							2022-09-26
+							Nachstehendes Repeater-Field ist neu in den Anforderungen hinzugekommen.
+							Perspektifisch wäre hierfür eine eigene UI-Komponente sinnvoll.
+							Ich baue es hier erstmal als Prototype.
+						-->
+						<div class="repeaterField">
+							<div class="repeaterField__body" v-for="(referenceItem, referenceIndex) in getFieldProp( 'referencesArray', '_value' )" :key="'rA' + referenceIndex">
+								<div class="repeaterField__bodyRow">
+									<div class="repeaterField__bodyRowFields">
+										<BaseTextarea
+											:value="referenceItem"
+											:placeholder="''"
+											:required="false"
+											:resizeable="'none'"
+											:disabled="false"
+											@change="(e)=>{}"
+											@input="changeReferencesArrayByIndex( $event, referenceIndex )"
+										></BaseTextarea>
+									</div>
+									<div class="repeaterField__bodyRowBtns">
+										<a class="repeaterField__rowBtn" @click="removeFromReferencesArrayByIndex( referenceIndex )">
+											<MhIcon
+												XXXtype="'minus-circle'"
+												:type="'trash'"
+											></MhIcon>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="repeaterField__footer">
+								<BaseButton
+									class="font font--sizeSmall font--medium"
+									:isOutlined="true"
+									:isDisabled="false"
+									@click.native="addToReferencesArray()"
+								>
+									<template slot="before"></template>
+									<template slot="default">Add reference</template>
+									<template slot="after"></template>
+								</BaseButton>
+							</div>
+						</div>
+						<!--
+						-->
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('referencesArray')}}</pre>
+
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
 						style="grid-column: span 4;" v-html="getFieldProp( 'references', 'help_text' )"
@@ -2920,19 +2992,70 @@
     		])
 		},
 		methods: {
-			getSearchResultsHeight( fieldSlug ){
-				const _options = this.getFieldProp( fieldSlug, '_options' )
-				const _value   = this.getFieldProp( fieldSlug, '_value' )
-				const _search  = this.getFieldProp( fieldSlug, '_search' )
-				const _isLoading  = this.getFieldProp( fieldSlug, '_isLoading' )
-				let rows       = 0
+			addToReferencesArray(){
+				let referencesArray = this._.clone( this.getFieldProp( 'referencesArray', '_value' ) )
+				//let newItem = 'Sara' + this._.random(10, 99)
+				let newItem = ''
+
+				referencesArray.splice(referencesArray.length, 0, newItem);
+
+				console.log('referencesArray:', referencesArray)
+
+				this.$store.commit('setFieldProp', {
+					fieldName : 'referencesArray',
+					key       : '_value',
+					value     : referencesArray
+				}, true)
+				/*
+				*/
+			},
+			removeFromReferencesArrayByIndex( index ){
+				let referencesArray = this._.clone( this.getFieldProp( 'referencesArray', '_value' ) )
+
+				referencesArray.splice( index, 1 )
+
+				console.log('removeFromReferencesArrayByIndex( index )', index)
+				console.log('referencesArray:', referencesArray)
+
+				this.$store.commit('setFieldProp', {
+					fieldName : 'referencesArray',
+					key       : '_value',
+					value     : referencesArray
+				}, true)
+			},
+			changeReferencesArrayByIndex( e, index ){
+				let referencesArray = this._.clone( this.getFieldProp( 'referencesArray', '_value' ) )
+
+				referencesArray[index] = e
+
+				console.log('changeReferencesArrayByIndex( e, index )', e, index )
+
+				this.$store.commit('setFieldProp', {
+					fieldName : 'referencesArray',
+					key       : '_value',
+					value     : referencesArray
+				}, true)
+			},
+			getSearchResultsStyles( fieldSlug ){
+				const _options   = this.getFieldProp( fieldSlug, '_options' )
+				const _value     = this.getFieldProp( fieldSlug, '_value' )
+				const _search    = this.getFieldProp( fieldSlug, '_search' )
+				const _isLoading = this.getFieldProp( fieldSlug, '_isLoading' )
+				let rows         = 0
+				let borderWidth  = 0
 
 				if( !this._.isEmpty(_search) && !this._.size( _options ) && !_isLoading ) rows = 1
 				if( !this._.isEmpty(_search) && this._.size( _options ) ) rows = this._.size( _options )
 
+				// limit max-height
 				if( rows > 10 ) rows = 10
+				// we need to add the borders to prevent scrollbars if there's just one result
+				if( rows > 0 ) borderWidth = 2
 
-				return rows * 2
+				return {
+					height : 'calc(' + rows * 2 + 'em + ' + borderWidth + 'px)',
+					borderWidth : rows > 0 ? '1px' : '0px'
+				}
 			},
 			gotoStepIndex( stepIndex, doLog = false ){
 				const newRouteStep         = this.$store.getters.steps.find( (item, index)=>{ return index === stepIndex } )
@@ -3486,6 +3609,25 @@
 	@import (reference) "@/less/mixins.less";
 	@import (reference) "@/less/atoms.less";
 
+	.repeaterField {
+		//outline: 1px solid red;
+		background-color: @swatches[primary5];
+		border-style: solid;
+		border-width: 1px;
+		border-color: @swatches[primary15];
+
+		&__body { }
+		&__bodyRow { border-bottom: 1px solid @swatches[primary15]; }
+		&__bodyRow { display: flex; }
+		&__bodyRowFields { flex-grow: 1; padding: 0.5em; }
+		&__bodyRowBtns { width: 1.5em; padding-top: 0.5em; display: flex; justify-content: flex-start; }
+
+		&__footer { padding: 0.5em; }
+
+		&__rowBtn { transition: all 0.2s ease; opacity: 0.5; }
+		&__rowBtn:hover { opacity: 0.85; }
+	}
+
 	.KnEditForm { // debug
 		&__pre { display: none; }
 
@@ -3523,10 +3665,14 @@
 			&__row { display: flex; outline: 0px solid red; align-items: center; }
 			&__row:not(:first-child) { padding-top: 0.5em; }
 
-			&__hr{ width: 100%; XXmargin-bottom: 0.85em; }
+			&__hr{ width: 100%; }
 			&__or{ margin: 0 2%; }
-			&__text{ width: 38%; margin-right: 2%; }
-			&__cSelect{ width: 20%; }
+
+			&__text--from{ width: 27%; margin-right: 2%; }
+			&__text--to{ width: 27%; margin-right: 2%; }
+			&__cSelect--from{ width: 20%; margin-right: 2%; }
+			&__cSelect--to{ width: 20%; }
+
 			&__approximatedCheckbox{ margin-right: 1em; }
 		}
 	}
@@ -3605,11 +3751,10 @@
 			overflow-y: auto !important;
 
 			background-color: @swatches[primary5];
-			border: 1px solid @swatches[primary15];
+			border-color: @swatches[primary15];
+			border-style: solid;
 
-			&[countResults="0"] {
-				border: none;
-			}
+			//&[countResults="0"] { border: none; }
 		}
 		&__searchCountResults {
 			position: absolute;
@@ -3620,7 +3765,7 @@
 
 		&__searchNoResultsMsg {
 			//background-color: @swatches[primary5];
-			border: 1px solid @swatches[primary15];
+			//border: 1px solid @swatches[primary15];
 			transition: all 0.1s ease;
 			height: 2em;
 			display: flex;

@@ -16,6 +16,7 @@ export default new Vuex.Store({
 	},
 	getters: {
 		currentEnv: (state) => {return state.currentEnv},
+		mapUrl: (state) => {return state.currentEnv.mapUrl},
 		restBase: (state) => {return state.currentEnv.restBase},
 		requestToken: (state) => {return state.requestToken},
 		accessToken: (state) => {return state.accessToken},
@@ -254,22 +255,31 @@ export default new Vuex.Store({
 				dna_analyses_link: getters.getFieldProp('dna_analyses_link', '_value'),
 				published: getters.getFieldProp('published', '_value'),
 				doi: getters.getFieldProp('doi', '_value'),
-				references: getters.getFieldProp('references', '_value'),
+				references: '', // wird nachstehend gesetzt
 			}
 
 			// für chronology gibt es 2 eingabemöglichkeiten:
-			// einmal ein suchen-feld und einmal die direkte eingabe
+			// einmal ein suchen-feld (kind=1) und einmal die direkte eingabe (kind=2)
 			const chronology = getters.getFieldProp('chronology', '_value')
 			const chronology_fromYear = getters.getFieldProp('chronology_fromYear', '_value')
+			const chronology_timePeriodFrom = getters.getFieldProp('chronology_timePeriodFrom', '_value')
 			const chronology_toYear = getters.getFieldProp('chronology_toYear', '_value')
-			const chronology_timePeriod = getters.getFieldProp('chronology_timePeriod', '_value')
+			const chronology_timePeriodTo = getters.getFieldProp('chronology_timePeriodTo', '_value')
 			const chronology_isApproximated = getters.getFieldProp('chronology_isApproximated', '_value')
 			let chronology_kind = 0
 			if( chronology ) chronology_kind = 1
 			else if( chronology_fromYear && chronology_toYear ) chronology_kind = 2
 			if( chronology_kind === 1 ) data.chronology = chronology
-			if( chronology_kind === 2 ) data.chronology = chronology_fromYear + ' – ' + chronology_toYear + ' ' + chronology_timePeriod
+			if( chronology_kind === 2 ) data.chronology = chronology_fromYear + ' ' + chronology_timePeriodFrom + ' – ' + chronology_toYear + ' ' + chronology_timePeriodTo
 			if( chronology_kind === 2 && chronology_isApproximated ) data.chronology = data.chronology + ' (approximated)'
+
+			// references: from array to html-list
+			const referencesArray = _.clone( getters.getFieldProp('referencesArray', '_value') )
+			let referencesString = referencesArray.map( item => {
+				item = item.trim()
+				if( item ) return '<li>' + item + '</li>'
+			}).join('')
+			data.references = !_.isEmpty( referencesString ) ? '<ul>' + referencesString + '</ul>' : ''
 
 			// fill data.inventory
 			// merge field with its corresponding _amount field
