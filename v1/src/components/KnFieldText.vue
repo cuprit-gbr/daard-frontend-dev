@@ -30,11 +30,8 @@
 </template>
 
 <script>
-	// @ is an alias to /src
-	//import DevInfos from '@/components/DevInfos.vue'
 	import EventBus from '@/helper/EventBus.js'
-
-	import BaseText from '@/components/MhForm/v4/BaseText.vue'
+	import BaseText from '@/components/MhForm/v5/BaseText.vue'
 
 	export default {
 		name: 'KnFieldText',

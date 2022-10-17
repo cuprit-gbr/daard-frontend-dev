@@ -30,10 +30,8 @@
 </template>
 
 <script>
-	// @ is an alias to /src
-	//import DevInfos from '@/components/DevInfos.vue'
 	import EventBus from '@/helper/EventBus.js'
-	import BaseCheckbox from '@/components/MhForm/v4/BaseCheckbox.vue'
+	import BaseCheckbox from '@/components/MhForm/v5/BaseCheckbox.vue'
 
 	export default {
 		name: 'KnFieldCheckbox',

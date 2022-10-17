@@ -73,11 +73,10 @@
 </template>
 
 <script>
-	// @ is an alias to /src
-	import EventBus from '@/helper/EventBus.js'
 	import { mapGetters } from 'vuex'
+	import EventBus from '@/helper/EventBus.js'
 	import currentEnv from '@/helper/getCurrentEnv.js'
-	import BaseButton from '@/components/MhForm/v4/BaseButton.vue'
+	import BaseButton from '@/components/MhForm/v5/BaseButton.vue'
 
 	export default {
 		name: 'KnAppSidebar',

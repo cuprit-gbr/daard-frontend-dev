@@ -268,10 +268,10 @@
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
 	import MhRouterView from '@/components/MhRouterView/v4/MhRouterView.vue'
 
-	import BaseDebugOverview from '@/components/MhForm/v4/BaseDebugOverview.vue'
+	import BaseDebugOverview from '@/components/MhForm/v5/BaseDebugOverview.vue'
 	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
-	import BaseButton from '@/components/MhForm/v4/BaseButton.vue'
-	import BaseSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseSelect.vue'
+	import BaseButton from '@/components/MhForm/v5/BaseButton.vue'
+	import BaseSelect from '@/components/MhForm/v5/BaseSelect.vue'
 
 	import KnFormHeaderRow from '@/molecules/KnFormHeaderRow.vue'
 	import KnTabsRow from '@/molecules/KnTabsRow.vue'

@@ -2798,10 +2798,8 @@
 </template>
 
 <script>
-	// @ is an alias to /src
-	//import DevInfos from '@/components/DevInfos.vue'
-	import EventBus from '@/helper/EventBus.js'
 	import { mapGetters } from 'vuex'
+	import EventBus from '@/helper/EventBus.js'
 	import Treeselect from '@riophae/vue-treeselect'
 	import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
@@ -2815,14 +2813,14 @@
 
 	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
 
-	import '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/FormField.less'
-	import BaseCheckbox from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseCheckbox.vue'
-	import BaseRadio from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseRadio.vue'
-	import BaseText from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseText.vue'
-	import BaseTextarea from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseTextarea.vue'
-	import BaseButton from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseButton.vue'
-	import BaseSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseSelect.vue'
-	import BaseSearchSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseSearchSelect.vue'
+	import '@/components/MhForm/v5/FormField.less'
+	import BaseCheckbox from '@/components/MhForm/v5/BaseCheckbox.vue'
+	import BaseRadio from '@/components/MhForm/v5/BaseRadio.vue'
+	import BaseText from '@/components/MhForm/v5/BaseText.vue'
+	import BaseTextarea from '@/components/MhForm/v5/BaseTextarea.vue'
+	import BaseButton from '@/components/MhForm/v5/BaseButton.vue'
+	import BaseSelect from '@/components/MhForm/v5/BaseSelect.vue'
+	import BaseSearchSelect from '@/components/MhForm/v5/BaseSearchSelect.vue'
 
 	export default {
 		name: 'KnEditForm',

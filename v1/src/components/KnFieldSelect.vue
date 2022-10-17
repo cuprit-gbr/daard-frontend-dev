@@ -29,12 +29,9 @@
 </template>
 
 <script>
-	// @ is an alias to /src
-	//import DevInfos from '@/components/DevInfos.vue'
 	import EventBus from '@/helper/EventBus.js'
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
-
-	import BaseSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseSelect.vue'
+	import BaseSelect from '@/components/MhForm/v5/BaseSelect.vue'
 
 	export default {
 		name: 'KnFieldSelect',

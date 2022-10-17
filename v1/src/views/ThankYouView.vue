@@ -46,7 +46,7 @@
 	import MhRouterView from '@/components/MhRouterView/v4/MhRouterView.vue'
 	import KnFormHeaderRow from '@/molecules/KnFormHeaderRow.vue'
 	import KnFormFieldRow from '@/molecules/KnFormFieldRow.vue'
-	import BaseButton from '@/components/MhForm/v4/BaseButton.vue'
+	import BaseButton from '@/components/MhForm/v5/BaseButton.vue'
 	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
 
 	export default {
