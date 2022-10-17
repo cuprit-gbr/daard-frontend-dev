@@ -128,7 +128,7 @@
 					<div style="grid-column: span 6;">
 						<BaseSelect
 							:value="getFieldProp( 'age_class', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'age_class', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -153,7 +153,7 @@
 					<div style="grid-column: span 6;">
 						<BaseSelect
 							:value="getFieldProp( 'age', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'age', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -215,6 +215,35 @@
 					></div>
 				</KnFormFieldRow>
 				<!-- disease -->
+				<!--
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 2;">
+							{{getFieldProp( 'disease', '_label' )}}
+							<template v-if="getFieldProp( 'disease', 'mandatory' )">*</template>
+						</div>
+						<div style="grid-column: span 6;">
+							<BaseSelect
+								:value="getFieldProp( 'disease', '_value' )"
+								:placeholder="'Select ...'"
+								:disabled="false"
+								:options="getFieldProp( 'disease', '_options' )"
+								:hasClearButton="true"
+								:debug="false"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'disease',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('disease')}}</pre>
+						</div>
+						<div class="font font--sizeSmall color color--primary50"
+							style="grid-column: span 4;" v-html="getFieldProp( 'disease', 'help_text' )"
+						></div>
+					</KnFormFieldRow>
+				-->
+				<!-- disease with search-field -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 2;">
@@ -222,9 +251,10 @@
 						<template v-if="getFieldProp( 'disease', 'mandatory' )">*</template>
 					</div>
 					<div style="grid-column: span 6;">
-						<BaseSelect
+						<BaseSearchSelect
 							:value="getFieldProp( 'disease', '_value' )"
-							:label="'Select ...'"
+							:disabled="!getFieldProp( 'adults', '_value' ) && !getFieldProp( 'subadults', '_value' )"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'disease', '_options' )"
 							:hasClearButton="true"
 							:debug="false"
@@ -233,7 +263,7 @@
 								key       : '_value',
 								value     : $event
 							})"
-						></BaseSelect>
+						></BaseSearchSelect>
 						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('disease')}}</pre>
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
@@ -250,7 +280,7 @@
 					<div style="grid-column: span 6;">
 						<BaseSelect
 							:value="getFieldProp( 'sex', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'sex', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -320,7 +350,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'cranial_district__neurocranium_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'cranial_district__neurocranium_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -341,7 +371,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'cranial_district__splanchnocranium_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'cranial_district__splanchnocranium_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -362,7 +392,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'cranial_district__mandible_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'cranial_district__mandible_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -406,7 +436,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'cranial_district__deciduous-teeth_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'cranial_district__deciduous-teeth_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -449,7 +479,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'cranial_district__permanent-teeth_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'cranial_district__permanent-teeth_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -481,7 +511,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'axial_skeleton__cervical-vertebrae_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__cervical-vertebrae_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -502,7 +532,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'axial_skeleton__thoracic-vertebrae_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__thoracic-vertebrae_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -523,7 +553,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'axial_skeleton__lumbar-vertebrae_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__lumbar-vertebrae_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -544,7 +574,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'axial_skeleton__sacral-vertebrae_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__sacral-vertebrae_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -565,7 +595,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'axial_skeleton__coccyx_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__coccyx_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -586,7 +616,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'axial_skeleton__sternum_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__sternum_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -607,7 +637,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'axial_skeleton__right-ribs_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__right-ribs_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -628,7 +658,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'axial_skeleton__left-ribs_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'axial_skeleton__left-ribs_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -660,7 +690,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__clavicle_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__clavicle_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -681,7 +711,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__scapula_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__scapula_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -702,7 +732,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__humerus_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__humerus_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -723,7 +753,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__radius_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__radius_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -744,7 +774,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__ulna_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__ulna_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -765,7 +795,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__carpals_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__carpals_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -786,7 +816,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__metacarpals_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__metacarpals_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -807,7 +837,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__proximal-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__proximal-phalanges-hand_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -828,7 +858,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__intermediate-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__intermediate-phalanges-hand_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -849,7 +879,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_upper_limb__distal-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_upper_limb__distal-phalanges-hand_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -881,7 +911,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__clavicle_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__clavicle_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -902,7 +932,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__scapula_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__scapula_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -923,7 +953,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__humerus_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__humerus_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -944,7 +974,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__radius_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__radius_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -965,7 +995,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__ulna_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__ulna_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -986,7 +1016,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__carpals_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__carpals_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1007,7 +1037,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__metacarpals_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__metacarpals_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1028,7 +1058,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__proximal-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__proximal-phalanges-hand_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1049,7 +1079,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__intermediate-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__intermediate-phalanges-hand_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1070,7 +1100,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_upper_limb__distal-phalanges-hand_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_upper_limb__distal-phalanges-hand_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1102,7 +1132,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__hip-bone_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__hip-bone_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1123,7 +1153,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__femur_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__femur_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1144,7 +1174,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__patella_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__patella_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1165,7 +1195,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__tibia_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__tibia_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1186,7 +1216,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__fibula_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__fibula_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1207,7 +1237,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__calcaneus_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__calcaneus_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1228,7 +1258,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__talus_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__talus_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1249,7 +1279,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__tarsals_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__tarsals_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1270,7 +1300,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__metatarsals_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__metatarsals_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1291,7 +1321,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__proximal-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__proximal-phalanges-foot_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1312,7 +1342,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__intermediate-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__intermediate-phalanges-foot_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1333,7 +1363,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'left_lower_limb__distal-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'left_lower_limb__distal-phalanges-foot_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1365,7 +1395,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__hip-bone_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__hip-bone_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1386,7 +1416,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__femur_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__femur_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1407,7 +1437,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__patella_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__patella_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1428,7 +1458,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__tibia_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__tibia_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1449,7 +1479,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__fibula_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__fibula_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1470,7 +1500,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__calcaneus_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__calcaneus_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1491,7 +1521,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__talus_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__talus_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1512,7 +1542,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__tarsals_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__tarsals_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1533,7 +1563,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__metatarsals_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__metatarsals_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1554,7 +1584,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__proximal-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__proximal-phalanges-foot_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1575,7 +1605,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__intermediate-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__intermediate-phalanges-foot_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -1596,7 +1626,7 @@
 						<div style="grid-column: span 4;">
 							<BaseSelect
 								:value="getFieldProp( 'right_lower_limb__distal-phalanges-foot_amount', '_value' )"
-								:label="'Select ...'"
+								:placeholder="'Select ...'"
 								:options="getFieldProp( 'right_lower_limb__distal-phalanges-foot_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
@@ -2043,7 +2073,7 @@
 					<div style="grid-column: span 5;">
 						<BaseSelect
 							:value="getFieldProp( 'archaeological_funery_context', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'archaeological_funery_context', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -2068,7 +2098,7 @@
 					<div style="grid-column: span 5;">
 						<BaseSelect
 							:value="getFieldProp( 'archaeological_burial_type', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'archaeological_burial_type', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -2094,7 +2124,7 @@
 						<!--
 						<BaseSelect
 							:value="getFieldProp( 'storage_place', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'storage_place', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -2186,7 +2216,7 @@
 					<div style="grid-column: span 5;">
 						<BaseSelect
 							:value="getFieldProp( 'storage_condition', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'storage_condition', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -2296,7 +2326,7 @@
 								<!-- chronology_timePeriodFrom -->
 								<BaseSelect class="chronologySubForm__cSelect--from"
 									:value="getFieldProp( 'chronology_timePeriodFrom', '_value' )"
-									:label="'Choose ...'"
+									:placeholder="'Choose ...'"
 									:options="getFieldProp( 'chronology_timePeriodFrom', '_options' )"
 									:hasClearButton="false"
 									@change="()=>{}"
@@ -2325,7 +2355,7 @@
 								<!-- chronology_timePeriodTo -->
 								<BaseSelect class="chronologySubForm__cSelect--to"
 									:value="getFieldProp( 'chronology_timePeriodTo', '_value' )"
-									:label="'Choose ...'"
+									:placeholder="'Choose ...'"
 									:options="getFieldProp( 'chronology_timePeriodTo', '_options' )"
 									:hasClearButton="false"
 									@change="()=>{}"
@@ -2421,7 +2451,7 @@
 						<!--
 						<BaseSelect
 							:value="getFieldProp( 'dating_method', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'dating_method', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -2491,7 +2521,7 @@
 					<div style="grid-column: span 5;">
 						<BaseSelect
 							:value="getFieldProp( 'dna_analyses', '_value' )"
-							:label="'Select ...'"
+							:placeholder="'Select ...'"
 							:options="getFieldProp( 'dna_analyses', '_options' )"
 							:hasClearButton="true"
 							@input="$store.commit('setFieldProp', {
@@ -2531,6 +2561,33 @@
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
 						style="grid-column: span 4;" v-html="getFieldProp( 'dna_analyses_link', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+				<!-- differential_diagnosis -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 3;">
+						{{getFieldProp( 'differential_diagnosis', '_label' )}}
+						<template v-if="getFieldProp( 'differential_diagnosis', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 5;">
+						<BaseTextarea
+							:value="getFieldProp( 'differential_diagnosis', '_value' )"
+							:placeholder="'Enter Text ...'"
+							:required="false"
+							:disabled="getFieldProp( 'differential_diagnosis', '_disabled' )"
+							:hasClearButton="true"
+							@change="(e)=>{}"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'differential_diagnosis',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseTextarea>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('differential_diagnosis')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'differential_diagnosis', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
 				<!-- published -->
@@ -2758,13 +2815,14 @@
 
 	import MhIcon from '@/components/MhIcon/v2/MhIcon.vue'
 
-	import '@/components/MhForm/v4/FormField.less'
+	import '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/FormField.less'
 	import BaseCheckbox from '@/components/MhForm/v4/BaseCheckbox.vue'
 	import BaseRadio from '@/components/MhForm/v4/BaseRadio.vue'
-	import BaseSelect from '@/components/MhForm/v4/BaseSelect.vue'
-	import BaseText from '@/components/MhForm/v4/BaseText.vue'
-	import BaseTextarea from '@/components/MhForm/v4/BaseTextarea.vue'
+	import BaseText from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseText.vue'
+	import BaseTextarea from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseTextarea.vue'
 	import BaseButton from '@/components/MhForm/v4/BaseButton.vue'
+	import BaseSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseSelect.vue'
+	import BaseSearchSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseSearchSelect.vue'
 
 	export default {
 		name: 'KnEditForm',
@@ -2782,6 +2840,7 @@
 			BaseTextarea,
 			MhIcon,
 			BaseButton,
+			BaseSearchSelect,
 		},
 		mixins: [ RestHandler ],
 		props: {},
@@ -2799,16 +2858,18 @@
 		watch: {
 			'fields.adults._value': {
 				handler: function( to, from ){
-					if( !this._.isEqual(to, from) ) this.fetchDiseases()
+					//if( !this._.isEqual(to, from) ) this.fetchDiseases()
+					if( to ) this.fetchDiseases()
 				},
-				//immediate : true,
+				immediate : true,
 				//deep: true,
 			},
 			'fields.subadults._value': {
 				handler: function( to, from ){
-					if( !this._.isEqual(to, from) ) this.fetchDiseases()
+					//if( !this._.isEqual(to, from) ) this.fetchDiseases()
+					if( to ) this.fetchDiseases()
 				},
-				//immediate : true,
+				immediate : true,
 				//deep: true,
 			},
 			'fields.disease._value': {
@@ -3120,11 +3181,11 @@
 
 				this.gotoStepIndex( activeStepIndex+1 )
 			},
-			fetchDiseases( doLog = false ){
+			fetchDiseases( doLog = true ){
 				const field       = this.getFieldBySlug('disease')
 				let   doFetch     = false
 				let   fetchParams = {
-					fields : 'id,name,adults,subadults'
+					fields : 'id,name,adults,subadults,aliases'
 				}
 
 				// erzeuge age-filter anhand der zuvor vom user gewählten values
@@ -3163,6 +3224,7 @@
 									//value : result.name,
 									value : result.id,
 									label : result.name,
+									aliases : result.aliases,
 								})
 							})
 
@@ -3651,6 +3713,20 @@
 		}
 	}
 	.KnEditForm { // styling
+		.FormField {
+			--color                 : currentColor;
+			--colorOpacity          : 1;
+			--colorOpacity-hover    : 1;
+			--colorOpacity-focus    : 1;
+			--colorOpacity-disabled : 0.5;
+
+			--bgColor            : currentColor;
+			--bgOpacity          : 0.1;
+			--bgOpacity-hover    : 0.2;
+			--bgOpacity-focus    : 0.2;
+			--bgOpacity-disabled : 0.05;
+		}
+
 		&__labelCell {
 			//background-color: fade( red, 20 );
 			padding-top: 0.4em;

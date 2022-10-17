@@ -4,7 +4,7 @@
 
 	Props:
 		value		String	Wird als value des Selects verwendet
-		label		String	Erste Zeile im <select> z.B. "Bitte wählen ..."
+		placeholder	String	Erste Zeile im <select> z.B. "Bitte wählen ..."
 		options		Array	Werden als <option> verwendet
 
 	Events:
@@ -14,7 +14,7 @@
 	Markup:
 		<BaseSelect
 			:value="'Heiko'"
-			:label="'Choose ...'"
+			:placeholder="'Choose ...'"
 			:options="[
 				'Mario',
 				'Heiko',
@@ -39,6 +39,8 @@
 		></BaseSelect>
 
 	Changelog
+		2022-10-11	improvement: renamed prop 'label' to prop 'placeholder'
+		2022-01-31	bugfix: if model was not in options its hidden but no placeholder was show and the clearBtn was visible
 		2022-01-31	feature: added hasClearButton prop, like BaseText
 		2021-08-14	improvement: refaktor
 		2021-07-15	improvement: add disabled prop and styles
@@ -52,19 +54,28 @@
 	<div class="BaseSelect FormField FormField--BaseSelect" :class="elmClasses">
 		<div class="BaseSelect__inner FormField__inner">
 			<div class="BaseSelect__bg FormField__bg"></div>
-			<select class="BaseSelect__select FormField__select"
+			<!--<div class="BaseSearchSelect__selectedOptionLabel FormField__selectedOptionLabel"
+				:class="{'BaseSearchSelect__select--isUnset FormField__select--isUnset' : !_.get( selectedOption, 'label')}"
+				v-html="_.get( selectedOption, 'label', this.placeholder )"
+				@click="onClickSelectedOption"
+				tabIndex="0"
+				@keydown="onSelectedOptionLabelKeydown"
+			></div>
 				:class="{'BaseSelect__select--isUnset FormField__select--isUnset' : !model}"
+			-->
+			<select class="BaseSelect__select FormField__select"
+				:class="{'BaseSelect__select--isUnset FormField__select--isUnset' : !_.get( selectedOption, 'label')}"
 				ref="selectElm"
 				:disabled="disabled"
 				v-model="model"
 				@change="emit"
 				>
 				<option class="BaseSelect__option BaseSelect__option--label"
-					v-if="label"
+					v-if="!_.get( selectedOption, 'label')"
 					value=""
-					v-html="label"
+					v-html="this.placeholder"
 					disabled
-					>{{label}}</option>
+				></option>
 				<option class="BaseSelect__option"
 					v-for="(option, index) in internalOptions"
 					:key="index"
@@ -73,7 +84,7 @@
 				></option>
 			</select>
 			<svg class="BaseSelect__clearBtn FormField__clearBtn"
-					v-if="model && hasClearButton"
+					v-if="_.get( selectedOption, 'label' ) && hasClearButton"
 					@click="clickClearBtn"
 					viewBox="0 0 20 20"
 					aria-hidden="true"
@@ -93,11 +104,12 @@
 		</div>
 		<template v-if="debug">
 			<br />
-			<pre name="BaseSelect.model">{{model}}</pre>
+			<pre name="model">{{model}}</pre>
 			<pre name="_.isEmpty( model )">{{_.isEmpty( model )}}</pre>
-			<pre name="BaseSelect.value">{{value}}</pre>
-			<pre name="BaseSelect.options">{{options}}</pre>
-			<pre name="BaseSelect.internalOptions">{{internalOptions}}</pre>
+			<pre name="selectedOption">{{selectedOption}}</pre>
+			<pre name="value">{{value}}</pre>
+			<pre name="options">{{options}}</pre>
+			<pre name="internalOptions">{{internalOptions}}</pre>
 		</template>
 	</div>
 </template>
@@ -116,7 +128,7 @@
       			type: [String, Number, Array, Boolean],
       			default: '',
     		},
-    		label: {
+    		placeholder: {
       			type: [String, Number, Boolean],
       			default: '',
     		},
@@ -139,7 +151,7 @@
     	},
 		data() {
 			return {
-				model                   : null,
+				model                   : "",
 				internalOptions         : [],
 				doWatchInternalOptions  : true,
 				doUpdateInternalOptions : true,
@@ -164,6 +176,13 @@
 					//console.log('watcher options', from, to)
 
 					this.setInternalOptions()
+
+					// check if model is inside of options
+					// can happen if a valid value was set and then
+					// changing the options to an array without the already set value
+					// if this happens we unset the model
+					const validOption = this._.find( this.internalOptions, { value : this.model } )
+					if( !validOption ) this.model = ""
 				},
 				immediate: true,
 			},
@@ -192,6 +211,10 @@
 				const results = this.internalOptions.filter( item => item.selected === true )
 
 				return results.length
+			},
+			selectedOption(){
+				const option = this._.find( this.internalOptions, { value : this.model } )
+				return option
 			},
 		},
 		methods: {

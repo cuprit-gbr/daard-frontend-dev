@@ -253,6 +253,7 @@ export default new Vuex.Store({
 				dating_method: getters.getFieldProp('dating_method', '_value'),
 				dna_analyses: getters.getFieldProp('dna_analyses', '_value'),
 				dna_analyses_link: getters.getFieldProp('dna_analyses_link', '_value'),
+				differential_diagnosis: getters.getFieldProp('differential_diagnosis', '_value'),
 				published: getters.getFieldProp('published', '_value'),
 				doi: getters.getFieldProp('doi', '_value'),
 				references: '', // wird nachstehend gesetzt

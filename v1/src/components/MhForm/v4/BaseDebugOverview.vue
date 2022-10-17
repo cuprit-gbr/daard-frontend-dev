@@ -318,7 +318,7 @@
 	import BaseFileInput from './BaseFileInput.vue'
 	import BaseCheckbox from './BaseCheckbox.vue'
 	import BaseRadio from './BaseRadio.vue'
-	import BaseSelect from './BaseSelect.vue'
+	import BaseSelect from '/Users/Mario/Dropbox/htdocs/2020-09-17__MhForm/vue-cli-dev/src/components/MhForm/v5/BaseSelect.vue'
 	import BaseButton from './BaseButton.vue'
 	import BaseText from './BaseText.vue'
 	import BaseTextarea from './BaseTextarea.vue'
