@@ -210,13 +210,13 @@ export default new Vuex.Store({
 		finalSubmitObject: (state, getters) => {
 			const inventoryStep = getters.getStepBySlug('inventory')
 			const boneChangesStep = getters.getStepBySlug('bone-changes')
-			const inventoryStepFields = _.get(inventoryStep, 'fields', [])
-			const boneChangesStepFields = _.get(boneChangesStep, 'fields', [])
+			const inventoryStepFieldSlugs = _.get( inventoryStep, 'fields', [] )
+			const boneChangesStepFieldSlugs = _.get( boneChangesStep, 'fields', [] )
 			const specialFieldSlugs = [
 				'cranial_district__deciduous-teeth',
 				'cranial_district__permanent-teeth',
 			]
-			const labelFields = inventoryStepFields.filter((fieldSlug) => {
+			const labelFields = inventoryStepFieldSlugs.filter( fieldSlug => {
 				const fieldIsNotSpecial = !specialFieldSlugs.includes(fieldSlug)
 				const hasValidSlug = !_.endsWith(fieldSlug, '_amount')
 				return fieldIsNotSpecial && hasValidSlug
@@ -286,7 +286,7 @@ export default new Vuex.Store({
 			// fill data.inventory
 			// merge field with its corresponding _amount field
 			// create merged inventory object
-			labelFields.forEach(fieldSlug => {
+			labelFields.forEach( fieldSlug => {
 				const field = getters.getFieldBySlug(fieldSlug)
 				const amountField = getters.getFieldBySlug(fieldSlug + '_amount')
 
@@ -323,7 +323,7 @@ export default new Vuex.Store({
 			// special handling for teeths
 			// merge field with its corresponding _amount field
 			// create merged inventory object
-			specialFieldSlugs.forEach(fieldSlug => {
+			specialFieldSlugs.forEach( fieldSlug => {
 				const field = getters.getFieldBySlug(fieldSlug)
 				const amountField = getters.getFieldBySlug(fieldSlug + '_amount')
 				const ids = getters.getFieldProp(fieldSlug, '_value')
@@ -333,11 +333,13 @@ export default new Vuex.Store({
 				const name = field.name
 				const section = field.section
 
-				if (amount != 'absent' && _.size(ids)) {
+				if( amount != 'absent' && _.size(ids) ){
+					/*
 					console.log('-----')
 					console.log('field:', field, field.id)
 					console.log('amountField:', amountField, amountField.id)
 					console.log('ids:', ids)
+					*/
 
 					ids.forEach(id => {
 						const fieldObj = {
@@ -357,8 +359,8 @@ export default new Vuex.Store({
 			})
 
 			// fill bone-relation
-			boneChangesStepFields.forEach(fieldSlug => {
-				const field = getters.getFieldBySlug(fieldSlug)
+			boneChangesStepFieldSlugs.forEach( fieldSlug => {
+				const field = getters.getFieldBySlug( fieldSlug )
 				const fieldObj = {
 					id: field.id,
 					slug: field._slug,
@@ -377,7 +379,7 @@ export default new Vuex.Store({
 				}
 
 				// bone is already there > just add the change
-				if (_.has(data, 'bone_relations[' + fieldObj.id + ']')) {
+				if( _.has(data, 'bone_relations[' + fieldObj.id + ']') ){
 					data.bone_relations[ fieldObj.id ]._changes.push(changeObj)
 				}
 				// bone is new > add the pair
@@ -592,7 +594,7 @@ export default new Vuex.Store({
 			fieldSlugsToRemove.forEach(fieldSlug => {
 				//console.log( 'fieldSlug:', fieldSlug, state.fields[fieldSlug] )
 
-				delete state.fields[ fieldSlug ]
+				//delete state.fields[ fieldSlug ]
 			})
 
 		},

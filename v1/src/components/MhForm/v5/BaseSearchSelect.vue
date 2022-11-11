@@ -349,17 +349,17 @@
 			onSelectedOptionLabelKeydown( e ){
 				const keyCode = e.code
 
-				console.log( this.$options.name, '• onSelectedOptionLabelKeydown( e )', e)
+				//console.log( this.$options.name, '• onSelectedOptionLabelKeydown( e )', e)
 
 				if( 'Space' === keyCode ) this.onClickSelectedOption( e )
 			},
 			onClickSelectedOption( e ){
-				console.log( this.$options.name, '• onClickSelectedOption( e )', e)
+				//console.log( this.$options.name, '• onClickSelectedOption( e )', e)
 
 				this.showDropdownWrapper = !this.showDropdownWrapper
 			},
 			onClickOption( e, option ){
-				console.log( this.$options.name, '• onClickOption( e, option )')
+				//console.log( this.$options.name, '• onClickOption( e, option )')
 
 				this.showDropdownWrapper = false
 

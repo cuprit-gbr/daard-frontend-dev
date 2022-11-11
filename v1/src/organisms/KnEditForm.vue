@@ -1706,44 +1706,47 @@
 					:items="boneChangesTabs"
 					:activeItemIndex="currentBoneChangesFormTabIndex"
 					@tabChange="gotoBoneChangesFormTabIndex"
+					v-if="_.size( availableBoneIds )"
 				></KnTabsRow>
 
 				<!-- all fields -->
-				<template v-for="(tab, tabIndex) in boneChangesForm">
-					<template v-if="currentBoneChangesFormTabIndex === tabIndex">
-						<KnFormFieldRow :key="'bcs__' + tabIndex + '__' + fieldIndex"
-							v-for="(fieldSlug, fieldIndex) in tab.fields">
-							<div class="KnEditForm__labelCell font font--medium color color--primary50"
-								style="grid-column: span 4;">
-								{{getFieldProp( fieldSlug, '_label' )}}
-							</div>
-							<div style="grid-column: span 8;">
-								<Treeselect
-									class=""
-									:value="
-										_.isEmpty( getFieldProp( fieldSlug, '_value' ) ) ? null :
-										getFieldProp( fieldSlug, '_value', null )
-									"
-									:multiple="true"
-									:placeholder="'Select ...'"
-									:normalizer="treeselectNormalizer"
-									:options="getFieldProp( fieldSlug, '_options' )"
-									@input="$store.commit('setFieldProp', {
-										fieldName : fieldSlug,
-										key       : '_value',
-										value     : $event
-									})"
-								/>
-								<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug( fieldSlug )}}</pre>
-							</div>
-						</KnFormFieldRow>
+				<template v-if="_.size( availableBoneIds )">
+					<template v-for="(tab, tabIndex) in boneChangesForm">
+						<template v-if="currentBoneChangesFormTabIndex === tabIndex">
+							<KnFormFieldRow :key="'bcs__' + tabIndex + '__' + fieldIndex"
+								v-for="(fieldSlug, fieldIndex) in tab.fields">
+								<div class="KnEditForm__labelCell font font--medium color color--primary50"
+									style="grid-column: span 4;">
+									{{getFieldProp( fieldSlug, '_label' )}}
+								</div>
+								<div style="grid-column: span 8;">
+									<Treeselect
+										class=""
+										:value="
+											_.isEmpty( getFieldProp( fieldSlug, '_value' ) ) ? null :
+											getFieldProp( fieldSlug, '_value', null )
+										"
+										:multiple="true"
+										:placeholder="'Select ...'"
+										:normalizer="treeselectNormalizer"
+										:options="getFieldProp( fieldSlug, '_options' )"
+										@input="$store.commit('setFieldProp', {
+											fieldName : fieldSlug,
+											key       : '_value',
+											value     : $event
+										})"
+									/>
+									<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug( fieldSlug )}}</pre>
+								</div>
+							</KnFormFieldRow>
+						</template>
+						<!--
+						<div :key="'bcs3__' + tabIndex + '__' + fieldIndex"
+							v-for="(field, fieldIndex) in tab.fields">
+							<pre :key="'bcs4__' + tabIndex + '__' + fieldIndex">{{field}}</pre>
+						</div>
+						-->
 					</template>
-					<!--
-					<div :key="'bcs3__' + tabIndex + '__' + fieldIndex"
-						 v-for="(field, fieldIndex) in tab.fields">
-						<pre :key="'bcs4__' + tabIndex + '__' + fieldIndex">{{field}}</pre>
-					</div>
-					-->
 				</template>
 
 				<!-- next -->
@@ -2767,6 +2770,10 @@
 			<hr class="KnEditForm__debug" />
 			<div class="KnEditForm__debug background--white15 flex">
 				<div class="background--white15 vhSpace vhSpace--default">
+					<pre name="getFieldProp( 'cranial_district__neurocranium__macroscopy', '_value', null )">{{getFieldProp( 'cranial_district__neurocranium__macroscopy', '_value', null )}}</pre>
+					<pre name="$store.getters.boneChangesForm">{{$store.getters.boneChangesForm}}</pre>
+				</div>
+				<div class="background--white15 vhSpace vhSpace--default">
 					<strong>Step • isValid</strong>
 					<div v-for="(step, index) in $store.getters.steps" :key="'s'+index">
 						{{step.title}} • {{step.slug}}  •
@@ -3016,6 +3023,7 @@
       			'activeStepIndex',
       			'isStepValid',
       			'fields',
+      			'getStepBySlug',
       			'getStepProp',
       			'getFieldBySlug',
       			'getFieldProp',
@@ -3263,7 +3271,7 @@
 
 				// groupCollapsed group
 				if( doLog ){
-					console.group( this.$options.name, '• fetchBoneChangesFields()' )
+					console.groupCollapsed( this.$options.name, '• fetchBoneChangesFields()' )
 					console.log('boneIds:', boneIds)
 					console.log('disease:', disease)
 					console.log('doFetch:', doFetch)
@@ -3274,13 +3282,18 @@
 
 				if( doFetch ){
 
+					// ich speichere alle values dern fields des steps
+					// bevor ich ihn leere
+					const boneChangesFields = this.getStepProp('bone-changes', 'fields')
+					console.log('boneChangesFields:', boneChangesFields )
+
 					// remove previous added fields
-					//const fieldsToRemove = this._.flatten( this._.map( this.boneChangesForm, 'fields' ) )
 					this.$store.commit('removeStepFields', {
 						stepSlug : 'bone-changes',
 						//fieldSlug : fieldsToRemove,
 					})
-					//console.log( fieldsToRemove )
+					/*
+					*/
 
 					// do fetch and add data to store
 					this.restHandler__fetch({
@@ -3300,7 +3313,7 @@
 
 							// groupCollapsed group
 							if( doLog ){
-								console.group( this.$options.name, '• fetchBoneChangesFields() • callback(response)' )
+								console.groupCollapsed( this.$options.name, '• fetchBoneChangesFields() • callback(response)' )
 								console.log('results:', results)
 							}
 
@@ -3314,6 +3327,7 @@
 
 								// walk the method fields
 								// commit them as field to store
+								// if the field was already there and had a value: set them again
 								// get them back and collect the fields for boneChangesForm
 								// to commit that finally
 								let boneChangesFormTabFields = []
@@ -3346,13 +3360,27 @@
 									// use custom slug to make shure that this field is unique
 									const fieldSlug = boneField.section + '__' + boneField.name
 
+									// if the field was already there and had a value: get them
+									// thats for the users. if they set already a value and changed
+									// step 1 or 2 later, they don't have to reenter the value
+									const prevFieldValue = this.getFieldProp( fieldSlug, '_value', null )
+
 									// commit field to store
 									this.$store.commit('addStepField', {
 										stepSlug : 'bone-changes',
 										field    : this._.cloneDeep( boneField ),
 									})
 
-									// console.log('boneField:', boneField)
+									// if the field was already there and had a value: set them again
+									if( prevFieldValue ){
+										this.$store.commit('setFieldProp', {
+											fieldName : fieldSlug,
+											key       : '_value',
+											value     : prevFieldValue,
+										})
+										/*
+										*/
+									}
 
 									// get the field back to get the normalized version of it
 									//const getFieldBack = this._.cloneDeep( this.getFieldBySlug( fieldSlug ) )
