@@ -794,7 +794,7 @@
 <script>
 	// @ is an alias to /src
 	import "./FormField.less";
-	import textareaAutogrow from '/Users/Mario/Dropbox/htdocs/2019-05-20__wp-kickstart-vue/wordpress/wp-content/themes/wp-kickstart-v3-theme/vue-cli-dev/src/directives/textareaAutogrow.directive.js'
+	import textareaAutogrow from './directives/textareaAutogrow.directive.js'
 
 	import BaseFileInput from './BaseFileInput.vue'
 	import BaseCheckbox from './BaseCheckbox.vue'
