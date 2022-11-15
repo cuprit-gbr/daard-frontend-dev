@@ -2,6 +2,10 @@
 
 	Die Componente dient als Wrapper für <select></select>-Elemente.
 
+	Changelog
+		2022-11-14	das triangle-down icon ist jetzt ebenfalls klickbar
+		2022-10-10	init
+
 	Props:
 		value		String	Wird als value des Selects verwendet
 		placeholder String	Die Handlungsanweisung an den User sofern noch keine valide value vorhanden ist
@@ -38,9 +42,6 @@
 			@change="(e)=>{}"
 		></BaseSearchSelect>
 
-	Changelog
-		2022-10-10	init
-
 -->
 
 <template>
@@ -54,23 +55,26 @@
 				tabIndex="0"
 				@keydown="onSelectedOptionLabelKeydown"
 			></div>
-			<svg class="BaseSearchSelect__clearBtn FormField__clearBtn"
-					v-if="_.get( selectedOption, 'label' ) && hasClearButton"
-					@click="onClickClearBtn"
-					viewBox="0 0 20 20"
-					aria-hidden="true"
-					fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path 	fill-rule="evenodd"
-						clip-rule="evenodd"
-						d="M20 10.1421C20 15.6649 15.5228 20.1421 10 20.1421C4.47715 20.1421 0 15.6649 0 10.1421C0 4.61924 4.47715 0.14209 10 0.14209C15.5228 0.14209 20 4.61924 20 10.1421ZM5.899 14.5264C5.50848 14.1359 5.50848 13.5027 5.899 13.1122L8.62636 10.3848L5.89889 7.65738C5.50836 7.26685 5.50836 6.63369 5.89889 6.24316C6.28941 5.85264 6.92258 5.85264 7.3131 6.24316L10.0406 8.97063L12.9701 6.04114C13.3606 5.65061 13.9938 5.65061 14.3843 6.04114C14.7748 6.43166 14.7748 7.06483 14.3843 7.45535L11.4548 10.3848L14.3842 13.3142C14.7747 13.7048 14.7747 14.3379 14.3842 14.7284C13.9936 15.119 13.3605 15.119 12.97 14.7284L10.0406 11.7991L7.31322 14.5264C6.92269 14.9169 6.28953 14.9169 5.899 14.5264Z"
-				/>
-			</svg>
-			<svg class="FormField__openIcon"
-					viewBox="0 0 20 20"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg">
-				<path d="M10 16L3.0718 7L16.9282 7L10 16Z" />
-			</svg>
+			<!-- clear button + triangle-down icon -->
+			<div class="BaseSearchSelect__btnWrapper">
+				<svg class="BaseSearchSelect__clearBtn FormField__clearBtn"
+						v-if="isClearBtnVisible"
+						@click="onClickClearBtn"
+						viewBox="0 0 20 20"
+						aria-hidden="true"
+						fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path 	fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M20 10.1421C20 15.6649 15.5228 20.1421 10 20.1421C4.47715 20.1421 0 15.6649 0 10.1421C0 4.61924 4.47715 0.14209 10 0.14209C15.5228 0.14209 20 4.61924 20 10.1421ZM5.899 14.5264C5.50848 14.1359 5.50848 13.5027 5.899 13.1122L8.62636 10.3848L5.89889 7.65738C5.50836 7.26685 5.50836 6.63369 5.89889 6.24316C6.28941 5.85264 6.92258 5.85264 7.3131 6.24316L10.0406 8.97063L12.9701 6.04114C13.3606 5.65061 13.9938 5.65061 14.3843 6.04114C14.7748 6.43166 14.7748 7.06483 14.3843 7.45535L11.4548 10.3848L14.3842 13.3142C14.7747 13.7048 14.7747 14.3379 14.3842 14.7284C13.9936 15.119 13.3605 15.119 12.97 14.7284L10.0406 11.7991L7.31322 14.5264C6.92269 14.9169 6.28953 14.9169 5.899 14.5264Z"
+					/>
+				</svg>
+				<svg class="FormField__openIcon"
+						viewBox="0 0 20 20"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg">
+					<path d="M10 16L3.0718 7L16.9282 7L10 16Z" />
+				</svg>
+			</div>
 			<div class="BaseSearchSelect__border FormField__border"></div>
 		</div>
 
@@ -262,8 +266,8 @@
 				if( this.disabled ) classes.push( this.$options.name + '--isDisabled' )
 				if( this.disabled ) classes.push( 'FormField--isDisabled' )
 
-				if( this.hasClearButton ) classes.push( this.$options.name + '--hasClearButton' )
-				if( this.hasClearButton ) classes.push( 'FormField--hasClearButton' )
+				if( this.isClearBtnVisible ) classes.push( this.$options.name + '--hasClearButton' )
+				if( this.isClearBtnVisible ) classes.push( 'FormField--hasClearButton' )
 
 				if( this.isValid ) classes.push( this.$options.name + '--isValid ' + 'FormField--isValid' )
 				else classes.push( this.$options.name + '--isInvalid ' + 'FormField--isInvalid' )
@@ -315,6 +319,9 @@
 				})
 
 				return isValid
+			},
+			isClearBtnVisible(){
+				return this._.get( this.selectedOption, 'label' ) && this.hasClearButton ? true : false
 			},
 		},
 		methods: {
@@ -432,9 +439,25 @@
 	}
 
 	.BaseSearchSelect {  // debug styling
+
 	}
 
 	.BaseSearchSelect { // layout + styling
+		&__btnWrapper {
+			//background-color: fade( red, 20 );
+
+			position: absolute;
+			top: 0; right: 0;
+			height: var(--height);
+			pointer-events: none;
+			display: flex;
+    		align-content: center;
+    		flex-direction: row;
+		}
+		&__clearBtn {
+			pointer-events: initial;
+		}
+
 		&__dropdownWrapper {
 			position: relative;
 			margin-top: 3px;

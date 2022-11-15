@@ -1,0 +1,7 @@
+TODO:
+	Das neue Wrapper-Element von BaseSearchSelect muss auch zu BaseSelect und sein Styling
+	muss raus aus der Componente und ins FormField.less
+
+2022-11-14
+	BaseSearchSelect
+		- das triangle-down icon ist jetzt ebenfalls klickbar, dafür habe ich ein neues Wrapper-Element um die Btn+Icons hinzugefügt.

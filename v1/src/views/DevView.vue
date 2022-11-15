@@ -5,6 +5,9 @@
 
 			<br /><strong>DevView.vue</strong><hr />
 
+			<BaseDebugOverview class="background background--white"></BaseDebugOverview>
+			<br/><br/><br/><hr />
+
 			<KnFormHeaderRow
 				:title="'Create Record'"
 				:subTitle="'Step 2/5'"
@@ -179,12 +182,6 @@
 			</div>
 
 			<hr/>
-
-			<BaseDebugOverview class="background background--white"></BaseDebugOverview>
-
-			<br/><br/><br/>
-
-			<hr />
 
 			<div>
 				<MhIcon></MhIcon> &nbsp;

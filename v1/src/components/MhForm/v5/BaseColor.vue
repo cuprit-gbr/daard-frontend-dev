@@ -8,6 +8,8 @@
 	TODO:
 		add required
 		add disabled
+		emit after change
+		emit sanitized input value if invalid
 
 	Markup:
 		<BaseColor
@@ -78,9 +80,6 @@
 			<div class="BaseColor__border FormField__border"></div>
 		</div>
 		<div class="BaseColor__debug" v-if="debug">
-			<mark>TODO: emit after change</mark>
-			<mark>TODO: emit sanitized input value if invalid</mark>
-
 			<pre name="value">{{value}}</pre>
 			<pre name="model">{{model}}</pre>
 			<pre name="solidColorValue">{{solidColorValue}}</pre>
@@ -91,8 +90,10 @@
 
 <script>
 	import { get } from "lodash"
-	import Color from "./vendor/color/node_modules/color/index.js"
-	import colorString from "./vendor/color/node_modules/color-string/index.js"
+	//import Color from "./vendor/color/node_modules/color/index.js"
+	import Color from "./vendor/color/index.js"
+	//import ColorString from "./vendor/color/node_modules/color-string/index.js"
+	import ColorString from "./vendor/color-string/index.js"
 	import stepper from "./directives/numberStepper.directive.js"
 
 	export default {
@@ -260,7 +261,18 @@
 				//if( this.$refs.swatchInputElm ) this.$refs.swatchInputElm.value = color.hex()
 			},
 			isValidColorString( anyColorString ){
-				return colorString.get( anyColorString ) ? true : false
+				if( anyColorString ){
+					console.log('value:', this.value )
+					console.log('anyColorString:', anyColorString )
+					const colorString = ColorString.get( anyColorString )
+					console.log('colorString:', colorString )
+					console.log('-----')
+
+					return anyColorString && ColorString.get( anyColorString ) ? true : false
+				}
+				else{
+					return false
+				}
 			},
 			emit( event ){
 				const isChecked   = event.target.checked
@@ -278,7 +290,8 @@
 			},
 		},
 		created(){
-			//console.log('')
+			//const colorStringLog = ColorString.get( 'green' )
+			//console.log('colorStringLog:', colorStringLog)
 		},
 		mounted(){
 			//console.log('mounted')

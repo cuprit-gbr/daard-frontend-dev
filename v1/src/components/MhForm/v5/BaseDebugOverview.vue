@@ -542,12 +542,21 @@
 				<BaseColor
 					:value="'invalid-value'"
 				></BaseColor>
+
+				<hr>
+
 				<BaseColor
 					:value="'yellow'"
 				></BaseColor>
+
+				<hr>
+
 				<BaseColor
 					:value="'#646464'"
 				></BaseColor>
+
+				<hr>
+
 				<BaseColor
 					:value="'rgb( 50, 150, 50 )'"
 				></BaseColor>
