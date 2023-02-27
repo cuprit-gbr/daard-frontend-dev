@@ -41,7 +41,7 @@ export default [
 		appTitle: 'DAARD • dev stage',
 		showDevOutput: false,
 		baseUrl: 'https://geonode.dainst.org/',
-		mapUrl: 'https://geonode.dainst.org/maps/5629/embed?ext=daard#/',
+		mapUrl: 'https://geonode.dainst.org/maps/6007/embed?ext=daard#/',
 		restBase: 'https://geonode.dainst.org/daard',
 		loginUrl: 'https://geonode.dainst.org/o/authorize/?response_type=code&client_id=jqAODkFHbb54YDouEx7JAT16kJxelPSIeDkU2n5U&redirect_uri=%redirect_uri%&state=abc=scope=daard-api',
 		tokenUrl: 'https://geonode.dainst.org/o/token/',
