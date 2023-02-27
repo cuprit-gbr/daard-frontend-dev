@@ -8,6 +8,7 @@ cd "$DIR"
 cd v1
 
 # run
+export NODE_OPTIONS=--openssl-legacy-provider 
 npm run build
 
 # keep terminal alive: send shell to prevent exit after run
