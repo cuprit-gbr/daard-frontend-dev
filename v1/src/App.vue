@@ -33,10 +33,7 @@
 		></MhDelegateLinks>
 
 		<MhDevInfos
-			:showOnHosts="[
-				'localhost',
-				'daard-atlas-staging.csgis.de',
-			]"
+			:show="showMhDevInfos"
 		></MhDevInfos>
 
 	</div>
@@ -93,6 +90,22 @@
       			'availableBoneIds',
       			'boneChangesForm',
     		]),
+			showMhDevInfos(){
+				const validHosts = [
+					'localhost',
+					'daard-atlas-staging.csgis.de',
+				]
+				const validQueryParam = this._.has(this.$route, 'query.debug') ? true : false
+				const currentHostname = window.location.hostname
+				let show = false
+
+				if( validHosts.includes(currentHostname) ) show = true
+				if( validQueryParam ) show = true
+
+				//console.log(validQueryParam)
+
+				return show
+			},
 		},
 		methods: {
 			getLinkWithoutHostname( url ){
@@ -179,8 +192,21 @@
 							}
 							this.$store.commit('addStepField', payload)
 						})
-						/*
-						*/
+
+						// we need some more fields for internal processing
+						const additionalFields = [
+							{ name : 'size_from_before', label : 'size_from_before', type : 'textfield' },
+							{ name : 'size_from_after', label : 'size_from_after', type : 'textfield' },
+							{ name : 'size_to_before', label : 'size_to_before', type : 'textfield' },
+							{ name : 'size_to_after', label : 'size_to_after', type : 'textfield' },
+						]
+						this._.forEach( additionalFields, (field)=>{
+							const payload = {
+								stepSlug : 'disease',
+								field    : field,
+							}
+							this.$store.commit('addStepField', payload)
+						})
 
 						runCallback()
 					},

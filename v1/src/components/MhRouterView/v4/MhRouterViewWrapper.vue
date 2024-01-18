@@ -78,7 +78,7 @@
 		},
 		watch: {
 			viewKey: {
-				handler: function( to, from, doLog = true ) {
+				handler: function( to, from, doLog = false ) {
 					if( doLog ) console.log( this.$options.name + ' • watch.viewKey:', to)
 				},
 				immediate : true,
@@ -127,7 +127,7 @@
 					sessionStorage.removeItem( k )
 				})
 			},
-			handlePopstateEvent( e, doLog = true ){
+			handlePopstateEvent( e, doLog = false ){
 				// groupCollapsed group
 				if( doLog ){
 					console.groupCollapsed( this.$options.name, '• handlePopstateEvent()' )

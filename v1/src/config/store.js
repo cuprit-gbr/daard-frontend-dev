@@ -32,7 +32,7 @@ export default new Vuex.Store({
 			if( 'disease' === stepSlug){
 				if (!getters.getFieldProp('disease', '_value')) isValid = false
 				if (!getters.getFieldProp('age_class', '_value')) isValid = false
-				if (!getters.getFieldProp('age', '_value')) isValid = false
+				if (!getters.getFieldProp('disease', '_value')) isValid = false
 				if (!getters.getFieldProp('sex', '_value')) isValid = false
 			}
 			if( 'inventory' === stepSlug){
@@ -71,15 +71,21 @@ export default new Vuex.Store({
 				if( !getters.getFieldProp('storage_place', '_value')) isValid = false
 				//if( !getters.getFieldProp('chronology', '_value')) isValid = false
 
+				if( !getters.getFieldProp('chronology_fromYear', '_value')) isValid = false
+				if( !getters.getFieldProp('chronology_toYear', '_value')) isValid = false
+
+				/*
 				// für chronology gibt es 2 eingabemöglichkeiten:
 				// einmal ein suchen-feld und einmal die direkte eingabe
 				const chronology = getters.getFieldProp('chronology', '_value')
 				const chronology_fromYear = getters.getFieldProp('chronology_fromYear', '_value')
 				const chronology_toYear = getters.getFieldProp('chronology_toYear', '_value')
 				let chronology_kind = 0
+
 				if( chronology ) chronology_kind = 1
 				else if( chronology_fromYear && chronology_toYear ) chronology_kind = 2
 				else isValid = false
+				*/
 
 				if( 'archaeological' == getters.getFieldProp('origin', '_value')) {
 					if( !getters.getFieldProp('archaeological_funery_context', '_value')) isValid = false
@@ -227,9 +233,14 @@ export default new Vuex.Store({
 				subadults: getters.getFieldProp('subadults', '_value'),
 				age_class: getters.getFieldProp('age_class', '_value'),
 				disease: getters.getFieldProp('disease', '_value'),
-				age: getters.getFieldProp('age', '_value'),
+				//age: getters.getFieldProp('age', '_value'),
 				age_freetext: getters.getFieldProp('age_freetext', '_value'),
+				age_estimation_method: getters.getFieldProp('age_estimation_method', '_value'),
 				sex: getters.getFieldProp('sex', '_value'),
+				sex_freetext: getters.getFieldProp('sex_freetext', '_value'),
+				size_from: getters.getFieldProp('size_from', '_value'), // see formating below
+				size_to: getters.getFieldProp('size_to', '_value'), // see formating below
+				size_freetext: getters.getFieldProp('size_freetext', '_value'),
 
 				inventory: {},
 				bone_relations: {},
@@ -255,24 +266,48 @@ export default new Vuex.Store({
 				dna_analyses_link: getters.getFieldProp('dna_analyses_link', '_value'),
 				differential_diagnosis: getters.getFieldProp('differential_diagnosis', '_value'),
 				published: getters.getFieldProp('published', '_value'),
+				comment: getters.getFieldProp('comment', '_value'),
 				doi: getters.getFieldProp('doi', '_value'),
 				references: '', // wird nachstehend gesetzt
 			}
 
-			// für chronology gibt es 2 eingabemöglichkeiten:
-			// einmal ein suchen-feld (kind=1) und einmal die direkte eingabe (kind=2)
-			const chronology = getters.getFieldProp('chronology', '_value')
+			// formats size_from and size_to
+			if( data.size_from ){
+				data.size_from = (Math.round(data.size_from * 100) / 100).toFixed(2)
+			}
+			if( data.size_to ){
+				data.size_to = (Math.round(data.size_to * 100) / 100).toFixed(2)
+			}
+
+			/*
+				// für chronology gibt es 2 eingabemöglichkeiten:
+				// einmal ein suchen-feld (kind=1) und einmal die direkte eingabe (kind=2)
+				const chronology = getters.getFieldProp('chronology', '_value')
+				const chronology_fromYear = getters.getFieldProp('chronology_fromYear', '_value')
+				const chronology_timePeriodFrom = getters.getFieldProp('chronology_timePeriodFrom', '_value')
+				const chronology_toYear = getters.getFieldProp('chronology_toYear', '_value')
+				const chronology_timePeriodTo = getters.getFieldProp('chronology_timePeriodTo', '_value')
+				const chronology_isApproximated = getters.getFieldProp('chronology_isApproximated', '_value')
+				let chronology_kind = 0
+				if( chronology ) chronology_kind = 1
+				else if( chronology_fromYear && chronology_toYear ) chronology_kind = 2
+				if( chronology_kind === 1 ) data.chronology = chronology
+				if( chronology_kind === 2 ) data.chronology = chronology_fromYear + ' ' + chronology_timePeriodFrom + ' – ' + chronology_toYear + ' ' + chronology_timePeriodTo
+				if( chronology_kind === 2 && chronology_isApproximated ) data.chronology = data.chronology + ' (approximated)'
+			*/
+
+			// build chronology value
 			const chronology_fromYear = getters.getFieldProp('chronology_fromYear', '_value')
 			const chronology_timePeriodFrom = getters.getFieldProp('chronology_timePeriodFrom', '_value')
 			const chronology_toYear = getters.getFieldProp('chronology_toYear', '_value')
 			const chronology_timePeriodTo = getters.getFieldProp('chronology_timePeriodTo', '_value')
 			const chronology_isApproximated = getters.getFieldProp('chronology_isApproximated', '_value')
-			let chronology_kind = 0
-			if( chronology ) chronology_kind = 1
-			else if( chronology_fromYear && chronology_toYear ) chronology_kind = 2
-			if( chronology_kind === 1 ) data.chronology = chronology
-			if( chronology_kind === 2 ) data.chronology = chronology_fromYear + ' ' + chronology_timePeriodFrom + ' – ' + chronology_toYear + ' ' + chronology_timePeriodTo
-			if( chronology_kind === 2 && chronology_isApproximated ) data.chronology = data.chronology + ' (approximated)'
+			data.chronology =
+				chronology_fromYear + ' ' +
+				chronology_timePeriodFrom + ' – ' +
+				chronology_toYear + ' ' +
+				chronology_timePeriodTo +
+				(chronology_isApproximated ? ' (approximated)' : '')
 
 			// references: from array to html-list
 			const referencesArray = _.clone( getters.getFieldProp('referencesArray', '_value') )

@@ -144,6 +144,7 @@
 					></div>
 				</KnFormFieldRow>
 				<!-- age -->
+				<!--
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 2;">
@@ -168,7 +169,9 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'age', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+				-->
 				<!-- age_freetext_checkbox -->
+				<!--
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 2;">
@@ -188,8 +191,9 @@
 					</div>
 					<div class="font font--sizeSmall color color--primary50" style="grid-column: span 4;"></div>
 				</KnFormFieldRow>
+				-->
 				<!-- age_freetext -->
-				<KnFormFieldRow v-if="getFieldProp( 'age_freetext_checkbox', '_value' )">
+				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 2;">
 						{{getFieldProp( 'age_freetext', '_label' )}}
@@ -212,6 +216,32 @@
 					</div>
 					<div class="font font--sizeSmall color color--primary50"
 						style="grid-column: span 4;" v-html="getFieldProp( 'age_freetext', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+				<!-- age_estimation_method -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 2;">
+						{{getFieldProp( 'age_estimation_method', '_label' )}}
+						<template v-if="getFieldProp( 'age_estimation_method', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 6;">
+						<BaseTextarea
+							:value="getFieldProp( 'age_estimation_method', '_value' )"
+							:placeholder="'Enter ..'"
+							:required="false"
+							:disabled="false"
+							:hasClearButton="true"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'age_estimation_method',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseTextarea>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('age_estimation_method')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'age_estimation_method', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
 				<!-- disease -->
@@ -295,7 +325,114 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'sex', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
-				<!-- next -->
+				<!-- sex_freetext -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 2;">
+						{{getFieldProp( 'sex_freetext', '_label' )}}
+						<template v-if="getFieldProp( 'sex_freetext', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 6;">
+						<BaseTextarea
+							:value="getFieldProp( 'sex_freetext', '_value' )"
+							:placeholder="'Enter ..'"
+							:required="false"
+							:disabled="false"
+							:hasClearButton="true"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'sex_freetext',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseTextarea>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('sex_freetext')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'sex_freetext', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+				<!-- size_from && size_to -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 2;">
+						{{getFieldProp( 'size_from', '_label' )}}
+						<template v-if="getFieldProp( 'size_from', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 2; display: flex; gap: 0.5em;">
+						<div>
+							<BaseText
+								:value="getFieldProp( 'size_from', '_value' )"
+								:placeholder="'Enter ...'"
+								:required="false"
+								:disabled="false"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'size_from',
+									key       : '_value',
+									value     : textToFloatStr( $event )
+								})"
+							></BaseText>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('size_from')}}</pre>
+						</div>
+						<div class="KnEditForm__labelCell">
+							cm
+						</div>
+					</div>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50" style="text-align: right; grid-column: span 2;">
+						{{getFieldProp( 'size_to', '_label' )}}
+					</div>
+					<div style="grid-column: span 2; display: flex; gap: 0.5em;">
+						<div>
+							<BaseText
+								:value="getFieldProp( 'size_to', '_value' )"
+								:placeholder="'Enter ...'"
+								:required="false"
+								:disabled="false"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'size_to',
+									key       : '_value',
+									value     : textToFloatStr( $event )
+								})"
+							></BaseText>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('size_to')}}</pre>
+						</div>
+						<div class="KnEditForm__labelCell">
+							cm
+						</div>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'size_to', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+				<!-- size_freetext -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 2;">
+						{{getFieldProp( 'size_freetext', '_label' )}}
+						<template v-if="getFieldProp( 'size_freetext', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 6;">
+						<BaseTextarea
+							:value="getFieldProp( 'size_freetext', '_value' )"
+							:placeholder="'Enter ..'"
+							:required="false"
+							:disabled="false"
+							:hasClearButton="true"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'size_freetext',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseTextarea>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('size_freetext')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'size_freetext', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+
+				<!-- Goto Inventory -->
 				<KnFormFieldRow>
 					<div style="grid-column: span 8; display: flex; justify-content: flex-end;">
 						<div>
@@ -307,7 +444,7 @@
 								@click.native="enableNextStep()"
 							>
 								<template slot="before"></template>
-								<template slot="default">Next step</template>
+								<template slot="default">➋ Inventory</template>
 								<template slot="after">
 									<MhIcon type="arrow-right" ></MhIcon>
 								</template>
@@ -1640,8 +1777,8 @@
 					</KnFormFieldRow>
 				</template>
 
-				<!-- next -->
-				<KnFormFieldRow>
+				<!-- Goto Bone changes -->
+				<KnFormFieldRow v-if="currentInventoryTabIndex == getStepProp('inventory', 'tabs').length - 1">
 					<div style="grid-column: span 8; display: flex; justify-content: flex-end;">
 						<div>
 							<br/>
@@ -1652,7 +1789,30 @@
 								@click.native="enableNextStep()"
 							>
 								<template slot="before"></template>
-								<template slot="default">Next step</template>
+								<template slot="default">➌ Bone changes</template>
+								<template slot="after">
+									<MhIcon type="arrow-right" ></MhIcon>
+								</template>
+							</BaseButton>
+							<br/>
+							<br/>
+							<br/>
+						</div>
+					</div>
+				</KnFormFieldRow>
+				<!-- Next Inventory tab -->
+				<KnFormFieldRow v-else>
+					<div style="grid-column: span 8; display: flex; justify-content: flex-end;">
+						<div>
+							<br/>
+							<BaseButton
+								class="font font--sizeLarge font--bold"
+								:isOutlined="false"
+								XXXisDisabled="!isStepValid('inventory')"
+								@click.native="currentInventoryTabIndex++"
+							>
+								<template slot="before"></template>
+								<template slot="default">Next Inventory tab</template>
 								<template slot="after">
 									<MhIcon type="arrow-right" ></MhIcon>
 								</template>
@@ -1749,8 +1909,8 @@
 					</template>
 				</template>
 
-				<!-- next -->
-				<KnFormFieldRow>
+				<!-- Goto Site -->
+				<KnFormFieldRow v-if="currentBoneChangesFormTabIndex == boneChangesTabs.length - 1">
 					<div style="grid-column: span 8; display: flex; justify-content: flex-end;">
 						<div>
 							<br/>
@@ -1761,7 +1921,30 @@
 								@click.native="enableNextStep()"
 							>
 								<template slot="before"></template>
-								<template slot="default">Next step</template>
+								<template slot="default">➍ Site</template>
+								<template slot="after">
+									<MhIcon type="arrow-right" ></MhIcon>
+								</template>
+							</BaseButton>
+							<br/>
+							<br/>
+							<br/>
+						</div>
+					</div>
+				</KnFormFieldRow>
+				<!-- Next Bone changes tab -->
+				<KnFormFieldRow v-else>
+					<div style="grid-column: span 8; display: flex; justify-content: flex-end;">
+						<div>
+							<br/>
+							<BaseButton
+								class="font font--sizeLarge font--bold"
+								:isOutlined="false"
+								XXXisDisabled="!isStepValid('bone-changes')"
+								@click.native="currentBoneChangesFormTabIndex++"
+							>
+								<template slot="before"></template>
+								<template slot="default">Next Bone changes tab</template>
 								<template slot="after">
 									<MhIcon type="arrow-right" ></MhIcon>
 								</template>
@@ -1775,7 +1958,6 @@
 
 			</template>
 			<template v-if="'site' === _.get($store.getters.activeStep, 'slug')">
-
 				<!-- reference_images -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -1837,7 +2019,9 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'origin', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+
 				<!-- archaeological_site -->
+				<!--
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 3;">
@@ -1876,22 +2060,14 @@
 									{{_.size( getFieldProp( 'archaeological_site', '_options' ) )}}
 								</span>
 							</div>
-
-							<!--
-							<pre name="_options">{{_.size(getFieldProp( 'archaeological_site', '_options' ))}}</pre>
-							<pre name="_isLoading">{{getFieldProp( 'archaeological_site', '_isLoading' )}}</pre>
-							-->
-
 							<div class="KnEditForm__searchResults"
 								:countResults="_.size( getFieldProp( 'archaeological_site', '_options' ) )"
 								:style="getSearchResultsStyles('archaeological_site')"
 							>
-								<!-- nothing found message -->
 								<div class="KnEditForm__searchNoResultsMsg" v-if="!_.size( getFieldProp( 'archaeological_site', '_options' ) ) && !getFieldProp( 'archaeological_site', '_isLoading' )">
 									<MhIcon class="KnEditForm__searchNoResultsMsgIcon" type="info"></MhIcon>
 									<span class="KnEditForm__searchNoResultsMsgLabel">Nothing found. Try another search term.</span>
 								</div>
-								<!-- show the results -->
 								<div class="KnEditForm__searchResult"
 									:class="
 										_.get( item, 'prefName.title') === getFieldProp( 'archaeological_site', '_value' ) ?
@@ -1926,7 +2102,6 @@
 									<span class="KnEditForm__searchResultLabel">{{_.get( item, 'prefName.title', '' )}}</span>
 								</div>
 							</div>
-
 						</div>
 						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('archaeological_site')}}</pre>
 					</div>
@@ -1934,6 +2109,78 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'archaeological_site', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+				-->
+
+				<!-- position -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 3;">
+						{{getFieldProp( 'position', '_label' )}}
+						<template v-if="getFieldProp( 'position', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 9; display: flex; flex-direction: column; gap: 0.5em;">
+						<l-map style="height: 500px; z-index: 1;" :zoom="map.zoom" :center.sync="map.center" @click="addMapMarker">
+							<l-tile-layer :url="map.url" :attribution="map.attribution"></l-tile-layer>
+							<l-marker v-if="map.markerLatLng"
+								:lat-lng="map.markerLatLng"
+								:draggable="true"
+								@ready="$store.commit('setFieldProp', {
+									fieldName : 'position',
+									key       : '_value',
+									value     : $event._latlng.lat + ',' + $event._latlng.lng
+								})"
+								@update:latLng="$store.commit('setFieldProp', {
+									fieldName : 'position',
+									key       : '_value',
+									value     : $event.lat + ',' + $event.lng
+								})"
+							></l-marker>
+							<l-control position="bottomleft" v-if="map.markerLatLng">
+								<button :disabled="!getFieldProp( 'position', '_value' )" @click="centerMap">Center Map</button>
+							</l-control>
+							<!--
+							-->
+						</l-map>
+						<BaseText
+							:value="getFieldProp( 'position', '_value' )"
+							:placeholder="''"
+							:required="false"
+							:disabled="true"
+							:hasClearButton="false"
+						></BaseText>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('position')}}</pre>
+						<div class="font font--sizeSmall color color--primary50"
+							style="grid-column: span 4;" v-html="getFieldProp( 'position', 'help_text' )"
+						></div>
+					</div>
+				</KnFormFieldRow>
+				<!-- site -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 3;">
+						{{getFieldProp( 'site', '_label' )}}
+						<template v-if="getFieldProp( 'site', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 5;">
+						<BaseText
+							:value="getFieldProp( 'site', '_value' )"
+							:placeholder="'Enter ..'"
+							:required="false"
+							:disabled="false"
+							:hasClearButton="true"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'site',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseText>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('site')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'site', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
+
 				<!-- position -->
 				<!--
 				<KnFormFieldRow>
@@ -2012,6 +2259,7 @@
 					></div>
 				</KnFormFieldRow>
 				-->
+
 				<!-- archaeological_tombid -->
 				<KnFormFieldRow v-if="'archaeological' === getFieldProp( 'origin', '_value' )">
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -2208,6 +2456,7 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'storage_place_freetext', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+
 				<!-- storage_condition -->
 				<!--
 				<KnFormFieldRow>
@@ -2235,6 +2484,7 @@
 					></div>
 				</KnFormFieldRow>
 				-->
+
 				<!-- chronology -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -2243,6 +2493,7 @@
 						<template v-if="getFieldProp( 'chronology', 'mandatory' )">*</template>
 					</div>
 					<div style="grid-column: span 5;">
+						<!--
 						<div class="KnEditForm__search">
 							<div class="KnEditForm__searchFieldWrapper">
 								<MhIcon type="search"
@@ -2274,11 +2525,6 @@
 									{{_.size( getFieldProp( 'chronology', '_options' ) )}}
 								</span>
 							</div>
-
-							<!--
-							<pre>{{_.size(getFieldProp( 'chronology', '_options' ))}}</pre>
-							-->
-
 							<div class="KnEditForm__searchResults"
 								:countResults="_.size( getFieldProp( 'chronology', '_options' ) )"
 								:style="getSearchResultsStyles('chronology')">
@@ -2303,12 +2549,15 @@
 							</div>
 						</div>
 						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('chronology')}}</pre>
+						-->
 						<div class="chronologySubForm">
+							<!--
 							<div class="chronologySubForm__row">
 								<hr class="chronologySubForm__hr" />
 								<span class="chronologySubForm__or font font--sizeSmall color color--primary50">or</span>
 								<hr class="chronologySubForm__hr" />
 							</div>
+							-->
 							<div class="chronologySubForm__row">
 								<!-- chronology_fromYear -->
 								<BaseText class="chronologySubForm__text chronologySubForm__text--from"
@@ -2394,14 +2643,14 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'chronology', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+
 				<!-- chronology_checkbox -->
+				<!--
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 3;">
 						{{getFieldProp( 'chronology_checkbox', '_label' )}}
 						<template v-if="getFieldProp( 'chronology_checkbox', 'mandatory' )">*</template>
-						<!--
-						-->
 					</div>
 					<div style="grid-column: span 5;">
 						<BaseCheckbox
@@ -2416,8 +2665,10 @@
 					</div>
 					<div class="font font--sizeSmall color color--primary50" style="grid-column: span 4;"></div>
 				</KnFormFieldRow>
+				-->
+
 				<!-- chronology_freetext -->
-				<KnFormFieldRow v-if="getFieldProp( 'chronology_checkbox', '_value' )">
+				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 3;">
 						{{getFieldProp( 'chronology_freetext', '_label' )}}
@@ -2487,7 +2738,7 @@
 					></div>
 				</KnFormFieldRow>
 
-				<!-- next -->
+				<!-- goto Genetic analyses and publication -->
 				<KnFormFieldRow>
 					<div style="grid-column: span 8; display: flex; justify-content: flex-end;">
 						<div>
@@ -2499,7 +2750,7 @@
 								@click.native="enableNextStep()"
 							>
 								<template slot="before"></template>
-								<template slot="default">Next step</template>
+								<template slot="default">➎ Genetic analyses and publication</template>
 								<template slot="after">
 									<MhIcon type="arrow-right" ></MhIcon>
 								</template>
@@ -2699,6 +2950,33 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'references', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
+				<!-- comment -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 3;">
+						{{getFieldProp( 'comment', '_label' )}}
+						<template v-if="getFieldProp( 'comment', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 5;">
+						<BaseTextarea
+							:value="getFieldProp( 'comment', '_value' )"
+							:placeholder="'Enter Text ...'"
+							:required="false"
+							:disabled="getFieldProp( 'comment', '_disabled' )"
+							:hasClearButton="true"
+							@change="(e)=>{}"
+							@input="$store.commit('setFieldProp', {
+								fieldName : 'comment',
+								key       : '_value',
+								value     : $event
+							})"
+						></BaseTextarea>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('comment')}}</pre>
+					</div>
+					<div class="font font--sizeSmall color color--primary50"
+						style="grid-column: span 4;" v-html="getFieldProp( 'comment', 'help_text' )"
+					></div>
+				</KnFormFieldRow>
 
 				<!-- spacer -->
 				<KnFormFieldRow>
@@ -2809,6 +3087,7 @@
 	import EventBus from '@/helper/EventBus.js'
 	import Treeselect from '@riophae/vue-treeselect'
 	import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+	import {LMap, LTileLayer, LMarker, LControl} from 'vue2-leaflet';
 	import RestHandler from '@/components/RestHandler/RestHandler.js'
 	import _ from 'lodash'
 
@@ -2846,11 +3125,23 @@
 			MhIcon,
 			BaseButton,
 			BaseSearchSelect,
+			LMap,
+			LTileLayer,
+			LMarker,
+			LControl,
 		},
 		mixins: [ RestHandler ],
 		props: {},
 		data(){
 			return {
+				map: {
+					url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+					attribution: '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+					zoom: 15,
+					center: [51.505, -0.159],
+					markerLatLng: false,
+				},
+
 				currentInventoryTabIndex : 0,
 				currentBoneChangesFormTabIndex : 0,
 				hasFetchedBoneChangesFields : false,
@@ -3033,6 +3324,26 @@
     		])
 		},
 		methods: {
+			addMapMarker( e ){
+				console.log('addMapMarker:', e)
+				this.map.markerLatLng = e.latlng
+			},
+			centerMap( e ){
+				this.map.center = this.map.markerLatLng
+				console.log('centerMap:', e)
+			},
+			onUpdateMarker( e ){
+				console.log('onUpdateMarker:', e)
+			},
+			onReadyMarker( e ){
+				console.log('onReadyMarker:', e)
+			},
+			textToFloatStr( input ){
+				let value = input
+				value = value.replaceAll(',', '.')
+				value = value.replace(/[^\d.-]/g, '')
+				return value // ? parseFloat( value ) : ''
+			},
 			addToReferencesArray(){
 				let referencesArray = this._.clone( this.getFieldProp( 'referencesArray', '_value' ) )
 				//let newItem = 'Sara' + this._.random(10, 99)
@@ -3114,11 +3425,12 @@
 					this.$router.push({ name: 'EditView', params: { stepSlug: newRouteStepSlug } })
 				}
 			},
-			gotoInventoryTabIndex( tabIndex, doLog = false ){
+			gotoInventoryTabIndex( tabIndex, doLog = true ){
 				// groupCollapsed group
 				if( doLog ){
 					console.groupCollapsed( this.$options.name, '• gotoInventoryTabIndex()' )
 					console.log('tabIndex:', tabIndex)
+					console.log(this.getStepProp('inventory', 'tabs').length)
 					console.groupEnd()
 				}
 
@@ -3670,6 +3982,12 @@
 	@import (reference) "@/less/vars.less";
 	@import (reference) "@/less/mixins.less";
 	@import (reference) "@/less/atoms.less";
+
+	.leaflet-control {
+		button {
+			padding: 0.5em;
+		}
+	}
 
 	.repeaterField {
 		//outline: 1px solid red;
