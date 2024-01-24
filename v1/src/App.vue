@@ -28,7 +28,7 @@
 			<template slot="footer"></template>
 		</MhModal>
 
-		<MhModal class="color color--primary" :show="boneChangesLightbox.isOpen" @close="onCloseBoneChangesLightbox">
+		<MhModal class="color color--primary" style="--modalMaxWidth : 950px" :show="boneChangesLightbox.isOpen" @close="onCloseBoneChangesLightbox">
 			<template slot="header">
 				<div class="font font--medium font--sizeBig">
 					{{ boneChangesLightbox.title }}
@@ -48,16 +48,13 @@
 					<img v-for="(image, index) in boneChangesLightbox.images" :key="'bcl' + index"
 						:src="image.file_url"
 						:style="{
-							XXXbackgroundImage : 'url('+image.file_url+')',
 							backgroundSize : 'contain',
 							backgroundRepeat : 'no-repeat',
 							backgroundPosition : 'center',
-							backgroundColor: 'yellow',
+							backgroundColor: 'rgba(0, 0, 0, 0.15)',
 							outline: '1px solid rgba(0, 0, 0, 0.5)',
-							XXXheight: '100%',
 							width: '100%',
 							display: 'block',
-							//height: '100px',
 						}"
 					/>
 				</div>
@@ -116,6 +113,7 @@
 				showContactModal : false,
 				boneChangesLightbox : {
 					isOpen : false,
+					activeElement : null,
 					title : '',
 					images : [],
 					/*
@@ -123,15 +121,15 @@
 					activeElement : null,
 					title : 'Neurocranium (cranial_district)',
 					images : [
-					  {
-						"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/IMG_7173_tIx4pf4.jpg"
-					  },
-					  {
-						"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/Bildschirmfoto_2023-12-01_um_09.07.31_I9A8p6Z.png"
-					  },
-					  {
-						"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/IMG_6490_qJZG9u0.jpg"
-					  }
+						{
+							"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/IMG_7173_tIx4pf4.jpg"
+						},
+						{
+							"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/Bildschirmfoto_2023-12-01_um_09.07.31_I9A8p6Z.png"
+						},
+						{
+							"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/IMG_6490_qJZG9u0.jpg"
+						}
 					],
 					*/
 				}
@@ -174,6 +172,12 @@
 				if( this.boneChangesLightbox.activeElement ){
 					this.boneChangesLightbox.activeElement.focus()
 				}
+
+				setTimeout(()=>{
+					this.boneChangesLightbox.title = ''
+					this.boneChangesLightbox.images = []
+					this.boneChangesLightbox.activeElement = null
+				}, 500)
 			},
 			getLinkWithoutHostname( url ){
 				let theReturn = ''
