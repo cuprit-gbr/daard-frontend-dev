@@ -552,6 +552,7 @@ export default new Vuex.Store({
 					const option = {
 						label: item.value,
 						value: item.name,
+						files: item.files,
 					}
 					_options.push(option)
 				})

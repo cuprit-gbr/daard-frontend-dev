@@ -28,6 +28,45 @@
 			<template slot="footer"></template>
 		</MhModal>
 
+		<MhModal class="color color--primary" :show="boneChangesLightbox.isOpen" @close="onCloseBoneChangesLightbox">
+			<template slot="header">
+				<div class="font font--medium font--sizeBig">
+					{{ boneChangesLightbox.title }}
+					<br/>
+				</div>
+			</template>
+			<template slot="closeButton">
+				<a class="circleIcon color color--primary" role="button">
+					<MhIcon type="cross"></MhIcon>
+				</a>
+			</template>
+			<template slot="body">
+				<!--
+				<pre>{{ boneChangesLightbox.images }}</pre>
+				-->
+				<div style="display: flex; flex-direction: column; gap: 0.5em;">
+					<img v-for="(image, index) in boneChangesLightbox.images" :key="'bcl' + index"
+						:src="image.file_url"
+						:style="{
+							XXXbackgroundImage : 'url('+image.file_url+')',
+							backgroundSize : 'contain',
+							backgroundRepeat : 'no-repeat',
+							backgroundPosition : 'center',
+							backgroundColor: 'yellow',
+							outline: '1px solid rgba(0, 0, 0, 0.5)',
+							XXXheight: '100%',
+							width: '100%',
+							display: 'block',
+							//height: '100px',
+						}"
+					/>
+				</div>
+			</template>
+			<template slot="footer">
+				{{ boneChangesLightbox.images.length }} Image<template v-if="boneChangesLightbox.images.length > 1">s</template>
+			</template>
+		</MhModal>
+
 		<MhDelegateLinks
 			:doLog="false"
 		></MhDelegateLinks>
@@ -75,6 +114,27 @@
 			return {
 				isReady : false,
 				showContactModal : false,
+				boneChangesLightbox : {
+					isOpen : false,
+					title : '',
+					images : [],
+					/*
+					isOpen : true,
+					activeElement : null,
+					title : 'Neurocranium (cranial_district)',
+					images : [
+					  {
+						"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/IMG_7173_tIx4pf4.jpg"
+					  },
+					  {
+						"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/Bildschirmfoto_2023-12-01_um_09.07.31_I9A8p6Z.png"
+					  },
+					  {
+						"file_url": "https://dai-gn-test.csgis.de/uploaded/bone_change_images/IMG_6490_qJZG9u0.jpg"
+					  }
+					],
+					*/
+				}
 			}
 		},
 		computed: {
@@ -108,6 +168,13 @@
 			},
 		},
 		methods: {
+			onCloseBoneChangesLightbox( state ){
+				this.boneChangesLightbox.isOpen = false
+
+				if( this.boneChangesLightbox.activeElement ){
+					this.boneChangesLightbox.activeElement.focus()
+				}
+			},
 			getLinkWithoutHostname( url ){
 				let theReturn = ''
 
@@ -355,6 +422,17 @@
 				this.fetchAccessToken( requestTokenSessionStorage )
 			}
 
+			EventBus.$on('openBoneImagesLightbox', (payload)=>{
+				console.log('App • EventBus.$on("openBoneImagesLightbox")', payload)
+
+				this.boneChangesLightbox.title = payload.title
+				this.boneChangesLightbox.images = payload.images
+				this.boneChangesLightbox.activeElement = payload.activeElement
+
+				setTimeout(()=>{
+					this.boneChangesLightbox.isOpen = true
+				}, 50)
+			})
 		}
 	}
 </script>
@@ -631,6 +709,8 @@
 		--bgColor-filled-hover    : fade(green, 100);
 		--color-filled            : white;
 	}
+
+	.MhModal { --zIndex : 1000; }
 
 	.vue-treeselect { // layout
 		.vue-treeselect__control {

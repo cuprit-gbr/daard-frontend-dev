@@ -41,7 +41,6 @@
 			</KnTextRow>
 
 			<template v-if="'disease' === _.get( activeStep, 'slug' )">
-
 				<!-- ageGroup:  subadults and adults -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -51,17 +50,28 @@
 					<div style="grid-column: span 6;">
 						<div class="KnEditForm__radioGroup">
 							<label
-								class="KnEditForm__radioGroupInner"
-								v-for="(option, index) in ['Subadult', 'Adult']"
-								:key="'rbo' + index">
+								class="KnEditForm__radioGroupInner">
 								<BaseRadio
 									class="KnEditForm__radioGroupRadio"
 									:name="'ageGroup'"
-									:checkedValue="option"
+									:value="getFieldProp( 'subadults', '_value' ) ? 'Subadult' : ''"
+									:checkedValue="'Subadult'"
 									@change="()=>{}"
 									@input="setAgeGroup"
 								></BaseRadio>
-								<span class="KnEditForm__radioGroupLabel">{{option}}</span>
+								<span class="KnEditForm__radioGroupLabel">Subadult</span>
+							</label>
+							<label
+								class="KnEditForm__radioGroupInner">
+								<BaseRadio
+									class="KnEditForm__radioGroupRadio"
+									:name="'ageGroup'"
+									:value="getFieldProp( 'adults', '_value' ) ? 'Adult' : ''"
+									:checkedValue="'Adult'"
+									@change="()=>{}"
+									@input="setAgeGroup"
+								></BaseRadio>
+								<span class="KnEditForm__radioGroupLabel">Adult</span>
 							</label>
 						</div>
 						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('subadults')}}</pre>
@@ -1877,9 +1887,14 @@
 								v-for="(fieldSlug, fieldIndex) in tab.fields">
 								<div class="KnEditForm__labelCell font font--medium color color--primary50"
 									style="grid-column: span 4;">
-									{{getFieldProp( fieldSlug, '_label' )}}
+									{{ getFieldProp( fieldSlug, '_label' ) }}
 								</div>
 								<div style="grid-column: span 8;">
+									<!--
+									fieldSlug: <mark>{{ fieldSlug }}</mark><br/>
+									_value: <mark>{{ getFieldProp( fieldSlug, '_value', null ) }}</mark><br/>
+									_options: <mark>{{ getFieldProp( fieldSlug, '_options' ) }}</mark><br/>
+									-->
 									<Treeselect
 										class=""
 										:value="
@@ -1887,6 +1902,8 @@
 											getFieldProp( fieldSlug, '_value', null )
 										"
 										:multiple="true"
+										:alwaysOpen="isForceOpenTreeselect( fieldSlug )"
+										:openOnFocus="true"
 										:placeholder="'Select ...'"
 										:normalizer="treeselectNormalizer"
 										:options="getFieldProp( fieldSlug, '_options' )"
@@ -1895,7 +1912,41 @@
 											key       : '_value',
 											value     : $event
 										})"
-									/>
+									>
+										<label slot="option-label" slot-scope="{ node, labelClassName }" :class="labelClassName">
+											<div class="treeselectOptionLabelWrapper" style="display: flex; justify-content: space-between; gap: 0.5em;">
+												<span style="flex-grow: 1; ">{{ node.label }}</span>
+												<!--
+													{{ getBoneChangeFiles( fieldSlug, node ) }}
+													{{ _.get( _.find( getFieldProp( fieldSlug, '_options' ), { value : node.label } ), 'files' ) }}
+													<button @click.stop="onClickTreeselectImage( node )">Image</button>
+												-->
+												<span style="display: flex; gap: 0.5em; align-items: center; padding-right: 0.5em;">
+													<!--
+													<button v-if="getBoneChangeFiles( fieldSlug, node )"
+														@mousedown.stop="onClickTreeselectImage( $event, {
+															fieldSlug : fieldSlug,
+															node : node,
+														})">Show images ({{ _.size( getBoneChangeFiles( fieldSlug, node ) ) }})</button>
+													-->
+													<BaseButton v-if="getBoneChangeFiles( fieldSlug, node )"
+														class="font font--sizeMini font--bold"
+														:isOutlined="false"
+														:isDisabled="false"
+														@mousedown.stop.native="onClickTreeselectImage( $event, {
+															fieldSlug : fieldSlug,
+															node : node,
+														})"
+													>
+														<template slot="before"></template>
+														<template slot="default">Show images ({{ _.size( getBoneChangeFiles( fieldSlug, node ) ) }})</template>
+														<template slot="after"></template>
+													</BaseButton>
+
+												</span>
+											</div>
+										</label>
+									</Treeselect>
 									<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug( fieldSlug )}}</pre>
 								</div>
 							</KnFormFieldRow>
@@ -2111,49 +2162,6 @@
 				</KnFormFieldRow>
 				-->
 
-				<!-- position -->
-				<KnFormFieldRow>
-					<div class="KnEditForm__labelCell font font--medium color color--primary50"
-						style="grid-column: span 3;">
-						{{getFieldProp( 'position', '_label' )}}
-						<template v-if="getFieldProp( 'position', 'mandatory' )">*</template>
-					</div>
-					<div style="grid-column: span 9; display: flex; flex-direction: column; gap: 0.5em;">
-						<l-map style="height: 500px; z-index: 1;" :zoom="map.zoom" :center.sync="map.center" @click="addMapMarker">
-							<l-tile-layer :url="map.url" :attribution="map.attribution"></l-tile-layer>
-							<l-marker v-if="map.markerLatLng"
-								:lat-lng="map.markerLatLng"
-								:draggable="true"
-								@ready="$store.commit('setFieldProp', {
-									fieldName : 'position',
-									key       : '_value',
-									value     : $event._latlng.lat + ',' + $event._latlng.lng
-								})"
-								@update:latLng="$store.commit('setFieldProp', {
-									fieldName : 'position',
-									key       : '_value',
-									value     : $event.lat + ',' + $event.lng
-								})"
-							></l-marker>
-							<l-control position="bottomleft" v-if="map.markerLatLng">
-								<button :disabled="!getFieldProp( 'position', '_value' )" @click="centerMap">Center Map</button>
-							</l-control>
-							<!--
-							-->
-						</l-map>
-						<BaseText
-							:value="getFieldProp( 'position', '_value' )"
-							:placeholder="''"
-							:required="false"
-							:disabled="true"
-							:hasClearButton="false"
-						></BaseText>
-						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('position')}}</pre>
-						<div class="font font--sizeSmall color color--primary50"
-							style="grid-column: span 4;" v-html="getFieldProp( 'position', 'help_text' )"
-						></div>
-					</div>
-				</KnFormFieldRow>
 				<!-- site -->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -2179,6 +2187,49 @@
 					<div class="font font--sizeSmall color color--primary50"
 						style="grid-column: span 4;" v-html="getFieldProp( 'site', 'help_text' )"
 					></div>
+				</KnFormFieldRow>
+				<!-- position -->
+				<KnFormFieldRow>
+					<div class="KnEditForm__labelCell font font--medium color color--primary50"
+						style="grid-column: span 3;">
+						{{getFieldProp( 'position', '_label' )}}
+						<template v-if="getFieldProp( 'position', 'mandatory' )">*</template>
+					</div>
+					<div style="grid-column: span 9; display: flex; flex-direction: column; gap: 0.5em;">
+						<l-map style="height: 500px; z-index: 1;" :zoom="map.zoom" :center.sync="map.center" @click="addMapMarker">
+							<l-tile-layer :url="map.url" :attribution="map.attribution"></l-tile-layer>
+							<l-marker v-if="map.markerLatLng"
+								:lat-lng="map.markerLatLng"
+								:draggable="true"
+								@ready="$store.commit('setFieldProp', {
+									fieldName : 'position',
+									key       : '_value',
+									value     : $event._latlng.lat + ',' + $event._latlng.lng
+								})"
+								@update:latLng="$store.commit('setFieldProp', {
+									fieldName : 'position',
+									key       : '_value',
+									value     : $event.lat + ',' + $event.lng
+								})"
+							></l-marker>
+							<l-control position="bottomleft" v-if="map.markerLatLng">
+								<button style="padding: 0.5em;" :disabled="!getFieldProp( 'position', '_value' )" @click="centerMap">Center Map</button>
+							</l-control>
+							<!--
+							-->
+						</l-map>
+						<BaseText
+							:value="getFieldProp( 'position', '_value' )"
+							:placeholder="''"
+							:required="false"
+							:disabled="true"
+							:hasClearButton="false"
+						></BaseText>
+						<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('position')}}</pre>
+						<div class="font font--sizeSmall color color--primary50"
+							style="grid-column: span 4;" v-html="getFieldProp( 'position', 'help_text' )"
+						></div>
+					</div>
 				</KnFormFieldRow>
 
 				<!-- position -->
@@ -3149,6 +3200,7 @@
 				stickyObserver : undefined,
 				isRunningFinalSubmit : false,
 				finalSubmitErrorMessage : null,
+				forceOpenTreeselectByFieldSlugs: [],
 			}
 		},
 		watch: {
@@ -3324,6 +3376,43 @@
     		])
 		},
 		methods: {
+			isForceOpenTreeselect( fieldSlug ){
+				return this.forceOpenTreeselectByFieldSlugs.includes( fieldSlug )
+			},
+			onClickTreeselectImage( e, payload ){
+				const fieldSlug = payload.fieldSlug
+				const fieldValue = this.getFieldProp( fieldSlug, '_value', [] )
+				const nodeValue = payload.node.id
+				const images = this.getBoneChangeFiles( payload.fieldSlug, payload.node )
+				const eventPayload = {
+					//title : this.getFieldProp( fieldSlug, '_label' ),
+					title : nodeValue,
+					images : images,
+					activeElement: document.activeElement,
+				}
+
+				console.log('')
+				console.log('onClickTreeselectImage:', payload, images)
+				console.log('fieldValue:', fieldValue)
+				console.log('nodeValue:', nodeValue)
+				console.log('fieldValue:', fieldValue)
+				console.log('eventPayload:', eventPayload)
+
+				// restore fieldValue that was changed by click on "Show images"-Button
+				/*
+				setTimeout(()=>{
+					this.$store.commit('setFieldProp', {
+						fieldName : fieldSlug,
+						key       : '_value',
+						value     : fieldValue
+					})
+				}, 0)
+				*/
+
+				//this.forceOpenTreeselectByFieldSlugs.push( fieldSlug )
+
+				EventBus.$emit('openBoneImagesLightbox', eventPayload)
+			},
 			addMapMarker( e ){
 				console.log('addMapMarker:', e)
 				this.map.markerLatLng = e.latlng
@@ -3425,7 +3514,7 @@
 					this.$router.push({ name: 'EditView', params: { stepSlug: newRouteStepSlug } })
 				}
 			},
-			gotoInventoryTabIndex( tabIndex, doLog = true ){
+			gotoInventoryTabIndex( tabIndex, doLog = false ){
 				// groupCollapsed group
 				if( doLog ){
 					console.groupCollapsed( this.$options.name, '• gotoInventoryTabIndex()' )
@@ -3476,9 +3565,25 @@
 				return {
 					id    : item.value,
 					label : item.label,
+					files : item.files,
 				}
 			},
-			enableNextStep( currentStepSlug, doLog = true ){
+			getBoneChangeFiles( fieldSlug, option ){
+				const options = this.getFieldProp( fieldSlug, '_options' )
+				const validOptionValue = option.label
+				const matchingOption = this._.find( options, { value : validOptionValue } )
+				const images = this._.get( matchingOption, 'files' )
+
+				/*
+				console.log('getBoneChangeFiles() • options:', options)
+				console.log('getBoneChangeFiles() • validOptionValue:', validOptionValue)
+				console.log('getBoneChangeFiles() • matchingOption:', matchingOption)
+				console.log('getBoneChangeFiles() • images:', images)
+				*/
+
+				return this._.size( images ) ? images : null
+			},
+			enableNextStep( currentStepSlug, doLog = false ){
 				//'activeStep',
 								const activeStepIndex = this.activeStepIndex
 				const nextStep = this.steps[activeStepIndex+1]
@@ -3597,7 +3702,7 @@
 					// ich speichere alle values dern fields des steps
 					// bevor ich ihn leere
 					const boneChangesFields = this.getStepProp('bone-changes', 'fields')
-					console.log('boneChangesFields:', boneChangesFields )
+					//console.log('boneChangesFields:', boneChangesFields )
 
 					// remove previous added fields
 					this.$store.commit('removeStepFields', {
@@ -3651,6 +3756,7 @@
 										const option = {
 											name: item.name,
 											value: item.name,
+											files: item.files,
 										}
 										fixedOptions.push( option )
 									} )
@@ -3705,6 +3811,8 @@
 									// collect the field slug
 									fieldSlugs.push( getFieldBack._slug )
 
+									console.log('boneField:', boneField)
+
 									if( doLog ){
 										console.log('-----')
 										console.log('fieldSlug:', fieldSlug)
@@ -3742,7 +3850,7 @@
 					})
 				}
 			},
-			fetchSiteSuggestions( doLog = true ){
+			fetchSiteSuggestions( doLog = false ){
 				const field       = this.getFieldBySlug('archaeological_site')
 				const search      = field._search
 				let   doFetch     = false
@@ -3844,7 +3952,7 @@
 					})
 				}
 			},
-			fetchChronologyTerms( doLog = true ){
+			fetchChronologyTerms( doLog = false ){
 				const field       = this.getFieldBySlug('chronology')
 				let   doFetch     = false
 				let   fetchParams = {}
@@ -3982,12 +4090,6 @@
 	@import (reference) "@/less/vars.less";
 	@import (reference) "@/less/mixins.less";
 	@import (reference) "@/less/atoms.less";
-
-	.leaflet-control {
-		button {
-			padding: 0.5em;
-		}
-	}
 
 	.repeaterField {
 		//outline: 1px solid red;
@@ -4211,6 +4313,10 @@
 			from { transform:rotate(0deg); }
 			to { transform:rotate(360deg); }
 		}
+	}
+
+	.vue-treeselect__label {
+		overflow: visible;
 	}
 
 	.KnEditForm__message {
