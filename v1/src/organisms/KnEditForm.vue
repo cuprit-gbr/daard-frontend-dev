@@ -2188,7 +2188,7 @@
 						style="grid-column: span 4;" v-html="getFieldProp( 'site', 'help_text' )"
 					></div>
 				</KnFormFieldRow>
-				<!-- position -->
+				<!-- position via leaflet map-->
 				<KnFormFieldRow>
 					<div class="KnEditForm__labelCell font font--medium color color--primary50"
 						style="grid-column: span 3;">
@@ -2961,10 +2961,11 @@
 									<div class="repeaterField__bodyRowFields">
 										<BaseTextarea
 											:value="referenceItem"
-											:placeholder="''"
+											:placeholder="'Smrcka, V., Marik, I., Svenssonova, M., Likovsky, J. (2009). Legg-Calvé-Perthes disease in Czech archaeological material. Clinical orthopaedics and related research, 467(1), 293-297.'"
 											:required="false"
 											:resizeable="'none'"
 											:disabled="false"
+											:style="'--height: 100px'"
 											@change="(e)=>{}"
 											@input="changeReferencesArrayByIndex( $event, referenceIndex )"
 										></BaseTextarea>
@@ -3188,8 +3189,8 @@
 				map: {
 					url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 					attribution: '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-					zoom: 15,
-					center: [51.505, -0.159],
+					zoom: 4,
+					center: [52.50796756998264, 13.371734619140627],
 					markerLatLng: false,
 				},
 
