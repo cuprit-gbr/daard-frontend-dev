@@ -21,7 +21,7 @@
 				<div class="richText">
 					In case of questions please contact:<br/>
 					• Dr. Julia Gresky <a href="mailto:Julia.Gresky@dainst.de">Julia.Gresky@dainst.de</a><br/>
-					• Dr. Emmanuele Petiti <a href="mailto:emmanuele.petiti@dainst.de">emmanuele.petiti@dainst.de</a><br/>
+					• Technic: cuprit GbR. <a href="mailto:info@cuprit.net">info@cuprit.net</a><br/>
 					<br />
 				</div>
 			</template>
