@@ -3059,7 +3059,7 @@
 					<div style="grid-column: span 12; display: flex; flex-direction: column;">
 						Sorry, something went wrong!<br/>
 						Please copy the follwing message and e-mail it to
-						<a href="mailto:bugreport@csgis.de">bugreport@csgis.de</a>
+						<a href="mailto:toni.schoenbuchner@cuprit.net">toni.schoenbuchner@cuprit.net</a>
 						<br/>
 						<pre>{{finalSubmitErrorMessage}}</pre>
 					</div>
