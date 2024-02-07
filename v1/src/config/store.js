@@ -129,7 +129,6 @@ export default new Vuex.Store({
 		getFieldProp: (state, getters) => (fieldSlug, key, fallbackValue = undefined) => {
 			const field = getters.getFieldBySlug(fieldSlug)
 			let value = _.get(field, key, fallbackValue)
-
 			//if( _.isEmpty(value) && !_.isUndefined(fallbackValue) ) value = fallbackValue
 
 			return value
@@ -161,12 +160,12 @@ export default new Vuex.Store({
 			return activeStepIndex
 		},
 		availableBoneIds: (state, getters) => {
-			let doLog = false
+			let doLog = true
 			const step = getters.getStepBySlug('inventory')
 			const stepFields = _.get(step, 'fields', [])
-
-			// es werden alle *_amount fields gesammelt
-			// die sonderfälle für die zähne später extra behandelt
+		
+			// Collect all *_amount fields
+			// Special cases for teeth are handled separately
 			const amountFields = stepFields.filter(fieldSlug => {
 				const fieldSlugIsAmountField = _.endsWith(fieldSlug, '_amount')
 				const specialFieldSlugs = [
@@ -174,31 +173,30 @@ export default new Vuex.Store({
 					'cranial_district__permanent-teeth_amount',
 				]
 				const fieldIsNotSpecial = !specialFieldSlugs.includes(fieldSlug)
-
+		
 				return fieldSlugIsAmountField && fieldIsNotSpecial ? true : false
 			})
-			// es gelten nur die amount-fields deren _value nicht "absent" ist
+		
+			// Only consider amount-fields whose _value is not "absent"
 			const validAmountFields = amountFields.filter(fieldSlug => {
 				return getters.getFieldProp(fieldSlug, '_value') !== 'absent'
 			})
-			// jetzt werden alle ids der validen fields gesammelt
+		
+			// Collect all ids from valid fields
 			const boneIds = validAmountFields.map(fieldSlug => {
 				return getters.getFieldProp(fieldSlug, 'id')
 			})
-
-			// sonderfall für die zähne, diese sind anders in den fields organisiert
-			// nur wenn der amount gültig ist
-			// und nur wenn es auch ids gibt werden diese den boneIds hinzugefügt
-			const hasValidDeciduousTeethAmount = getters.getFieldProp('cranial_district__deciduous-teeth_amount', '_value') != 'absent' ? true : false
-			const hasValidPermanentTeethAmount = getters.getFieldProp('cranial_district__permanent-teeth_amount', '_value') != 'absent' ? true : false
+		
+			// Special handling for deciduous and permanent teeth
+			const hasValidDeciduousTeethAmount = getters.getFieldProp('cranial_district__deciduous-teeth_amount', '_value') !== 'absent'
+			const hasValidPermanentTeethAmount = getters.getFieldProp('cranial_district__permanent-teeth_amount', '_value') !== 'absent'
 			const deciduousTeethValue = hasValidDeciduousTeethAmount ? getters.getFieldProp('cranial_district__deciduous-teeth', '_value') : []
 			const permanentTeethValue = hasValidPermanentTeethAmount ? getters.getFieldProp('cranial_district__permanent-teeth', '_value') : []
 			const deciduousTeethIds = _.isArray(deciduousTeethValue) ? deciduousTeethValue : []
 			const permanentTeethIds = _.isArray(permanentTeethValue) ? permanentTeethValue : []
-			deciduousTeethIds.forEach(boneId => {boneIds.push(boneId)})
-			permanentTeethIds.forEach(boneId => {boneIds.push(boneId)})
-
-			// groupCollapsed group
+			deciduousTeethIds.forEach(boneId => { boneIds.push(boneId) })
+			permanentTeethIds.forEach(boneId => { boneIds.push(boneId) })
+				
 			if (doLog) {
 				console.group('store.js', '• boneIds')
 				console.log('amountFields:', amountFields)
@@ -208,11 +206,16 @@ export default new Vuex.Store({
 				console.log('hasValidPermanentTeethAmount:', hasValidPermanentTeethAmount)
 				console.log('deciduousTeethIds:', deciduousTeethIds)
 				console.log('permanentTeethIds:', permanentTeethIds)
+
+				console.log('deciduousTeethIds:', deciduousTeethIds)
+				console.log('permanentTeethIds:', permanentTeethIds)
+
 				console.groupEnd()
 			}
-
+		
 			return boneIds
 		},
+		
 		finalSubmitObject: (state, getters) => {
 			const inventoryStep = getters.getStepBySlug('inventory')
 			const boneChangesStep = getters.getStepBySlug('bone-changes')
@@ -359,40 +362,35 @@ export default new Vuex.Store({
 			// special handling for teeths
 			// merge field with its corresponding _amount field
 			// create merged inventory object
-			specialFieldSlugs.forEach( fieldSlug => {
-				const field = getters.getFieldBySlug(fieldSlug)
-				const amountField = getters.getFieldBySlug(fieldSlug + '_amount')
-				const ids = getters.getFieldProp(fieldSlug, '_value')
-				const label = field.label
-				const svgid = field.svgid
-				const amount = amountField._value
-				const name = field.name
-				const section = field.section
-
-				if( amount != 'absent' && _.size(ids) ){
-					/*
-					console.log('-----')
-					console.log('field:', field, field.id)
-					console.log('amountField:', amountField, amountField.id)
-					console.log('ids:', ids)
-					*/
-
+			specialFieldSlugs.forEach(fieldSlug => {
+				const field = getters.getFieldBySlug(fieldSlug);
+				const amountField = getters.getFieldBySlug(fieldSlug + '_amount');
+				const ids = getters.getFieldProp(fieldSlug, '_value');
+				const label = field.label;
+				const amount = amountField._value;
+				const name = field.name;
+				const section = field.section;
+				const parent_svgid = field.svgid
+			
+				if (amount !== 'absent' && _.size(ids)) {
 					ids.forEach(id => {
+						// Read current svgid from options or fallback to parent svgid
+						const option = field.options.find(option => option.name === id); 
+						const svgidOption = option && option.svgid ? option.svgid : parent_svgid;
+			
 						const fieldObj = {
 							id: id,
 							label: label,
-							svgid: svgid,
+							svgid: svgidOption, // Use svgid from the matched option
 							amount: amount,
 							name: name,
 							section: section,
-							//slug: section + '__' + name + '__' + id,
-						}
-
-						//data.inventory.push( fieldObj )
-						data.inventory[ id ] = fieldObj
-					})
+						};
+			
+						data.inventory[id] = fieldObj;
+					});
 				}
-			})
+			});
 
 			// fill bone-relation
 			boneChangesStepFieldSlugs.forEach( fieldSlug => {
@@ -553,6 +551,7 @@ export default new Vuex.Store({
 					const option = {
 						label: item.value,
 						value: item.name,
+						svgid: item.svgid,
 						files: item.files,
 					}
 					_options.push(option)

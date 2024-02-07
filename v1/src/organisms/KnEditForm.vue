@@ -488,27 +488,139 @@
 						]"
 					></KnColumnLabelsRow>
 
-					<!-- neurocranium -->
+					<!-- frontal bone -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
 							style="grid-column: span 8;">
-							{{getFieldProp( 'cranial_district__neurocranium', '_label' )}}
+							{{getFieldProp( 'cranial_district__frontal-bone', '_label' )}}
 						</div>
 						<div style="grid-column: span 4;">
 							<BaseSelect
-								:value="getFieldProp( 'cranial_district__neurocranium_amount', '_value' )"
+								:value="getFieldProp( 'cranial_district__frontal-bone_amount', '_value' )"
 								:placeholder="'Select ...'"
-								:options="getFieldProp( 'cranial_district__neurocranium_amount', '_options' )"
+								:options="getFieldProp( 'cranial_district__frontal-bone_amount', '_options' )"
 								:hasClearButton="true"
 								@input="$store.commit('setFieldProp', {
-									fieldName : 'cranial_district__neurocranium_amount',
+									fieldName : 'cranial_district__frontal-bone_amount',
 									key       : '_value',
 									value     : $event
 								})"
 							></BaseSelect>
-							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__neurocranium_amount')}}</pre>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__frontal-bone_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
+
+					<!-- temporal-petrous-bone-right -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__temporal-petrous-bone-right', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__temporal-petrous-bone-right_amount', '_value' )"
+								:placeholder="'Select ...'"
+								:options="getFieldProp( 'cranial_district__temporal-petrous-bone-right_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__temporal-petrous-bone-right_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__temporal-petrous-bone-right_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+
+					<!-- temporal-petrous-bone-left -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__temporal-petrous-bone-left', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__temporal-petrous-bone-left_amount', '_value' )"
+								:placeholder="'Select ...'"
+								:options="getFieldProp( 'cranial_district__temporal-petrous-bone-left_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__temporal-petrous-bone-left_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__temporal-petrous-bone-left_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+
+					<!-- parietal-bone-right -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__parietal-bone-right', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__parietal-bone-right_amount', '_value' )"
+								:placeholder="'Select ...'"
+								:options="getFieldProp( 'cranial_district__parietal-bone-right_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__parietal-bone-right_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__parietal-bone-right_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+
+					<!-- parietal-bone-left -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__parietal-bone-left', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__parietal-bone-left_amount', '_value' )"
+								:placeholder="'Select ...'"
+								:options="getFieldProp( 'cranial_district__parietal-bone-left_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__parietal-bone-left_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__parietal-bone-left_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+
+					<!-- occipital bone -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__occipital-bone', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__occipital-bone_amount', '_value' )"
+								:placeholder="'Select ...'"
+								:options="getFieldProp( 'cranial_district__occipital-bone_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__occipital-bone_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__occipital-bone_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+
+
 					<!-- splanchnocranium -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -595,6 +707,7 @@
 							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__deciduous-teeth_amount')}}</pre>
 						</div>
 					</KnFormFieldRow>
+
 					<!-- permanent-teeth • with treeselect -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -1883,6 +1996,19 @@
 				<template v-if="_.size( availableBoneIds )">
 					<template v-for="(tab, tabIndex) in boneChangesForm">
 						<template v-if="currentBoneChangesFormTabIndex === tabIndex">
+							<!-- Checkbox to toggle "Not applied" -->
+							<div :key="'notAppliedCheckbox-' + tabIndex" style="grid-column: span 12;" class="KnFormFieldRow contentModule hSpace hSpace--formRow">
+								<div class="KnFormFieldRow vhSpace--medium">
+									<BaseCheckbox
+										class="flex--noShrink"
+										:value="notAppliedStates[tabIndex] || false"
+										:checkedValue="true"
+										:uncheckedValue="false"
+										@input="handleNotAppliedCheckboxInput($event, tabIndex)"
+									></BaseCheckbox>
+									<label class="hSpace--medium">Technic not applied</label>
+								</div>
+							</div>
 							<KnFormFieldRow :key="'bcs__' + tabIndex + '__' + fieldIndex"
 								v-for="(fieldSlug, fieldIndex) in tab.fields">
 								<div class="KnEditForm__labelCell font font--medium color color--primary50"
@@ -3100,10 +3226,6 @@
 			<hr class="KnEditForm__debug" />
 			<div class="KnEditForm__debug background--white15 flex">
 				<div class="background--white15 vhSpace vhSpace--default">
-					<pre name="getFieldProp( 'cranial_district__neurocranium__macroscopy', '_value', null )">{{getFieldProp( 'cranial_district__neurocranium__macroscopy', '_value', null )}}</pre>
-					<pre name="$store.getters.boneChangesForm">{{$store.getters.boneChangesForm}}</pre>
-				</div>
-				<div class="background--white15 vhSpace vhSpace--default">
 					<strong>Step • isValid</strong>
 					<div v-for="(step, index) in $store.getters.steps" :key="'s'+index">
 						{{step.title}} • {{step.slug}}  •
@@ -3202,6 +3324,7 @@
 				isRunningFinalSubmit : false,
 				finalSubmitErrorMessage : null,
 				forceOpenTreeselectByFieldSlugs: [],
+				notAppliedStates: {}, 
 			}
 		},
 		watch: {
@@ -3414,6 +3537,50 @@
 
 				EventBus.$emit('openBoneImagesLightbox', eventPayload)
 			},
+			handleNotAppliedCheckboxInput(value, tabIndex) {
+				// Directly update the state based on the checkbox input
+				this.$set(this.notAppliedStates, tabIndex, value);
+				
+				// Call toggleNotApplied method to handle the logic for selecting/deselecting "Not applied"
+				this.toggleNotApplied(tabIndex);
+			},
+			toggleNotApplied(tabIndex) {
+				const shouldAddNotApplied = this.notAppliedStates[tabIndex];
+				const currentTabFields = this.boneChangesForm[tabIndex].fields;
+
+				currentTabFields.forEach(fieldSlug => {
+					let currentValues = this.getFieldProp(fieldSlug, '_value', null);
+
+					// Initialize as an array if null or not an array
+					if (!Array.isArray(currentValues)) {
+						currentValues = [];
+					}
+
+					if (shouldAddNotApplied) {
+						// If "Not applied" should be added and it's not already included
+						// Or if there's nothing selected yet (field not set in state)
+						if (!currentValues.includes('Not applied') || currentValues.length === 0) {
+							// Set or replace with ['Not applied']
+							currentValues = ['Not applied'];
+						}
+					} else {
+						// If "Not applied" should be removed
+						const index = currentValues.indexOf('Not applied');
+						if (index !== -1) {
+							currentValues.splice(index, 1); // Remove "Not applied" from the selection
+						}
+					}
+
+					// Update the field value in the Vuex store
+					this.$store.commit('setFieldProp', {
+						fieldName: fieldSlug,
+						key: '_value',
+						value: currentValues
+					});
+				});
+			},
+
+
 			addMapMarker( e ){
 				console.log('addMapMarker:', e)
 				this.map.markerLatLng = e.latlng
