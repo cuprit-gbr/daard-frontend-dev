@@ -1,0 +1,76 @@
+@swatches : {
+	black     : #000000;
+
+	yellow    : lighten( #E3FB53, 25 );
+	//yellowDark: #726A17;
+	yellowDark: #a2971d;
+
+	red       : fade( #FF0404, 60 );
+	lightRed  : fade( #FF0404, 10 );
+
+	green     : fade( #00C72C, 100 );
+	lightGreen: fade( #00C72C, 10 );
+	/*
+	*/
+
+	primary   : #00378B;
+	primary75 : fade(#00378B,75);
+	primary50 : fade(#00378B,50);
+	primary15 : fade(#00378B,15);
+	primary5  : fade(#00378B,5);
+
+	white     : white;
+	white75   : fade(white,75);
+	white50   : fade(white,50);
+	white15   : fade(white,15);
+	white5    : fade(white,5);
+
+	textBlack : fade(#00378B,75);
+	whiteBg   : white;
+	sidebarBg : white;
+	appBg     : lighten( black, 70 );
+}
+@app : {
+	sidebarWidth : 0px;
+}
+@spacings : {
+	mini    : 0.1rem;
+	small   : 0.25em;
+	default : 0.5rem;
+	medium  : 1.0rem;
+	large   : 2.5rem;
+}
+@screenWidths : {
+	xs : 350px;
+	sm : 750px;
+	md : 1023px;
+	lg : 1500px;
+	xl : 1800px;
+}
+@grid : {
+	colGap : 16px;
+}
+@mq : {
+	xs : ~"(max-width:" @screenWidths[xs] ~")";
+	sm : ~"(max-width:" @screenWidths[sm] ~")";
+	md : ~"(max-width:" @screenWidths[md] ~")";
+	dt : ~"(min-width:" @screenWidths[md] ~")";
+	lg : ~"(min-width:" @screenWidths[lg] ~")";
+	xl : ~"(min-width:" @screenWidths[xl] ~")";
+}
+@transitions : {
+	colorChangeDuration : 0.1s;
+	splashscreenDisappearDuration : 0.5s;
+}
+
+/*
+@assetsPath: "@/../../assets";
+Das ist eine gute Idee allerdings bekomme ich sie nicht
+via background-image: url('@{assetsPath}/images/icon--rightArrow.svg');
+zum laufen
+
+@paths : {
+assets: "@/../../assets";
+images: "@/../../assets/images";
+}
+*/

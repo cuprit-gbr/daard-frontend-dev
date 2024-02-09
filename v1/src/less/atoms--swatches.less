@@ -1,0 +1,15 @@
+@import (reference) "./vars.less";
+
+.background {}
+each(@swatches, {
+	.background--@{key} {
+		background-color: @value;
+	}
+});
+
+.color {}	
+each(@swatches, {
+	.color--@{key} {
+		color: @value;
+	}
+});

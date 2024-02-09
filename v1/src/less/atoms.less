@@ -1,0 +1,392 @@
+@import (reference) "./vars.less";
+@import (reference) "./mixins.less";
+@import "./includes/normalize.include.less";
+@import "./fonts.less";
+@import "./atoms--swatches.less";
+@import "./atoms--spacings.less";
+
+.reset {} // reset muss ganz oben stehen, damit es leicht wieder überschrieben werden kann
+.reset--button {
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	overflow: visible;
+	outline: none;
+	text-align: inherit;
+	cursor: pointer;
+
+	background: transparent;
+
+	/* inherit font & color from ancestor */
+	color: inherit;
+	font: inherit;
+
+	/* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+	line-height: normal;
+
+	/* Corrects font smoothing for webkit */
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+
+	/* Corrects inability to style clickable `input` types in iOS */
+	-webkit-appearance: none;
+
+	&::-moz-focus-inner {
+		border: 0;
+		padding: 0;
+	}
+}
+.reset--list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.background {}
+
+.button	{
+	.reset--button;
+
+	&:hover {}
+	&:active {
+		transform: translateY(0.1rem);
+	}
+}
+
+.border {}
+.border--left {
+	border-left: 1px solid;
+}
+.border--right {
+	border-right: 1px solid;
+}
+.border--bottom {
+	border-bottom: 1px solid;
+}
+.border--top {
+	border-top: 1px solid;
+}
+.border--all {
+	border: 1px solid;
+}
+.border--medium {
+	border-width: 2px;
+}
+
+.block {
+	display: block;
+}
+
+.color {}
+
+.font {}
+.font--sans {
+	//font-family: 'Arial', sans-serif;
+	font-family: 'Roboto', sans-serif;
+}
+.font--mono {
+	//font-family: 'Cutive Mono', monospace;
+	font-family: 'Packer', monospace;
+}
+.font--autoSmooth {
+	// der monospace font ist ziemlich mager,
+	// für den habe ich deswegen das font-smoothing
+	// lieber wieder auf auto gesetzt damit er
+	// etwas fetter gerendert wird
+	-webkit-font-smoothing: auto;
+	-moz-osx-font-smoothing: auto;
+}
+.font--italic {
+	font-style: italic;
+}
+.font--uppercase {
+	text-transform: uppercase;
+	//letter-spacing: 0.08em;
+}
+.font--bold {
+	font-weight: 600;
+}
+.font--medium {
+	font-weight: 500;
+}
+
+.font--sizeBig {			// 32
+	font-size: 32px;
+	line-height: 1.2em;
+}
+.font--sizeLarge {			// 20
+	font-size: 20px;
+	line-height: 1.3em;
+}
+.font--sizeDefault {		// 15
+	font-size: 15px;
+	line-height: 1.3em;
+
+	@media @mq[md] {}
+	@media @mq[sm] {}
+	@media @mq[xs] {}
+}
+.font--sizeSmall {	    	// 13
+	//color: orange !important;
+	font-size: 13px;
+	line-height: 1.3em;
+
+	@media @mq[md] {}
+}
+.font--sizeMini {
+	font-size: 11px;
+	line-height: 1.3em;
+}
+
+.flex {
+	display: flex;
+}
+.flex--row {
+	flex-direction: row;
+}
+.flex--column {
+	flex-direction: column;
+}
+.flex--grow {
+	flex-grow: 1;
+}
+.flex--noGrow {
+	flex-grow: 1;
+}
+.flex--shrink {
+	flex-shrink: 1;
+}
+.flex--noShrink {
+	flex-shrink: 0;
+}
+.flex--left {
+	justify-content: flex-start;
+}©
+.flex--center {
+	justify-content: center;
+}
+.flex--right {
+	justify-content: flex-end;
+}
+.flex--top {
+	align-items: flex-start;
+}
+.flex--middle {
+	align-items: center;
+}
+.flex--bottom {
+	align-items: flex-end;
+}
+.flex--spaceBetween {
+	justify-content: space-between;
+}
+
+.grid {
+	display: grid;
+
+	& > * {
+		min-height: 0;
+		min-width: 0;
+	}
+}
+.grid--colGap {
+	grid-column-gap: 16px;
+}
+.grid--rowGap {
+	grid-row-gap: 16px;
+}
+.grid--gap {
+	grid-column-gap: 16px;
+	grid-row-gap: 16px;
+}
+.grid--setAreas {
+	& > *:nth-child(1){
+		grid-area: a;
+	}
+	& > *:nth-child(2){
+		grid-area: b;
+	}
+	& > *:nth-child(3){
+		grid-area: c;
+	}
+	& > *:nth-child(4){
+		grid-area: d;
+	}
+	& > *:nth-child(5){
+		grid-area: e;
+	}
+	& > *:nth-child(6){
+		grid-area: f;
+	}
+	& > *:nth-child(7){
+		grid-area: g;
+	}
+	& > *:nth-child(8){
+		grid-area: h;
+	}
+	& > *:nth-child(9){
+		grid-area: i;
+	}
+	& > *:nth-child(10){
+		grid-area: j;
+	}
+}
+.grid--cols-1 {
+	grid-template-columns: repeat(1, 1fr);
+}
+.grid--cols-2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+.grid--cols-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+.grid--cols-4 {
+	grid-template-columns: repeat(4, 1fr);
+}
+.grid--cols-5 {
+	grid-template-columns: repeat(5, 1fr);
+}
+.grid--cols-6 {
+	grid-template-columns: repeat(6, 1fr);
+}
+.grid--cols-7 {
+	grid-template-columns: repeat(7, 1fr);
+}
+.grid--cols-8 {
+	grid-template-columns: repeat(8, 1fr);
+}
+.grid--cols-9 {
+	grid-template-columns: repeat(9, 1fr);
+}
+.grid--cols-10 {
+	grid-template-columns: repeat(10, 1fr);
+}
+.grid--cols-11 {
+	grid-template-columns: repeat(11, 1fr);
+}
+.grid--cols-12 {
+	grid-template-columns: repeat(12, 1fr);
+}
+
+.height {}
+
+.hide {}
+.hide--sm {
+	@media @mq[xs] { display: none; }
+	@media @mq[sm] { display: none; }
+	@media @mq[md] {}
+	@media @mq[dt] {}
+	@media @mq[lg] {}
+	@media @mq[xl] {}
+}
+
+.hSpace {}
+.hSpace--colGap {
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.hyphenate {
+	hyphens: auto;
+}
+
+.icon {}
+
+.inline {
+	display: inline;
+}
+.inlineBlock {
+	display: inline-block;
+}
+
+.link {
+	color: inherit;
+	text-decoration: none;
+}
+.link--underlined {
+	border-bottom: 1px dotted;
+
+	&:hover { border-bottom-style: solid; }
+}
+.link--color {}
+
+.maxWidth {}
+
+.minHeight {}
+.minHeight--100 {
+	min-height: 100vh;
+}
+
+.noWrap {
+	white-space: nowrap;
+}
+.noSelect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Old versions of Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Edge, Opera and Firefox */
+}
+
+.overflow {}
+.overflow--hidden {
+	overflow: hidden;
+}
+.overflow--auto {
+	overflow: auto;
+}
+
+.relative {
+	position: relative;
+}
+
+.rotate {
+	transition: transform 0.25s ease;
+}
+.rotate--180 {
+	transform: rotate(180deg);
+}
+
+.shadow {}
+.shadow--mapGui {
+	filter: drop-shadow(2px 4px 6px fade(black, 25));
+}
+
+.spinner {}
+.spinner--sizeDefault {
+	width: 1rem;
+	height: 1rem;
+}
+.spinner--sizeMedium {
+	height: 2rem;
+	width: 2rem;
+}
+
+.sticky {
+	position: sticky !important;
+	top: 0;
+	//z-index: 2;
+}
+
+.todo {
+	.outline( red );
+}
+
+.vSpace {}
+.vSpace--colGap {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.view {
+	position: relative;
+	min-height: 100vh;
+}
+
+.width {}
+.width--100 {
+	width: 100%;
+}
