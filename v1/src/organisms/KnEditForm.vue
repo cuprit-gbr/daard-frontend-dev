@@ -2096,7 +2096,7 @@
 								:isOutlined="false"
 								:isDisabled="!isStepValid('bone-changes')"
 								@click.native="enableNextStep()"
-							>
+								>
 								<template slot="before"></template>
 								<template slot="default">➍ Site</template>
 								<template slot="after">
