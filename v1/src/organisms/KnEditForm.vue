@@ -2006,7 +2006,7 @@
 										:uncheckedValue="false"
 										@input="handleNotAppliedCheckboxInput($event, tabIndex)"
 									></BaseCheckbox>
-									<label class="hSpace--medium">Technic not applied</label>
+									<label class="hSpace--medium">Technique not applied</label>
 								</div>
 							</div>
 							<KnFormFieldRow :key="'bcs__' + tabIndex + '__' + fieldIndex"
