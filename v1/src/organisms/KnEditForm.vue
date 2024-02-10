@@ -510,6 +510,50 @@
 						</div>
 					</KnFormFieldRow>
 
+					<!-- sphenoid bone right -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__sphenoid-bone-right', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__sphenoid-bone-right_amount', '_value' )"
+								:placeholder="'Select ...'"
+								:options="getFieldProp( 'cranial_district__sphenoid-bone-right_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__sphenoid-bone-right_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__sphenoid-bone-right_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+
+					<!-- sphenoid bone left -->
+					<KnFormFieldRow>
+						<div class="KnEditForm__labelCell font font--medium color color--primary50"
+							style="grid-column: span 8;">
+							{{getFieldProp( 'cranial_district__sphenoid-bone-left', '_label' )}}
+						</div>
+						<div style="grid-column: span 4;">
+							<BaseSelect
+								:value="getFieldProp( 'cranial_district__sphenoid-bone-left_amount', '_value' )"
+								:placeholder="'Select ...'"
+								:options="getFieldProp( 'cranial_district__sphenoid-bone-left_amount', '_options' )"
+								:hasClearButton="true"
+								@input="$store.commit('setFieldProp', {
+									fieldName : 'cranial_district__sphenoid-bone-left_amount',
+									key       : '_value',
+									value     : $event
+								})"
+							></BaseSelect>
+							<pre class="KnEditForm__pre" maxheight>{{getFieldBySlug('cranial_district__sphenoid-bone-left_amount')}}</pre>
+						</div>
+					</KnFormFieldRow>
+
 					<!-- temporal-petrous-bone-right -->
 					<KnFormFieldRow>
 						<div class="KnEditForm__labelCell font font--medium color color--primary50"
