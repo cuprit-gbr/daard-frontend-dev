@@ -54,7 +54,7 @@ export default [
 		appTitle: 'Digital Atlas Of Ancient Rare Diseases',
 		showDevOutput: false,
 		baseUrl: 'https://geoserver.dainst.org/',
-		mapUrl: 'https://geoserver.dainst.org/maps/6283/embed?ext=daard#/',
+		mapUrl: 'https://daard-viewer.cuprit.net/',
 		restBase: 'https://geoserver.dainst.org/daard',
 		loginUrl: 'https://geoserver.dainst.org/o/authorize/?response_type=code&client_id=jqAODkFHbb54YDouEx7JAT16kJxelPSIeDkU2n5U&redirect_uri=%redirect_uri%&state=abc=scope=daard-api',
 		tokenUrl: 'https://geoserver.dainst.org/o/token/',
