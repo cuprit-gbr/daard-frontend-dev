@@ -50,7 +50,7 @@
 					:isDisabled="false"
 					:tag="'a'"
 					:target="'_blank'"
-					:href="currentEnv.baseUrl + '/uploaded/pdfs/daard_help.pdf'">
+					:href="currentEnv.baseUrl + 'uploaded/pdfs/daard_help.pdf'">
 					Help
 				</BaseButton>
 			</div>
