@@ -3285,6 +3285,17 @@
 			</div>
 			<hr class="KnEditForm__debug" />
 			<div class="KnEditForm__debug background--white15 vhSpace vhSpace--default">
+				<div style="display: flex; gap: 10px; margin-bottom: 10px;">
+					<div style="flex: 0 0 49%; overflow:scroll; margin-top: 0">
+						<button @click="copyToClipboard($store.getters.finalSubmitObject.inventory)">Copy</button>
+						<pre name="inventory">{{$store.getters.finalSubmitObject.inventory}}</pre>
+					</div>
+					<div style="flex: 0 0 49%; overflow:scroll; margin-top: 0">
+						<button @click="copyToClipboard($store.getters.finalSubmitObject.bone_relations)">Copy</button>
+						<pre name="bone_relations">{{$store.getters.finalSubmitObject.bone_relations}}</pre>
+					</div>
+				</div>
+
 				<pre name="$store.getters.finalSubmitObject">{{$store.getters.finalSubmitObject}}</pre>
 				<pre name="$store.getters.steps" maxheight>{{$store.getters.steps}}</pre>
 				<pre name="$store.getters.fields" maxheight>{{$store.getters.fields}}</pre>
@@ -3540,6 +3551,15 @@
     		])
 		},
 		methods: {
+			async copyToClipboard(data) {
+				try {
+					const textContent = JSON.stringify(data, null, 2);
+					await navigator.clipboard.writeText(textContent);
+					alert('Copied to clipboard');
+				} catch (err) {
+					console.error('Failed to copy:', err);
+				}
+			},
 			isForceOpenTreeselect( fieldSlug ){
 				return this.forceOpenTreeselectByFieldSlugs.includes( fieldSlug )
 			},
