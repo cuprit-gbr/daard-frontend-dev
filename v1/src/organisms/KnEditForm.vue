@@ -59,7 +59,7 @@
 									@change="()=>{}"
 									@input="setAgeGroup"
 								></BaseRadio>
-								<span class="KnEditForm__radioGroupLabel">Subadult</span>
+								<span class="KnEditForm__radioGroupLabel">Non-adult</span>
 							</label>
 							<label
 								class="KnEditForm__radioGroupInner">
@@ -2077,11 +2077,7 @@
 										:placeholder="'Select ...'"
 										:normalizer="treeselectNormalizer"
 										:options="getFieldProp( fieldSlug, '_options' )"
-										@input="$store.commit('setFieldProp', {
-											fieldName : fieldSlug,
-											key       : '_value',
-											value     : $event
-										})"
+										@input="handleTreeselectInput(fieldSlug, $event)"
 									>
 										<label slot="option-label" slot-scope="{ node, labelClassName }" :class="labelClassName">
 											<div class="treeselectOptionLabelWrapper" style="display: flex; justify-content: space-between; gap: 0.5em;">
@@ -3094,7 +3090,7 @@
 					<div style="grid-column: span 5;">
 						<BaseText
 							:value="getFieldProp( 'doi', '_value' )"
-							:placeholder="''"
+							:placeholder="'https://doi.org/10.1002/oa.1189'"
 							:required="false"
 							:disabled="getFieldProp( 'doi', '_disabled' )"
 							:hasClearButton="true"
@@ -3131,7 +3127,7 @@
 									<div class="repeaterField__bodyRowFields">
 										<BaseTextarea
 											:value="referenceItem"
-											:placeholder="'Smrcka, V., Marik, I., Svenssonova, M., Likovsky, J. (2009). Legg-Calvé-Perthes disease in Czech archaeological material. Clinical orthopaedics and related research, 467(1), 293-297.'"
+											:placeholder="'Smrcka, V., Marik, I., Svenssonova, M., Likovsky, J. (2009). Legg-Calvé-Perthes disease in Czech archaeological material. Clinical Orthopaedics and Related Research, 467(1), 293-297.'"
 											:required="false"
 											:resizeable="'none'"
 											:disabled="false"
@@ -3547,6 +3543,27 @@
 			isForceOpenTreeselect( fieldSlug ){
 				return this.forceOpenTreeselectByFieldSlugs.includes( fieldSlug )
 			},
+			handleTreeselectInput(fieldSlug, selectedValues) {
+					// Check if "Not applied" is selected alongside other values
+					if (selectedValues.length > 1 && selectedValues.includes('Not applied')) {
+						// Remove "Not applied" from the selection
+						const filteredValues = selectedValues.filter(value => value !== 'Not applied');
+						// Commit the filtered values to the store
+						this.$store.commit('setFieldProp', {
+							fieldName: fieldSlug,
+							key: '_value',
+							value: filteredValues,
+						});
+					} else {
+						// Commit the original selection if there's no need to filter out "Not applied"
+						this.$store.commit('setFieldProp', {
+							fieldName: fieldSlug,
+							key: '_value',
+							value: selectedValues,
+						});
+					}
+				},
+
 			onClickTreeselectImage( e, payload ){
 				const fieldSlug = payload.fieldSlug
 				const fieldValue = this.getFieldProp( fieldSlug, '_value', [] )

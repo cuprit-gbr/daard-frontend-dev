@@ -111,6 +111,10 @@
 			return {
 				isReady : false,
 				showContactModal : false,
+				validHosts: [
+						// 'daard-atlas-staging.csgis.de',
+						'localhost'
+					],
 				boneChangesLightbox : {
 					isOpen : false,
 					activeElement : null,
@@ -149,20 +153,11 @@
       			'boneChangesForm',
     		]),
 			showMhDevInfos(){
-				const validHosts = [
-					'localhost',
-					'daard-atlas-staging.csgis.de',
-				]
-				const validQueryParam = this._.has(this.$route, 'query.debug') ? true : false
-				const currentHostname = window.location.hostname
-				let show = false
+				const currentHostname = window.location.hostname;
+				const validQueryParam = this._.has(this.$route, 'query.debug') ? true : false;
+				let show = this.validHosts.includes(currentHostname) || validQueryParam;
 
-				if( validHosts.includes(currentHostname) ) show = true
-				if( validQueryParam ) show = true
-
-				//console.log(validQueryParam)
-
-				return show
+				return show;
 			},
 		},
 		methods: {
@@ -392,6 +387,7 @@
 			},
 		},
 		mounted(){
+
 			// start with empty state
 			this.$store.commit('clearState')
 			// set env config urls
@@ -437,6 +433,24 @@
 					this.boneChangesLightbox.isOpen = true
 				}, 50)
 			})
+
+			// Listen for Control+D keypress to toggle localhost in validHosts
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Y' && e.ctrlKey && e.shiftKey) {
+					e.preventDefault(); // Prevent the default action of the keypress
+					const stagingIndex = this.validHosts.indexOf('daard-atlas-staging.csgis.de');
+					const liveIndex = this.validHosts.indexOf('daard.dainst.org');
+
+					if (stagingIndex === -1 && liveIndex === -1) {
+						this.validHosts.push('daard-atlas-staging.csgis.de');
+						this.validHosts.push('daard.dainst.org');
+					} else {
+						this.validHosts.splice(stagingIndex, 1);
+						this.validHosts.splice(liveIndex, 1);
+					}
+				}
+			});
+
 		}
 	}
 </script>
