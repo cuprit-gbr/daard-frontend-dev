@@ -3574,25 +3574,30 @@
 				return this.forceOpenTreeselectByFieldSlugs.includes( fieldSlug )
 			},
 			handleTreeselectInput(fieldSlug, selectedValues) {
-					// Check if "Not applied" is selected alongside other values
-					if (selectedValues.length > 1 && selectedValues.includes('Not applied')) {
-						// Remove "Not applied" from the selection
-						const filteredValues = selectedValues.filter(value => value !== 'Not applied');
-						// Commit the filtered values to the store
-						this.$store.commit('setFieldProp', {
-							fieldName: fieldSlug,
-							key: '_value',
-							value: filteredValues,
-						});
-					} else {
-						// Commit the original selection if there's no need to filter out "Not applied"
-						this.$store.commit('setFieldProp', {
-							fieldName: fieldSlug,
-							key: '_value',
-							value: selectedValues,
-						});
-					}
-				},
+				let finalValues = selectedValues;
+
+				// Determine if a special value is selected alongside other values
+				const specialValues = ['Absent', 'Unknown', 'Not applied'];
+				const selectedSpecialValues = selectedValues.filter(value => specialValues.includes(value));
+
+				// If more than one special value is selected or a special value is selected with others, prioritize based on a predefined order
+				if (selectedSpecialValues.length > 0) {
+					// Prioritize based on the order in specialValues array
+					const highestPrioritySpecialValue = selectedSpecialValues[0];
+					
+					// Set finalValues to only include the highest priority special value
+					finalValues = [highestPrioritySpecialValue];
+				}
+
+				// Commit the final set of values to the store
+				this.$store.commit('setFieldProp', {
+					fieldName: fieldSlug,
+					key: '_value',
+					value: finalValues,
+				});
+			},
+
+
 
 			onClickTreeselectImage( e, payload ){
 				const fieldSlug = payload.fieldSlug
@@ -3657,6 +3662,7 @@
 							// Set or replace with ['Not applied']
 							currentValues = ['Not applied'];
 						}
+
 					} else {
 						// If "Not applied" should be removed
 						const index = currentValues.indexOf('Not applied');
@@ -3665,7 +3671,6 @@
 						}
 						this.notAppliedStates[tabIndex] = false;
 						
-
 					}
 
 					// Update the field value in the Vuex store
