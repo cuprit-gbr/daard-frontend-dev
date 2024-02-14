@@ -728,6 +728,35 @@
 		--color-filled            : white;
 	}
 
+	.App .ClickBaseButton { // css vars
+		//--transition   : all 0.15s ease;
+		//--height       : 3em;
+		//--fontFamily   : inherit;
+		//--fontWeight   : inherit;
+		//--borderRadius : 1em;
+
+		--paddingLeft  : 1em;
+		--paddingRight : 1em;
+		--fontWeight : 500;
+
+		--bgColor-filled          : @swatches[primary75];
+		--bgColor-filled-hover    : @swatches[primary];
+		--color-filled            : white;
+
+		--borderWidth-outlined    : 0.15em;
+		--borderStyle-outlined    : solid;
+		--borderColor-outlined    : @swatches[primary75];
+
+		--bgColor-outlined        : @swatches[primary5];
+		--bgColor-outlined-hover  : @swatches[primary15];
+		--bgColor-outlined-active : @swatches[primary15];
+		--color-outlined          : @swatches[primary75];
+		--color-outlined-hover    : @swatches[primary75];
+
+		--transform-active        : translateY(2px);
+		
+	}
+
 	.MhModal { --zIndex : 1000; }
 
 	.vue-treeselect { // layout

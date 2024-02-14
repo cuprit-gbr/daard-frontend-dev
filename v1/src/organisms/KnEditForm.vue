@@ -2043,14 +2043,22 @@
 							<!-- Checkbox to toggle "Not applied" -->
 							<div :key="'notAppliedCheckbox-' + tabIndex" style="grid-column: span 12;" class="KnFormFieldRow contentModule hSpace hSpace--formRow">
 								<div class="KnFormFieldRow vhSpace--medium">
-									<BaseCheckbox
+									<ClickBaseButton 
+										class="font font--sizeMini font--bold"
+										:isOutlined="false"
+										:isDisabled="false"
+										@click="handleNotAppliedCheckboxInput(true, tabIndex)"
+									> Set technique to not applied</ClickBaseButton>
+
+									<!-- <BaseCheckbox
 										class="flex--noShrink"
+										:id="'techNotApplied'+tabIndex"
 										:value="notAppliedStates[tabIndex] || false"
 										:checkedValue="true"
 										:uncheckedValue="false"
 										@input="handleNotAppliedCheckboxInput($event, tabIndex)"
-									></BaseCheckbox>
-									<label class="hSpace--medium">Technique not applied</label>
+									></BaseCheckbox> -->
+									<!-- <label class="hSpace--medium">Technique not applied</label> -->
 								</div>
 							</div>
 							<KnFormFieldRow :key="'bcs__' + tabIndex + '__' + fieldIndex"
@@ -3330,6 +3338,7 @@
 	import BaseText from '@/components/MhForm/v5/BaseText.vue'
 	import BaseTextarea from '@/components/MhForm/v5/BaseTextarea.vue'
 	import BaseButton from '@/components/MhForm/v5/BaseButton.vue'
+	import ClickBaseButton from '@/components/MhForm/v5/ClickBaseButton.vue'
 	import BaseSelect from '@/components/MhForm/v5/BaseSelect.vue'
 	import BaseSearchSelect from '@/components/MhForm/v5/BaseSearchSelect.vue'
 
@@ -3349,6 +3358,7 @@
 			BaseTextarea,
 			MhIcon,
 			BaseButton,
+			ClickBaseButton,
 			BaseSearchSelect,
 			LMap,
 			LTileLayer,
@@ -3619,6 +3629,9 @@
 				EventBus.$emit('openBoneImagesLightbox', eventPayload)
 			},
 			handleNotAppliedCheckboxInput(value, tabIndex) {
+				// TODO: this is left as checkbox toggle in case the client decides to favor for a checkbox
+
+				console.log("fired")
 				// Directly update the state based on the checkbox input
 				this.$set(this.notAppliedStates, tabIndex, value);
 				
@@ -3650,6 +3663,9 @@
 						if (index !== -1) {
 							currentValues.splice(index, 1); // Remove "Not applied" from the selection
 						}
+						this.notAppliedStates[tabIndex] = false;
+						
+
 					}
 
 					// Update the field value in the Vuex store
