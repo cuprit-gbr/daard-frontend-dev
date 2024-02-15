@@ -12,12 +12,14 @@
 				<KnFormFieldRow>
 					<div class="richText" style="grid-column: span 12;">
 						<p>
-							Before you can add a new record it's needed to login with your
-							GeoServer Account at <a href="https://geoserver.dainst.org/">https://geoserver.dainst.org/</a>
-						</p>
-						<p>
-							If you do not have an account yet please follow the link to register.
-						</p>
+							To add a new record, it is necessary to log in at GeoServer DAI. <br>Please follow the link below to access the login page.
+							</p>
+							<p>
+							- If you <u>already have an account</u>, proceed with the login. (DAI employees can also use their DAI internal account credentials for access.)
+							</p>
+							<p>
+							- If you <u>do not have an account</u>, you can request login credentials by writing to <a href="mailto:Julia.Gresky@dainst.de">Julia.Gresky@dainst.de</a>.
+							</p>
 					</div>
 				</KnFormFieldRow>
 				<!-- buttons -->
