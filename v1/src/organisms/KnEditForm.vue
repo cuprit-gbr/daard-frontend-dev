@@ -3296,11 +3296,11 @@
 				<div style="display: flex; gap: 10px; margin-bottom: 10px;">
 					<div style="flex: 0 0 49%; overflow:scroll; margin-top: 0">
 						<button @click="copyToClipboard($store.getters.finalSubmitObject.inventory)">Copy</button>
-						<pre name="inventory">{{$store.getters.finalSubmitObject.inventory}}</pre>
+						<pre name="inventory">{{ formattedInventory }}</pre>
 					</div>
 					<div style="flex: 0 0 49%; overflow:scroll; margin-top: 0">
 						<button @click="copyToClipboard($store.getters.finalSubmitObject.bone_relations)">Copy</button>
-						<pre name="bone_relations">{{$store.getters.finalSubmitObject.bone_relations}}</pre>
+						<pre name="bone_relations">{{ formattedBoneRelations}}</pre>
 					</div>
 				</div>
 
@@ -3468,6 +3468,18 @@
 
 				return tabs
 			},
+			formattedInventory() {
+				// Convert the object to a string with indentation
+				const inventoryStr = JSON.stringify(this.$store.getters.finalSubmitObject.inventory, null, 2);
+				// Remove the first and last curly braces and adjust indentation
+				return this.removeOuterBracesAndFormat(inventoryStr);
+			},
+			formattedBoneRelations() {
+				// Convert the object to a string with indentation
+				const boneRelationsStr = JSON.stringify(this.$store.getters.finalSubmitObject.bone_relations, null, 2);
+				// Remove the first and last curly braces and adjust indentation
+				return this.removeOuterBracesAndFormat(boneRelationsStr);
+			},
 			deciduousTeethTreeselectOptions(){
 				const options = this.getFieldProp( 'cranial_district__deciduous-teeth', '_options' )
 				const children = []
@@ -3561,14 +3573,24 @@
     		])
 		},
 		methods: {
+			removeOuterBracesAndFormat(str) {
+				// Split the string into lines, remove the first and last line, and join back with new lines
+				const lines = str.split('\n');
+				const withoutBraces = lines.slice(1, lines.length - 1);
+				// Adjust the indentation of the resulting array of lines
+				return withoutBraces.map(line => line.substring(2)).join('\n')+',';
+			},
 			async copyToClipboard(data) {
-				try {
-					const textContent = JSON.stringify(data, null, 2);
-					await navigator.clipboard.writeText(textContent);
-					alert('Copied to clipboard');
-				} catch (err) {
-					console.error('Failed to copy:', err);
-				}
+			try {
+				// Convert the data to a string with indentation and remove the outer braces
+				const formattedText = JSON.stringify(data, null, 2);
+				const textContent = this.removeOuterBracesAndFormat(formattedText);
+				// Use the modified text for copying to the clipboard
+				await navigator.clipboard.writeText(textContent);
+				alert('Copied to clipboard');
+			} catch (err) {
+				console.error('Failed to copy:', err);
+			}
 			},
 			isForceOpenTreeselect( fieldSlug ){
 				return this.forceOpenTreeselectByFieldSlugs.includes( fieldSlug )
